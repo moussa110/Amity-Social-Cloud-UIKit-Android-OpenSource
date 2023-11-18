@@ -33,6 +33,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutNewsFeedHeader"
         android:layout_width="match_parent"
+        android:background="@color/amityColorBlack"
         android:layout_height="wrap_content">
 
 
@@ -67,7 +68,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:textAlignment="textStart"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/amityColorWhite"
                 app:flow_horizontalAlign="start"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Thailand" />
@@ -81,7 +82,7 @@
                 android:ellipsize="end"
                 android:paddingStart="@dimen/amity_padding_xxs"
                 android:paddingEnd="@dimen/amity_padding_xxs"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/amityColorWhite"
                 android:visibility="@{isCommunity ? View.VISIBLE : View.GONE}"
                 app:layout_constraintStart_toEndOf="@+id/userName"
                 tools:text="Thailand" />
@@ -120,7 +121,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="center_vertical"
                 android:text="@string/amity_moderator"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/amityColorWhite"
                 android:visibility="@{isModerator ? View.VISIBLE : View.GONE}"
                 app:drawableEndCompat="@drawable/amity_ic_dot_base"
                 app:drawableStartCompat="@drawable/amity_ic_moderator"
@@ -136,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/amityColorWhite"
                 app:layout_constraintBottom_toBottomOf="@id/tvPostBy"
                 app:layout_constraintLeft_toRightOf="@id/tvPostBy"
                 app:layout_constraintTop_toTopOf="@id/tvPostBy"
@@ -152,7 +153,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="bottom"
                 android:text="@string/amity_edited"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/amityColorWhite"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/feedPostTime"
                 app:layout_constraintLeft_toRightOf="@id/feedPostTime"
@@ -168,7 +169,7 @@
             android:layout_marginTop="@dimen/amity_padding_xs"
             android:background="@android:color/transparent"
             android:src="@drawable/amity_ic_more_horizontal"
-            android:tint="@color/amityColorBase"
+            android:tint="@color/amityColorWhite"
             android:visibility="@{showFeedAction ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"

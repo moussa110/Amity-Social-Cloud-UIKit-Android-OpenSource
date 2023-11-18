@@ -4,6 +4,7 @@
     android:width="22dp"
     android:height="22dp"
     android:viewportHeight="22"
+    android:autoMirrored="true"
     android:viewportWidth="22">
 
     <group android:scaleX="1" android:pivotX="6" android:pivotY="6">
@@ -11,7 +12,7 @@
             <group android:translateX="0">
                 <path
                     android:name="play_path"
-                    android:fillColor="@color/amityColorBlack"
+                    android:fillColor="@color/amityColorWhite"
                     android:pathData="M 4,2.5 L 4,9.5 L 9.5,6 Z"/>
             </group>
         </group>

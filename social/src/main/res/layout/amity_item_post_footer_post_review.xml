@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="@dimen/amity_padding_m1"
-        tools:background="@color/amityColorWhite">
+        tools:background="@color/amityColorBlack">
 
         <View
             android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 android:background="@drawable/amity_btn_active"
                 android:text="@string/amity_accept"
                 android:textAllCaps="false"
-                android:textColor="@color/amityColorWhite"
+                android:textColor="@color/amityColorBlack"
                 android:textSize="@dimen/amity_text_size_body" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -43,10 +43,10 @@
                 android:layout_height="@dimen/amity_forty"
                 android:layout_marginEnd="@dimen/amity_padding_m1"
                 android:layout_weight="1"
-                android:background="@drawable/amity_btn_inactive"
+                android:background="@color/grayDark"
                 android:text="@string/amity_decline"
                 android:textAllCaps="false"
-                android:textColor="@color/amityColorShuttleGray"
+                android:textColor="@color/amityColorWhite"
                 android:textSize="@dimen/amity_text_size_body" />
         </LinearLayout>
 

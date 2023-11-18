@@ -15,6 +15,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/amityColorBlack"
         android:layout_height="match_parent">
 
         <com.amity.socialcloud.uikit.common.components.AmityTabLayout
@@ -38,7 +39,6 @@
         <View
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#fff"
             android:visibility="@{viewModel.emptySearchString &amp; viewModel.isSearchMode() ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

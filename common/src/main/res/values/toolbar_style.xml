@@ -7,7 +7,7 @@
         <item name="android:textSize">@dimen/amity_text_size_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginStart">@dimen/amity_padding_m1</item>
-        <item name="android:textColor">@color/amityColorBase</item>
+        <item name="android:textColor">@color/amityColorWhite</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:layout_marginEnd">@dimen/amity_padding_m1</item>
@@ -18,7 +18,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/amity_text_size_body</item>
-        <item name="android:textColor">@color/amityColorPrimary</item>
+        <item name="android:textColor">@color/amityColorWhite</item>
     </style>
 
     <style name="ToolBarLeftDrawableStyle">

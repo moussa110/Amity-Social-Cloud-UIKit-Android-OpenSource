@@ -26,8 +26,7 @@ class AmityPostContentAdapter(
         viewType: Int
     ): AmityPostContentViewHolder {
         val viewHolder = AmitySocialUISettings.getViewHolder(viewType)
-        val view =
-            LayoutInflater.from(parent.context).inflate(viewHolder.getLayoutId(), parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(viewHolder.getLayoutId(), parent, false)
         val holder = viewHolder.createViewHolder(view)
         holder.postContentClickPublisher = postContentClickPublisher
         holder.pollVoteClickPublisher = pollVoteClickPublisher

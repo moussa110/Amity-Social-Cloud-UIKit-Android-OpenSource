@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Amity.Base.Theme.MaterialThemeBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:statusBarColor" tools:ignore="NewApi">?attr/colorSurface</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">@color/amityColorBlack</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">
             ?android:attr/colorBackground
@@ -66,7 +66,7 @@
         <item name="backgroundTint">@color/material_btn_bg_color_selector</item>
         <item name="textAllCaps">false</item>
         <item name="android:textColor">@color/material_btn_text_color_selector</item>
-        <item name="iconTint">@color/material_btn_text_color_selector</item>
+        <item name="iconTint">@color/yellowColor</item>
     </style>
 
     <style name="AmityOutlinedButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
@@ -113,7 +113,7 @@
     </style>
 
     <style name="AmityBarTheme" parent="Amity.Base.Theme.AmityApp">
-        <item name="colorPrimary">#fff</item>
+        <item name="colorPrimary">@color/amityColorBlack</item>
     </style>
 
     <style name="AmityMaterialTextButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">

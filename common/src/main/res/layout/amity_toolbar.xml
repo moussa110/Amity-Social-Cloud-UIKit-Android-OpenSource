@@ -52,7 +52,7 @@
 
             <TextView
                 android:id="@+id/tv_left"
-                style="?attr/amityLeftTextViewStyle"
+                style="@style/ToolBarLeftTextStyle"
                 android:gravity="center_vertical"
                 android:text="@{leftString}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +62,7 @@
 
             <TextView
                 android:id="@+id/tv_right"
-                style="?attr/amityRightTextViewStyle"
+                style="@style/ToolBarRightTextStyle"
                 android:layout_marginEnd="@dimen/amity_padding_m1"
                 android:drawableStart="@{rightDrawable}"
                 android:enabled="@{rightStringActive}"

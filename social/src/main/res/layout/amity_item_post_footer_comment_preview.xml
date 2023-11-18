@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="true"
+            android:background="@color/amityColorBlack"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -32,7 +33,7 @@
                 android:gravity="center"
                 android:padding="@dimen/amity_padding_m1"
                 android:text="@string/amity_view_all_comments"
-                android:textColor="@color/amityColorBlack" />
+                android:textColor="@color/amityColorWhite" />
 
         </LinearLayout>
 

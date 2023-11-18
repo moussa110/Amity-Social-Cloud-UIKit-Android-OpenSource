@@ -9,6 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        tools:background="@color/amityColorBlack"
         android:layout_height="wrap_content">
 
         <TextView
@@ -18,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_padding_m1"
             android:text="@string/amity_my_community"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/amityColorWhite"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,7 +32,8 @@
             android:paddingVertical="@dimen/amity_six"
             android:src="@drawable/amity_ic_chevron_right"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvMyCommunity" />
+            app:layout_constraintTop_toTopOf="@id/tvMyCommunity"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMyCommunity"

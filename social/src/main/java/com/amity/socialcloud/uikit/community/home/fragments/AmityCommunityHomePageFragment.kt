@@ -163,7 +163,7 @@ class AmityCommunityHomePageFragment : Fragment() {
         searchEditText.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                R.color.amityColorBase
+                R.color.amityColorWhite
             )
         )
         searchEditText.setHintTextColor(

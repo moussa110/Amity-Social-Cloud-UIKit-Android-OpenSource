@@ -20,8 +20,7 @@
     <color name="amityColorGreen">#57CA6A</color>
 
 
-
-    <color name="upstraColorPrimary">#1054DE</color>
+    <color name="upstraColorPrimary">@color/yellowColor</color>
     <color name="upstraColorSecondary">#292B32</color>
     <color name="upstraColorAlert">#FA4D30</color>
     <color name="upstraColorHighlight">#1054DE</color>
@@ -32,5 +31,17 @@
 
     <color name="amityTranslucentBackground">#4D000000</color>
     <color name="amityTransparentBackground">#00000000</color>
+
+    //kora kings
+    <color name="darkYellowColor">#cc9c1d</color>
+    <color name="yellowColor">#fbba00</color>
+    <color name="resendInActiveColor">#35FBBA00</color>
+    <color name="gray">#676767</color>
+    <color name="grayLight">#90FFFFFF</color>
+    <color name="grayDark">#22201b</color>
+    <color name="grayOpacity">#30ffffff</color>
+    <color name="redColor">#C71C1C</color>
+    <color name="greenColor">#00a712</color>
+    <color name="darkGreenColor">#027148</color>
 
 </resources>

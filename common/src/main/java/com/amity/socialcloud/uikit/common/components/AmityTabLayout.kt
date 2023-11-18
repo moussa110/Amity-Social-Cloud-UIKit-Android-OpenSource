@@ -54,12 +54,10 @@ class AmityTabLayout : ConstraintLayout {
         viewPager2.adapter = mAdapter
 
         tabLayout.setTabTextColors(
-            AmityColorPaletteUtil.getColor(
-                ContextCompat.getColor(context, R.color.amityColorBase),
-                AmityColorShade.SHADE3
-            ), ContextCompat.getColor(
+                ContextCompat.getColor(context, R.color.gray)
+            , ContextCompat.getColor(
                 context,
-                R.color.amityColorPrimary
+                R.color.yellowColor
             )
         )
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->

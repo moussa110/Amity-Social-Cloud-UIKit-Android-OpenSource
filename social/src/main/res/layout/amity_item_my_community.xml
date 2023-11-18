@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -20,6 +22,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        tools:background="@color/amityColorBlack"
         android:onClick="@{() -> listener.onCommunitySelected(ekoCommunity)}">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -40,6 +43,8 @@
             android:layout_marginTop="@dimen/amity_padding_xxs"
             android:ellipsize="end"
             android:gravity="center"
+            android:textColor="@color/amityColorWhite"
+            tools:text="رابطة الدوري"
             android:maxLines="1"
             android:text="@{ekoCommunity.displayName}"
             app:layout_constraintEnd_toStartOf="@id/ivOfficial"

@@ -161,10 +161,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/amityColorBase</item>
         <item name="android:autoLink">web</item>
-        <item name="android:textColorLink">@color/amityColorHighlight</item>
+        <item name="android:textColorLink">@color/amityColorWhite</item>
     </style>
 
     <style name="AmityCommunityHomeToolBarStyle" parent="BaseToolBarStyle">
+        <item name="android:background">@color/amityColorBlack</item>
         <item name="amityLeftDrawableStyle">@style/AmityCommunityToolbarLeftDrawableStyle</item>
         <item name="amityLeftTextViewStyle">@style/AmityCommunityToolbarLeftTextStyle</item>
     </style>
