@@ -10,14 +10,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutNewsFeedHeader"
         android:layout_width="match_parent"
+        android:background="@color/grayDark"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/amity_padding_m3">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/avatarView"
             style="@style/AmityCircularAvatarStyle"
-            app:backgroundColorShade="@{AmityColorShade.SHADE3}"
-            app:amityBackgroundColor="@{@color/amityColorPrimary}"
+            app:amityBackgroundColor="@{@color/amityColorWhite}"
             android:layout_width="@dimen/amity_forty"
             android:layout_height="@dimen/amity_forty"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
             app:layout_constraintStart_toEndOf="@id/avatarView"
             app:layout_constraintTop_toTopOf="@id/avatarView">
 
-            <com.amity.socialcloud.uikit.common.common.views.text.AmityTextView
+            <TextView
                 android:id="@+id/userName"
                 style="@style/AmityTextStyleBodyBold"
                 android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Thailand" />
 
-            <com.amity.socialcloud.uikit.common.common.views.text.AmityTextView
+            <TextView
                 android:id="@+id/communityName"
                 style="@style/AmityTextStyleBodyBold"
                 android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                 android:ellipsize="end"
                 android:paddingStart="@dimen/amity_padding_xxs"
                 android:paddingEnd="@dimen/amity_padding_xxs"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/grayLight"
                 app:layout_constraintStart_toEndOf="@+id/userName"
                 tools:text="Thailand" />
 
@@ -78,12 +78,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/postInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_padding_xxs"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintLeft_toRightOf="@id/avatarView"
+            app:layout_constraintStart_toEndOf="@id/avatarView"
             app:layout_constraintTop_toBottomOf="@id/layoutPostedBy">
 
             <TextView
@@ -95,10 +96,8 @@
                 android:drawablePadding="@dimen/amity_four"
                 android:gravity="center_vertical"
                 android:text="@string/amity_moderator"
-                android:textColor="@color/amityColorBase"
-                app:textColorShade="@{AmityColorShade.SHADE1}"
-                app:drawableTintColor="@{@color/amityColorBase}"
-                app:drawableTintShade="@{AmityColorShade.SHADE1}"
+                android:textColor="@color/grayLight"
+                app:drawableTintColor="@{@color/grayLight}"
                 app:drawableEndCompat="@drawable/amity_ic_dot_base"
                 app:drawableStartCompat="@drawable/amity_ic_moderator"
                 app:layout_constraintStart_toStartOf="parent"
@@ -110,8 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                android:textColor="@color/amityColorBase"
-                app:textColorShade="@{AmityColorShade.SHADE1}"
+                android:textColor="@color/grayLight"
                 android:layout_marginStart="@dimen/amity_four"
                 app:layout_constraintBottom_toBottomOf="@id/tvPostBy"
                 app:layout_constraintLeft_toRightOf="@id/tvPostBy"
@@ -126,8 +124,7 @@
                 android:drawablePadding="@dimen/amity_four"
                 android:gravity="bottom"
                 android:text="@string/amity_edited"
-                android:textColor="@color/amityColorBase"
-                app:textColorShade="@{AmityColorShade.SHADE1}"
+                android:textColor="@color/grayLight"
                 android:visibility="gone"
                 app:drawableStartCompat="@drawable/amity_ic_dot_base"
                 app:layout_constraintBottom_toBottomOf="@id/feedPostTime"
@@ -144,7 +141,8 @@
             android:paddingEnd="@dimen/amity_padding_m1"
             android:background="@android:color/transparent"
             android:src="@drawable/amity_ic_more_horizontal"
-            app:tint="@color/amityColorBase"
+            app:tint="@color/amityColorWhite"
+            android:tint="@color/amityColorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"

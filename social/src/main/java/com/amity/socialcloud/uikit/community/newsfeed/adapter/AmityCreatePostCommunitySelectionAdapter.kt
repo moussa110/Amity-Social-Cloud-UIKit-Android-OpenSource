@@ -74,7 +74,7 @@ class AmityCreatePostCommunitySelectionAdapter(private val listener: AmityCreate
             var rightDrawable: Drawable? = null
             if (!data.isPublic()) {
                 leftDrawable =
-                    ContextCompat.getDrawable(itemView.context, R.drawable.amity_ic_lock2)
+                    ContextCompat.getDrawable(itemView.context, R.drawable.amity_ic_lock2_white)
             }
             if (data.isOfficial()) {
                 rightDrawable =

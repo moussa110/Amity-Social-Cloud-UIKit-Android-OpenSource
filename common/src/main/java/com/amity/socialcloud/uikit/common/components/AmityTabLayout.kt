@@ -44,8 +44,7 @@ class AmityTabLayout : ConstraintLayout {
         viewPager2 = rootView.findViewById(R.id.viewpager)
         val divider = rootView.findViewById<View>(R.id.divider)
         divider.setBackgroundColor(
-            ContextCompat.getColor(context, R.color.amityColorBase),
-            AmityColorShade.SHADE4
+            ContextCompat.getColor(context, R.color.gray)
         )
     }
 

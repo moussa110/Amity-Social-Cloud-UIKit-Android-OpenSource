@@ -23,7 +23,10 @@
             android:id="@+id/etSearch"
             style="@style/AmitySearchEditTextStyle"
             android:singleLine="true"
+            android:background="@color/grayDark"
             android:text="@={viewModel.searchString}"
+            android:textColor="@color/amityColorWhite"
+            android:textColorHint="@color/gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

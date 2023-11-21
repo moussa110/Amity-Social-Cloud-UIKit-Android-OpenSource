@@ -21,19 +21,19 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/amity_padding_s"
             android:src="@drawable/amity_ic_xmlid"
-            android:tint="@color/amityColorWhite"
-            app:tint="@color/amityColorWhite"
+            android:tint="@color/gray"
+            app:tint="@color/grayLight"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/tvEmptyGlobalFeed"
             style="@style/AmityTextStyleHeadline"
-            textColorShade="@{AmityColorShade.SHADE2}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/amity_padding_s"
             android:text="@string/amity_empty_feed"
-            android:textColor="@color/amityColorWhite" />
+            textColorShade="@{AmityColorShade.SHADE3}"
+            android:textColor="@color/grayLight" />
 
         <TextView
             android:id="@+id/tvFindCommunity"
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/amity_find_community"
-            android:textColor="@color/amityColorWhite" />
+            android:textColor="@color/grayLight" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnExplore"
@@ -53,6 +53,7 @@
             android:paddingHorizontal="@dimen/amity_padding_m3"
             android:text="@string/amity_explore_community"
             app:icon="@drawable/amity_ic_search"
+            app:iconTint="@color/amityColorWhite"
             app:iconGravity="textStart" />
 
         <TextView

@@ -30,11 +30,11 @@ class BottomSheetMenuAdapter(private var items: List<BottomSheetMenuItem>) : Rec
                 } else {
                     bottomMenuIcon.visibility = View.GONE
                 }
-                if (item.colorResId != null) {
+                /*if (item.colorResId != null) {
                     bottomMenuTitle.setTextColor(itemView.resources.getColor(item.colorResId))
-                } else {
-                    bottomMenuTitle.setTextColor(itemView.resources.getColor(R.color.amityColorBlack))
-                }
+                } else {*/
+                    bottomMenuTitle.setTextColor(itemView.resources.getColor(R.color.amityColorWhite))
+                //}
                 root.setOnClickListener { item.action() }
             }
         }

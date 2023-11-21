@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:paddingBottom="8dp"
+    android:background="@color/grayDark"
     android:layout_height="wrap_content">
 
     <com.amity.socialcloud.uikit.common.common.views.text.AmityExpandableTextView
@@ -14,7 +15,7 @@
         android:layout_marginEnd="@dimen/amity_padding_m1"
         android:autoLink="web"
         android:maxLines="@integer/maxLineImageOnlyFeed"
-        android:textColor="@color/amityColorBase"
+        android:textColor="@color/amityColorWhite"
         android:textColorLink="@color/amityColorHighlight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -18,7 +18,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="156dp"
         android:layout_height="194dp"
-        android:background="@color/amityColorWhite"
+        app:cardBackgroundColor="@color/grayDark"
         android:onClick="@{() -> listener.onCommunitySelected(ekoCommunity)}"
         app:cardCornerRadius="@dimen/amity_four"
         app:rippleColor="@android:color/transparent">

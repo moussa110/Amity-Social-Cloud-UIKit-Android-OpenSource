@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="@dimen/amity_padding_m1"
-        tools:background="@color/amityColorBlack">
+        tools:background="@color/grayDark">
 
         <View
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:layout_height="@dimen/amity_forty"
                 android:layout_marginEnd="@dimen/amity_padding_m1"
                 android:layout_weight="1"
-                android:background="@color/grayDark"
+                android:background="@color/grayOpacity"
                 android:text="@string/amity_decline"
                 android:textAllCaps="false"
                 android:textColor="@color/amityColorWhite"

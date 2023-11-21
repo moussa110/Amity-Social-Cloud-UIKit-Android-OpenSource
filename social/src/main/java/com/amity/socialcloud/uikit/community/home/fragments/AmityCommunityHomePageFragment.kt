@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -15,8 +16,6 @@ import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
-import com.amity.socialcloud.uikit.common.common.views.AmityColorPaletteUtil
-import com.amity.socialcloud.uikit.common.common.views.AmityColorShade
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
 import com.amity.socialcloud.uikit.community.R
@@ -114,7 +113,6 @@ class AmityCommunityHomePageFragment : Fragment() {
                     binding.tabLayout.switchTab(1)
                 }
                 else -> {
-
                 }
             }
         }
@@ -151,27 +149,18 @@ class AmityCommunityHomePageFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        val searchManager =
-            requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView =
-            SearchView((activity as AppCompatActivity).supportActionBar!!.themedContext)
+        val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = SearchView((activity as AppCompatActivity).supportActionBar!!.themedContext)
+        //val mSearchButton = searchView.findViewById<ImageView>(R.id.search_button)
+        val mCloseButton = searchView.findViewById<ImageView>(R.id.search_close_btn)
+        mCloseButton.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.amity_ic_close))
+
         searchView.queryHint = getString(R.string.amity_search)
         searchView.maxWidth = Int.MAX_VALUE
-
-        val searchEditText =
-            searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-        searchEditText.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.amityColorWhite
-            )
-        )
-        searchEditText.setHintTextColor(
-            AmityColorPaletteUtil.getColor(
-                ContextCompat.getColor(requireContext(), R.color.amityColorBase),
-                AmityColorShade.SHADE2
-            )
-        )
+        val searchEditText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        searchEditText.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.grayOpacity))
+        searchEditText.setTextColor(ContextCompat.getColor(requireContext(), R.color.amityColorWhite))
+        searchEditText.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.gray))
         searchEditText.imeOptions = EditorInfo.IME_ACTION_NEXT
         searchEditText.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -183,8 +172,7 @@ class AmityCommunityHomePageFragment : Fragment() {
             }
         })
 
-        searchMenuItem = menu.add("SearchMenu").setVisible(true).setActionView(searchView)
-            .setIcon(R.drawable.amity_ic_search)
+        searchMenuItem = menu.add("SearchMenu").setVisible(true).setActionView(searchView).setIcon(R.drawable.amity_ic_search)
         searchMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))

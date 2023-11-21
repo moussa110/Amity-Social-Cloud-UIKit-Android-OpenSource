@@ -44,6 +44,7 @@
             <ImageView
                 android:id="@+id/ivLeft"
                 style="?attr/amityLeftDrawableStyle"
+                android:tint="@color/amityColorWhite"
                 android:onClick="@{() ->  clickListener.leftIconClick()}"
                 android:src="@{leftDrawable}"
                 app:layout_constraintBottom_toBottomOf="parent"

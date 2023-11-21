@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/grayDark"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="true"
-            android:background="@color/amityColorBlack"
+            android:background="@color/grayDark"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -22,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/amity_bg_view_more_comments"
+            android:backgroundTint="@color/grayDark"
             android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible">

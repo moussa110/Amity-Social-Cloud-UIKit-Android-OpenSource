@@ -48,8 +48,7 @@ class AmityGlobalFeedFragment : AmityFeedFragment() {
     class Builder internal constructor() {
         private var userClickListener: AmityUserClickListener? = null
         private var communityClickListener: AmityCommunityClickListener? = null
-        private var postShareClickListener: AmityPostShareClickListener =
-            AmitySocialUISettings.postShareClickListener
+        private var postShareClickListener: AmityPostShareClickListener = AmitySocialUISettings.postShareClickListener
         private var feedRefreshEvents = Flowable.never<AmityFeedRefreshEvent>()
 
         fun build(activity: AppCompatActivity): AmityGlobalFeedFragment {

@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/amityColorWhite"
+            android:background="@color/amityColorBlack"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +68,7 @@
                     android:id="@+id/recycler_view_user_mention"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/amityColorWhite"
+                    android:background="@color/amityColorBlack"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
                     app:layout_constraintDimensionRatio="375:280"
@@ -81,7 +81,7 @@
                 android:id="@+id/view_reply_to"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/amityColorAthensGray"
+                android:background="@color/amityColorBlack"
                 android:orientation="horizontal"
                 android:visibility="@{showReplying ? View.VISIBLE : View.GONE}">
 

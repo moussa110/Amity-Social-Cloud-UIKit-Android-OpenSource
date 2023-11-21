@@ -23,7 +23,7 @@
             android:paddingStart="@dimen/amity_padding_xxs"
             android:text="@string/amity_like"
             app:checkBoxCheckedColor="@{@color/amityColorPrimary}"
-            app:checkBoxDefaultColor="@{@color/amityColorBase}"
+            app:checkBoxDefaultColor="@{@color/grayLight}"
             app:checkBoxDefaultShade="@{AmityColorShade.SHADE2}" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:drawablePadding="@dimen/amity_padding_xs"
             android:gravity="center_vertical"
             android:text="@string/amity_reply"
-            android:textColor="@{@color/amityColorBase}"
+            android:textColor="@{@color/grayLight}"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/cbLike"
             app:layout_constraintStart_toEndOf="@id/cbLike"

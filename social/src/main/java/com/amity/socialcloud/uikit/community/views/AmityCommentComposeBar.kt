@@ -62,9 +62,9 @@ class AmityCommentComposeBar : ConstraintLayout {
                 DataBindingUtil.inflate(inflater, R.layout.amity_comment_compose_bar, this, true)
         binding.apply {
             avProfile.setBackgroundColor(
-                    AmityColorPaletteUtil.getColor(
-                            ContextCompat.getColor(context, R.color.amityColorPrimary), AmityColorShade.SHADE3
-                    )
+
+                            ContextCompat.getColor(context, R.color.gray)
+
             )
             btnPost.isEnabled = false
 

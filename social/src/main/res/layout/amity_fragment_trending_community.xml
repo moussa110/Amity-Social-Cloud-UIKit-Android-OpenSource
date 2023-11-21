@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/amityColorBlack"
+    android:layout_marginTop="@dimen/amity_padding_m2"
     tools:context=".explore.fragments.AmityTrendingCommunityFragment">
 
     <TextView
@@ -12,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/amity_padding_m1"
-        android:layout_marginTop="@dimen/amity_padding_m2"
         android:text="@string/amity_todays_trending"
         android:textColor="@color/amityColorBase"
         app:layout_constraintTop_toTopOf="parent" />

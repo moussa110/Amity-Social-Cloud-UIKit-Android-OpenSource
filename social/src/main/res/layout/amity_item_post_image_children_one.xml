@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/imageContainerLayout"
     android:layout_width="match_parent"
+    android:background="@color/amityColorBlack"
     android:layout_height="@dimen/amity_post_image_content_height">
 
     <com.google.android.material.imageview.ShapeableImageView

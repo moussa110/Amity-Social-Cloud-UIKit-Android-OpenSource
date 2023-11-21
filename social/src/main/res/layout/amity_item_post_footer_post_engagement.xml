@@ -21,7 +21,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/amityColorBlack"
+        android:background="@color/grayDark"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,6 +84,7 @@
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cbLike"
                 style="@style/AmityTextStyleBodyBold"
+                android:textColor="@color/grayLight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/amity_ic_like_selector"
@@ -91,7 +92,7 @@
                 android:text="@string/amity_like"
                 app:checkBoxCheckedColor="@{@color/amityColorPrimary}"
                 app:checkBoxDefaultColor="@{@color/grayLight}"
-                app:checkBoxDefaultShade="@{AmityColorShade.SHADE2}" />
+                />
 
             <TextView
                 android:id="@+id/cbComment"
@@ -104,7 +105,8 @@
                 android:text="@string/amity_comment"
                 android:textColor="@color/grayLight"
                 app:drawableStartCompat="@drawable/amity_ic_comment"
-                app:textColorShade="@{AmityColorShade.SHADE2}" />
+                android:drawableTint="@color/grayLight"
+                />
 
             <TextView
                 android:id="@+id/cbShare"
@@ -116,9 +118,10 @@
                 android:gravity="center_vertical"
                 android:text="@string/amity_share"
                 android:textColor="@color/grayLight"
+                android:drawableTint="@color/grayLight"
                 android:visibility="@{showShareButton? View.VISIBLE: View.GONE}"
                 app:drawableStartCompat="@drawable/amity_ic_share"
-                app:textColorShade="@{AmityColorShade.SHADE2}" />
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -149,7 +152,6 @@
             android:layout_marginStart="@dimen/amity_padding_m1"
             android:layout_marginTop="@dimen/amity_padding_xxs"
             android:layout_marginEnd="@dimen/amity_padding_m1"
-            android:layout_marginBottom="@dimen/amity_padding_xs"
             app:layout_constraintTop_toBottomOf="@id/tvJoinCommunityMessage"
             tools:ignore="MissingConstraints" />
 

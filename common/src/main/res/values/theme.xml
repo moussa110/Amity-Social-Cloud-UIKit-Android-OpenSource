@@ -4,21 +4,21 @@
     <style name="Amity.Base.Theme.MaterialThemeBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:statusBarColor" tools:ignore="NewApi">@color/amityColorBlack</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">
-            ?android:attr/colorBackground
+        <item name="android:navigationBarColor" tools:ignore="NewApi">?android:attr/colorBackground
         </item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
-            ?attr/colorControlHighlight
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">?attr/colorControlHighlight
         </item>
     </style>
 
 
     <style name="Amity.Base.Theme.AmityApp" parent="Amity.Base.Theme.MaterialThemeBuilder">
         <item name="colorPrimary">@color/amityColorPrimary</item>
+        <item name="colorOnPrimary">@color/amityColorWhite</item>
         <item name="colorSecondary">@color/amityColorSecondary</item>
-        <item name="android:colorBackground">@color/amityColorWhite</item>
+        <item name="android:colorBackground">@color/amityColorBlack</item>
         <item name="colorSurface">@color/amityColorWhite</item>
+        <item name="colorControlNormal">@color/amityColorWhite</item>
         <!-- <item name="colorOnPrimary">@color/colorSecondary</item>
          <item name="colorOnSecondary">@color/colorPrimary</item>
          <item name="colorOnBackground">@color/colorPrimary</item>-->
@@ -32,9 +32,7 @@
         <!--Material shape attributes-->
         <item name="shapeAppearanceSmallComponent">@style/Amity.ShapeAppearance.Theme.SmallComponent
         </item>
-        <item name="shapeAppearanceMediumComponent">
-            @style/Amity.ShapeAppearance.Theme.MediumComponent
-        </item>
+        <item name="shapeAppearanceMediumComponent">@style/Amity.ShapeAppearance.Theme.MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/Amity.ShapeAppearance.Theme.LargeComponent
         </item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
@@ -60,6 +58,7 @@
     <style name="AmitySearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="searchHintIcon">@null</item>
         <item name="queryBackground">@android:color/transparent</item>
+
     </style>
 
     <style name="AmityMaterialButtonStyle" parent="Widget.MaterialComponents.Button">

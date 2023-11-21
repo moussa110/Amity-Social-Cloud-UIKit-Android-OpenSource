@@ -9,6 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
+        android:background="@color/amityColorBlack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 

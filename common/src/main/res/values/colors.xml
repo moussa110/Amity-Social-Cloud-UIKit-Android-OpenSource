@@ -4,7 +4,7 @@
     <color name="amityColorSecondary">@color/upstraColorSecondary</color>
     <color name="amityColorAlert">@color/upstraColorAlert</color>
     <color name="amityColorHighlight">@color/upstraColorHighlight</color>
-    <color name="amityColorBase">@color/upstraColorBase</color>
+    <color name="amityColorBase">@color/amityColorWhite</color>
     <color name="amityColorBaseInverse">@color/upstraColorBaseInverse</color>
     <color name="amityMessageBubble">@color/upstraMessageBubble</color>
     <color name="amityMessageBubbleInverse">@color/upstraMessageBubbleInverse</color>
@@ -37,11 +37,12 @@
     <color name="yellowColor">#fbba00</color>
     <color name="resendInActiveColor">#35FBBA00</color>
     <color name="gray">#676767</color>
-    <color name="grayLight">#90FFFFFF</color>
+    <color name="grayLight">#B4FFFFFF</color>
     <color name="grayDark">#22201b</color>
     <color name="grayOpacity">#30ffffff</color>
     <color name="redColor">#C71C1C</color>
     <color name="greenColor">#00a712</color>
     <color name="darkGreenColor">#027148</color>
+    <color name="gray_opactiy_50">#80FFFFFF</color>
 
 </resources>

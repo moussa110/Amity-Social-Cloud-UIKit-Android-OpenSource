@@ -9,10 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/amity_padding_s"
+        app:cardBackgroundColor="@color/grayLight"
         app:cardCornerRadius="@dimen/amity_four"
         app:cardElevation="@dimen/amity_zero"
         app:contentPadding="@dimen/amity_padding_xs"
-        app:rippleColor="@color/upstraMessageBubbleInverse"
+        app:rippleColor="@color/grayDark"
         app:strokeWidth="@dimen/amity_one">
 
         <RadioButton
@@ -22,7 +23,7 @@
             android:buttonTint="@color/amityColorPrimary"
             android:clickable="false"
             android:paddingStart="@dimen/amity_padding_s"
-            android:textColor="@color/amityColorBlack"
+            android:textColor="@color/amityColorWhite"
             android:textSize="@dimen/amity_text_size_body"
             android:textStyle="bold" />
 

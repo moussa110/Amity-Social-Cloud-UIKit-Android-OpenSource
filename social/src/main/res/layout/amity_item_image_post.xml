@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/grayDark"
     android:layout_height="wrap_content">
 
     <com.amity.socialcloud.uikit.common.common.views.text.AmityExpandableTextView
@@ -12,7 +13,7 @@
         android:layout_marginEnd="@dimen/amity_padding_m1"
         android:autoLink="web"
         android:maxLines="@integer/maxLineImageOnlyFeed"
-        android:textColor="@color/amityColorBase"
+        android:textColor="@color/amityColorWhite"
         android:textColorLink="@color/amityColorHighlight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

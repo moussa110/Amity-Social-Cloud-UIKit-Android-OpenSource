@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/amity_padding_m3"
         android:paddingBottom="@dimen/amity_padding_m1"
+        android:background="@color/amityColorBlack"
         tools:context=".explore.fragments.AmityCategoryPreviewFragment">
 
         <TextView

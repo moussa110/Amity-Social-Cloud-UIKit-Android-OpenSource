@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/amity_padding_xs"
+        android:background="@color/grayDark"
         android:paddingHorizontal="@dimen/amity_padding_m1">
 
         <ImageView
@@ -21,7 +22,6 @@
             android:layout_height="16dp"
             android:src="@drawable/amity_ic_remove"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvDltMsg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +35,6 @@
             android:text="@string/amity_comment_deleted_message"
             android:textColor="@color/amityColorBase"
             app:layout_constraintBottom_toBottomOf="@id/ivRemove"
-            app:layout_constraintEnd_toStartOf="@id/tvDeletionTime"
             app:layout_constraintStart_toEndOf="@id/ivRemove"
             app:layout_constraintTop_toTopOf="@id/ivRemove" />
 

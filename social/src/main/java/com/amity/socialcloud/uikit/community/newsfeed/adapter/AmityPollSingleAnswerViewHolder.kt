@@ -21,7 +21,7 @@ class AmityPollSingleAnswerViewHolder(
         binding.voteRadioButton.text = data.data
         binding.voteRadioButton.setTextColor(
             when (isEnabled) {
-                true -> ContextCompat.getColor(context, R.color.amityColorBlack)
+                true -> ContextCompat.getColor(context, R.color.amityColorWhite)
                 false -> ContextCompat.getColor(context, R.color.amityPlaceHolderDarkColor)
             }
         )

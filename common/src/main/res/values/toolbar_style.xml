@@ -28,6 +28,7 @@
     </style>
 
     <style name="BaseToolBarStyle">
+        <item name="android:tint">@color/amityColorWhite</item>
         <item name="amityLeftDrawableStyle">@style/ToolBarLeftDrawableStyle</item>
         <item name="amityLeftTextViewStyle">@style/ToolBarLeftTextStyle</item>
         <item name="amityRightTextViewStyle">@style/ToolBarRightTextStyle</item>
