@@ -34,7 +34,6 @@ class AmityNewsFeedFragment : AmityBaseFragment(),
         ) {
             refreshFeed()
         }
-
     companion object {
         fun newInstance(): Builder {
             return Builder()

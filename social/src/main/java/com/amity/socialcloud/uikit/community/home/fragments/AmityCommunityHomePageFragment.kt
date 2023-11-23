@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
@@ -35,11 +35,10 @@ class AmityCommunityHomePageFragment : Fragment() {
     private lateinit var globalSearchStateAdapter: AmityFragmentStateAdapter
     private lateinit var searchMenuItem: MenuItem
     private lateinit var binding: AmityFragmentCommunityHomePageBinding
-    private val viewModel: AmityCommunityHomeViewModel by viewModels()
+    private val viewModel: AmityCommunityHomeViewModel by activityViewModels()
     private var textChangeDisposable: Disposable? = null
     private val textChangeSubject: PublishSubject<String> = PublishSubject.create()
     private val searchString = ObservableField("")
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,8 +51,10 @@ class AmityCommunityHomePageFragment : Fragment() {
             false
         )
         binding.viewModel = viewModel
-        binding.tabLayout.disableSwipe()
-        binding.tabLayout.setOffscreenPageLimit(2)
+        binding.tabLayout.apply {
+            disableSwipe()
+            setOffscreenPageLimit(2)
+        }
         return binding.root
     }
 
@@ -94,7 +95,9 @@ class AmityCommunityHomePageFragment : Fragment() {
                 )
             )
         )
-        binding.tabLayout.setAdapter(fragmentStateAdapter)
+        binding.tabLayout.apply {
+            setAdapter(fragmentStateAdapter)
+        }
     }
 
     private fun getExploreFragment(): Fragment {
@@ -106,6 +109,13 @@ class AmityCommunityHomePageFragment : Fragment() {
     }
 
     private fun addViewModelListeners() {
+        viewModel.showExploreLiveData.observe(viewLifecycleOwner){
+            if (it.first != 0){
+                if (it.second) binding.tabLayout.switchTab(1)
+                else binding.tabLayout.switchTab(0)
+            }
+        }
+
         viewModel.onAmityEventReceived += { event ->
             when (event.type) {
                 AmityEventIdentifier.EXPLORE_COMMUNITY -> {
@@ -113,6 +123,7 @@ class AmityCommunityHomePageFragment : Fragment() {
                     binding.tabLayout.switchTab(1)
                 }
                 else -> {
+                    binding.tabLayout.switchTab(0)
                 }
             }
         }

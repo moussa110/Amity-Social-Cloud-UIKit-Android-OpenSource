@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
+import com.amity.socialcloud.uikit.common.utils.SharedPrefsUtils
 import com.amity.socialcloud.uikit.community.databinding.AmityViewGlobalFeedEmptyBinding
 import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomeViewModel
 import com.amity.socialcloud.uikit.community.newsfeed.events.AmityFeedRefreshEvent
@@ -23,7 +24,7 @@ import io.reactivex.rxjava3.core.Flowable
 
 class AmityGlobalFeedFragment : AmityFeedFragment() {
 
-    private val communityHomeViewModel: AmityCommunityHomeViewModel by activityViewModels()
+
 
     override fun getViewModel(): AmityGlobalFeedViewModel {
         return ViewModelProvider(requireActivity()).get(AmityGlobalFeedViewModel::class.java)
@@ -35,6 +36,8 @@ class AmityGlobalFeedFragment : AmityFeedFragment() {
             requireView().parent as ViewGroup,
             false
         )
+
+
         binding.btnExplore.setOnClickListener {
             communityHomeViewModel.triggerEvent(AmityEventIdentifier.EXPLORE_COMMUNITY)
         }
@@ -44,6 +47,7 @@ class AmityGlobalFeedFragment : AmityFeedFragment() {
         }
         return binding.root
     }
+
 
     class Builder internal constructor() {
         private var userClickListener: AmityUserClickListener? = null
