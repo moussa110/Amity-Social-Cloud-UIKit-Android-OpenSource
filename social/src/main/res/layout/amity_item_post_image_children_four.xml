@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/amity_post_image_content_height"
-    android:background="@color/amityColorBlack"
+    android:background="@color/fb_darker_gray_post_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -25,7 +25,7 @@
             android:layout_centerInParent="true"
             app:shapeAppearanceOverlay="@style/AmityCircleImage"
             android:visibility="gone"
-            android:background="@color/amityTranslucentBackground"
+            android:background="@color/fb_gray_placeholder"
             android:scaleType="centerInside"
             android:src="@drawable/amity_ic_play" />
     </RelativeLayout>
@@ -54,7 +54,7 @@
                 app:shapeAppearanceOverlay="@style/AmityCircleImage"
                 android:layout_centerInParent="true"
                 android:visibility="gone"
-                android:background="@color/amityTranslucentBackground"
+                android:background="@color/fb_gray_placeholder"
                 android:scaleType="centerInside"
                 android:src="@drawable/amity_ic_play" />
         </RelativeLayout>
@@ -81,7 +81,7 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone"
                 app:shapeAppearanceOverlay="@style/AmityCircleImage"
-                android:background="@color/amityTranslucentBackground"
+                android:background="@color/fb_gray_placeholder"
                 android:scaleType="centerInside"
                 android:src="@drawable/amity_ic_play" />
 
@@ -108,7 +108,7 @@
                 android:layout_centerInParent="true"
                 app:shapeAppearanceOverlay="@style/AmityCircleImage"
                 android:visibility="gone"
-                android:background="@color/amityTranslucentBackground"
+                android:background="@color/fb_gray_placeholder"
                 android:scaleType="centerInside"
                 android:src="@drawable/amity_ic_play" />
 
@@ -119,7 +119,7 @@
                 android:background="@drawable/amity_bg_image_count"
                 android:gravity="center"
                 android:textAppearance="?textAppearanceHeadline5"
-                android:textColor="@color/amityColorWhite"
+                android:textColor="@color/fb_text_white"
                 android:visibility="gone" />
 
         </RelativeLayout>

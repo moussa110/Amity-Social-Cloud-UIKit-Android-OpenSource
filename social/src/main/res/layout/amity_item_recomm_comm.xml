@@ -18,10 +18,10 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="156dp"
         android:layout_height="194dp"
-        app:cardBackgroundColor="@color/grayDark"
+        app:cardBackgroundColor="@color/fb_darker_gray_on_base"
         android:onClick="@{() -> listener.onCommunitySelected(ekoCommunity)}"
         app:cardCornerRadius="@dimen/amity_four"
-        app:rippleColor="@android:color/transparent">
+        app:rippleColor="@color/post_transparent_80">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,8 +30,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivAvatar"
                 style="@style/AmityCircularAvatarStyle"
-                backgroundColorShade="@{AmityColorShade.SHADE3}"
-                amityBackgroundColor="@{@color/amityColorPrimary}"
+                amityBackgroundColor="@{@color/fb_icon_light_gray}"
                 imageUrl="@{ekoCommunity.avatar.url}"
                 placeHolder="@{@drawable/amity_ic_default_community_avatar_circular}"
                 android:layout_width="@dimen/amity_forty"
@@ -53,7 +52,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/fb_text_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivAvatar"
@@ -66,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/fb_text_gray"
                 app:layout_constraintEnd_toEndOf="@id/tvCommName"
                 app:layout_constraintStart_toStartOf="@id/tvCommName"
                 app:layout_constraintTop_toBottomOf="@id/tvCommName" />
@@ -74,10 +73,9 @@
             <TextView
                 android:id="@+id/tvMembersCount"
                 style="@style/AmityTextStyleCaption"
-                textColorShade="@{AmityColorShade.SHADE1}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/fb_text_gray"
                 app:layout_constraintStart_toStartOf="@id/tvCommName"
                 app:layout_constraintTop_toBottomOf="@id/tvCommCategory" />
 
@@ -90,7 +88,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="@{ekoCommunity.description}"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/fb_text_light_gray"
                 app:layout_constraintEnd_toEndOf="@id/tvCommName"
                 app:layout_constraintStart_toStartOf="@id/tvCommName"
                 app:layout_constraintTop_toBottomOf="@id/tvMembersCount" />

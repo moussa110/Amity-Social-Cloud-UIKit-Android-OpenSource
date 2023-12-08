@@ -117,15 +117,15 @@ fun setCheckboxSelectorColor(view: MaterialCheckBox, checkBoxDefaultColor: Int?,
                              checkBoxCheckedColor: Int?, checkBoxCheckedShade: AmityColorShade?) {
 
     val states = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf(-android.R.attr.state_checked))
-    val tintColorChecked = AmityColorPaletteUtil.getColor(checkBoxCheckedColor!!, checkBoxCheckedShade
-            ?: AmityColorShade.DEFAULT)
-    val tintColorDefault = AmityColorPaletteUtil.getColor(checkBoxDefaultColor!!, checkBoxDefaultShade
-            ?: AmityColorShade.DEFAULT)
+    val tintColorChecked = AmityColorPaletteUtil.getColor(checkBoxCheckedColor!!, checkBoxCheckedShade ?: AmityColorShade.DEFAULT)
+    val tintColorDefault = AmityColorPaletteUtil.getColor(checkBoxDefaultColor!!, checkBoxDefaultShade ?: AmityColorShade.DEFAULT)
     val colors = intArrayOf(tintColorChecked, tintColorDefault)
+    val textColors = intArrayOf(tintColorChecked, view.textColors.defaultColor)
 
     val colorStateList = ColorStateList(states, colors)
+    val colorTextStateList = ColorStateList(states, textColors)
     view.buttonTintList = colorStateList
-    view.setTextColor(colorStateList)
+    view.setTextColor(colorTextStateList)
 }
 
 @BindingAdapter(value = ["message", "isSender"], requireAll = true)

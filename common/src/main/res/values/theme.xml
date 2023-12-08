@@ -16,12 +16,16 @@
         <item name="colorPrimary">@color/amityColorPrimary</item>
         <item name="colorOnPrimary">@color/amityColorWhite</item>
         <item name="colorSecondary">@color/amityColorSecondary</item>
-        <item name="android:colorBackground">@color/amityColorBlack</item>
+        <item name="android:colorBackground">@color/fb_darker_gray_bg_transparent_15</item>
         <item name="colorSurface">@color/amityColorWhite</item>
         <item name="colorControlNormal">@color/amityColorWhite</item>
+        <item name="colorSecondaryVariant">@color/fb_darker_gray_bg_transparent_15</item>
         <!-- <item name="colorOnPrimary">@color/colorSecondary</item>
          <item name="colorOnSecondary">@color/colorPrimary</item>
          <item name="colorOnBackground">@color/colorPrimary</item>-->
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="colorError">@color/amityColorAlert</item>
         <item name="colorOnError">@color/amityColorWhite</item>
         <item name="android:actionMenuTextColor">@color/amityColorHighlight</item>
@@ -35,7 +39,6 @@
         <item name="shapeAppearanceMediumComponent">@style/Amity.ShapeAppearance.Theme.MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/Amity.ShapeAppearance.Theme.LargeComponent
         </item>
-        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
         <item name="bottomSheetDialogTheme">@style/Amity.ThemeOverlay.Theme.BottomSheetDialog</item>
     </style>
 
@@ -65,7 +68,7 @@
         <item name="backgroundTint">@color/material_btn_bg_color_selector</item>
         <item name="textAllCaps">false</item>
         <item name="android:textColor">@color/material_btn_text_color_selector</item>
-        <item name="iconTint">@color/yellowColor</item>
+        <item name="iconTint">@color/fb_text_light_gray</item>
     </style>
 
     <style name="AmityOutlinedButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
@@ -111,8 +114,9 @@
         <item name="amityTextColor">#fff</item>
     </style>
 
-    <style name="AmityBarTheme" parent="Amity.Base.Theme.AmityApp">
-        <item name="colorPrimary">@color/amityColorBlack</item>
+    <style name="AmityBarTheme">
+        <item name="android:colorPrimary">@color/fb_darker_gray_bg_transparent_15</item>
+        <item name="android:colorSecondary">@color/fb_darker_gray_bg_transparent_15</item>
     </style>
 
     <style name="AmityMaterialTextButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">

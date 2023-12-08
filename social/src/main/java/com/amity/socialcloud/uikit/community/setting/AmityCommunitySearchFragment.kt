@@ -103,9 +103,7 @@ class AmityCommunitySearchFragment :
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.searchString.get()?.length != 0) {
             searchCommunity()
-        }
     }
 
     private fun searchCommunity() {

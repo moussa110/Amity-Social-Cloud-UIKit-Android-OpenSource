@@ -23,7 +23,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/avProfile"
             style="@style/AmityCircularAvatarStyle"
-            android:background="@color/gray"
+            android:background="@color/fb_gray"
             imageUrl="@{avatarUrl}"
             android:layout_width="@dimen/amity_twenty_eight"
             android:layout_height="@dimen/amity_twenty_eight"
@@ -84,7 +84,7 @@
             android:minHeight="0dp"
             android:padding="0dp"
             android:text="@string/amity_post_caps"
-            app:buttonDisabledTextColor="@{@color/gray}"
+            app:buttonDisabledTextColor="@{@color/fb_gray}"
             app:buttonEnabledTextColor="@{@color/amityColorPrimary}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

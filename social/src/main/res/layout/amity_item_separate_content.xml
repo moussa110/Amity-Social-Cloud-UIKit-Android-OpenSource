@@ -4,9 +4,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/amity_one"
+        style="@style/AmityDivider"
         android:layout_marginTop="@dimen/amity_padding_xs"
         android:layout_marginBottom="@dimen/amity_padding_xs"
-        android:background="@color/amityColorAthensGray">
+        >
 
     </View>
 

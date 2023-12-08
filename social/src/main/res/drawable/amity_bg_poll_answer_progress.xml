@@ -4,7 +4,7 @@
     <item android:id="@android:id/background">
         <shape>
             <corners android:radius="12dp" />
-            <solid android:color="@color/amityColorAthensGray" />
+            <solid android:color="@color/fb_gray_placeholder" />
         </shape>
     </item>
 

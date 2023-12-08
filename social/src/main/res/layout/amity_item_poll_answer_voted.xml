@@ -17,7 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/amityColorWhite"
+            android:background="@color/fb_text_light_gray"
             android:orientation="vertical"
             android:paddingStart="@dimen/amity_padding_s"
             android:paddingTop="@dimen/amity_padding_xs"
@@ -28,7 +28,7 @@
                 android:id="@+id/answer_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/amityColorBlack"
+                android:textColor="@color/fb_darker_gray_post_bg"
                 android:textSize="@dimen/amity_text_size_body"
                 android:textStyle="bold" />
 
@@ -47,7 +47,7 @@
                 android:id="@+id/vote_count_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/amityColorShuttleGray"
+                android:textColor="@color/fb_darker_gray_on_base"
                 android:textSize="@dimen/amity_text_size_caption" />
 
         </LinearLayout>

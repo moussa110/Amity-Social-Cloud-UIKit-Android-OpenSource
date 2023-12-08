@@ -2,7 +2,6 @@ package com.amity.socialcloud.uikit.community.views.comment
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.inputmethod.EditorInfo
 import androidx.annotation.StyleRes
 import com.amity.socialcloud.uikit.common.common.views.AmityStyle
 import com.amity.socialcloud.uikit.community.R
@@ -17,7 +16,7 @@ class AmityCommentComposeViewStyle : AmityStyle {
     init {
         backgroundColor = getColor(R.color.amityColorBlack)
         textColor = getColor(R.color.amityColorBase)
-        hintTextColor = getColor(R.color.gray)
+        hintTextColor = getColor(R.color.fb_gray)
         hint = R.string.amity_post_comment_hint
     }
 

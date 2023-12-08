@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="@color/amityColorBlack"
+        android:background="@color/fb_darker_gray_bg_transparent_15"
         android:orientation="vertical">
 
         <ImageView
@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/amity_padding_s"
             android:src="@drawable/amity_ic_xmlid"
-            android:tint="@color/gray"
-            app:tint="@color/grayLight"
+            android:tint="@color/fb_gray_placeholder"
+            app:tint="@color/fb_gray_placeholder"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -32,17 +32,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/amity_padding_s"
             android:text="@string/amity_empty_feed"
-            textColorShade="@{AmityColorShade.SHADE3}"
-            android:textColor="@color/grayLight" />
+            android:textColor="@color/fb_text_light_gray" />
 
         <TextView
             android:id="@+id/tvFindCommunity"
             style="@style/AmityTextStyleBody"
-            textColorShade="@{AmityColorShade.SHADE2}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/amity_find_community"
-            android:textColor="@color/grayLight" />
+            android:textColor="@color/fb_text_gray" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnExplore"
@@ -52,8 +50,9 @@
             android:layout_marginTop="@dimen/amity_padding_s"
             android:paddingHorizontal="@dimen/amity_padding_m3"
             android:text="@string/amity_explore_community"
+            android:textColor="@color/white"
             app:icon="@drawable/amity_ic_search"
-            app:iconTint="@color/amityColorWhite"
+            app:iconTint="@color/white"
             app:iconGravity="textStart" />
 
         <TextView

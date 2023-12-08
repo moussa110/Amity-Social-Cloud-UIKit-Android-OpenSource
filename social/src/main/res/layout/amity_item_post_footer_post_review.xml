@@ -7,12 +7,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="@dimen/amity_padding_m1"
-        tools:background="@color/grayDark">
+        tools:background="@color/fb_darker_gray_post_bg">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/amity_one"
-            android:background="@color/amityColorAthensGray" />
+            android:theme="@style/AmityDivider"
+            />
 
         <LinearLayout
             android:id="@+id/viewButtonPendingPosts"
@@ -33,7 +34,7 @@
                 android:background="@drawable/amity_btn_active"
                 android:text="@string/amity_accept"
                 android:textAllCaps="false"
-                android:textColor="@color/amityColorBlack"
+                android:textColor="@color/fb_darker_gray_post_bg"
                 android:textSize="@dimen/amity_text_size_body" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -43,7 +44,7 @@
                 android:layout_height="@dimen/amity_forty"
                 android:layout_marginEnd="@dimen/amity_padding_m1"
                 android:layout_weight="1"
-                android:background="@color/grayOpacity"
+                android:background="@color/fb_darker_gray_bg"
                 android:text="@string/amity_decline"
                 android:textAllCaps="false"
                 android:textColor="@color/amityColorWhite"

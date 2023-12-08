@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grayDark"
+    android:background="@color/fb_darker_gray_post_bg"
     android:orientation="vertical">
 
     <com.amity.socialcloud.uikit.common.common.views.text.AmityExpandableTextView
@@ -13,7 +13,7 @@
         android:layout_marginEnd="@dimen/amity_padding_m1"
         android:autoLink="web"
         android:maxLines="@integer/maxLineTextOnlyFeed"
-        android:textColor="@color/amityColorBase"
+        android:textColor="@color/fb_text_white"
         android:textColorLink="@color/amityColorHighlight" />
 
     <LinearLayout
@@ -34,7 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/grayLight"
+                android:textColor="@color/fb_text_gray"
                 android:textSize="@dimen/amity_text_size_caption"
                 android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:textColor="@color/grayLight"
+                android:textColor="@color/fb_text_gray"
                 android:textSize="@dimen/amity_text_size_caption" />
 
         </LinearLayout>
@@ -62,11 +62,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/amity_padding_s"
             android:background="@drawable/amity_bg_poll_add_draft_answer"
-            android:backgroundTint="@color/grayLight"
+            android:backgroundTint="@color/fb_text_gray"
             android:gravity="center"
             android:paddingTop="@dimen/amity_padding_s"
             android:paddingBottom="@dimen/amity_padding_s"
-            android:textColor="@color/grayLight"
+            android:textColor="@color/fb_text_gray"
             android:textSize="@dimen/amity_text_size_body" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -76,7 +76,7 @@
             android:layout_gravity="center_horizontal"
             android:padding="@dimen/amity_padding_s"
             android:text="@string/amity_poll_submit_vote"
-            android:textColor="@color/amityColorWhite"
+            android:textColor="@color/fb_text_gray"
             android:textSize="@dimen/amity_text_size_body"
             android:textStyle="bold" />
 

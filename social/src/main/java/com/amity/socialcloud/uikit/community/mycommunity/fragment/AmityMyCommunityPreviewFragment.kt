@@ -74,8 +74,8 @@ class AmityMyCommunityPreviewFragment : AmityBaseFragment(),
         binding.rvMyCommunity.itemAnimator = null
         binding.rvMyCommunity.addItemDecoration(
             AmityRecyclerViewItemDecoration(
-                0, resources.getDimensionPixelSize(R.dimen.amity_padding_m1), 0,
-                resources.getDimensionPixelSize(R.dimen.amity_padding_m1)
+                0,resources.getDimensionPixelSize(R.dimen.amity_padding_s), 0,
+                0
             )
         )
         binding.rvMyCommunity.setHasFixedSize(true)
@@ -96,9 +96,7 @@ class AmityMyCommunityPreviewFragment : AmityBaseFragment(),
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .untilLifecycleEnd(this)
-            .doOnNext { list ->
-                adapter.submitData(lifecycle, list)
-            }
+            .doOnNext { list -> adapter.submitData(lifecycle, list) }
             .subscribe()
     }
 
@@ -107,9 +105,7 @@ class AmityMyCommunityPreviewFragment : AmityBaseFragment(),
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                 val action = e.action
                 return if (binding.rvMyCommunity.canScrollHorizontally(RecyclerView.FOCUS_FORWARD)) {
-                    when (action) {
-                        MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true)
-                    }
+                    when (action) { MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true) }
                     false
                 } else {
                     when (action) {

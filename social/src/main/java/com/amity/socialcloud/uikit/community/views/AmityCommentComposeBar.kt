@@ -9,8 +9,6 @@ import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import com.amity.socialcloud.uikit.common.common.views.AmityColorPaletteUtil
-import com.amity.socialcloud.uikit.common.common.views.AmityColorShade
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityCommentComposeBarBinding
 import com.amity.socialcloud.uikit.community.views.comment.AmityCommentComposeView
@@ -63,7 +61,7 @@ class AmityCommentComposeBar : ConstraintLayout {
         binding.apply {
             avProfile.setBackgroundColor(
 
-                            ContextCompat.getColor(context, R.color.gray)
+                            ContextCompat.getColor(context, R.color.fb_gray)
 
             )
             btnPost.isEnabled = false

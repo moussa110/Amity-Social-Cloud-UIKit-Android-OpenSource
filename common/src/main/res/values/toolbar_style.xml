@@ -7,7 +7,7 @@
         <item name="android:textSize">@dimen/amity_text_size_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginStart">@dimen/amity_padding_m1</item>
-        <item name="android:textColor">@color/amityColorWhite</item>
+        <item name="android:textColor">@color/fb_text_light_gray</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:layout_marginEnd">@dimen/amity_padding_m1</item>
@@ -18,17 +18,18 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/amity_text_size_body</item>
-        <item name="android:textColor">@color/amityColorWhite</item>
+        <item name="android:textColor">@color/fb_text_light_gray</item>
     </style>
 
     <style name="ToolBarLeftDrawableStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:tint">@color/fb_icon_light_gray</item>
         <item name="android:layout_marginStart">@dimen/amity_padding_m2</item>
     </style>
 
     <style name="BaseToolBarStyle">
-        <item name="android:tint">@color/amityColorWhite</item>
+        <item name="android:tint">@color/fb_icon_light_gray</item>
         <item name="amityLeftDrawableStyle">@style/ToolBarLeftDrawableStyle</item>
         <item name="amityLeftTextViewStyle">@style/ToolBarLeftTextStyle</item>
         <item name="amityRightTextViewStyle">@style/ToolBarRightTextStyle</item>

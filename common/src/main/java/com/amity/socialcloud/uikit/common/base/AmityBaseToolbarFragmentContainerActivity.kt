@@ -36,6 +36,7 @@ abstract class AmityBaseToolbarFragmentContainerActivity : RxAppCompatActivity()
         return binding.toolbar
     }
 
+
     fun showToolbarDivider() {
         binding.divider.visibility = View.VISIBLE
     }

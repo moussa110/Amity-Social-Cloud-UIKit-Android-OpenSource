@@ -27,8 +27,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivAvatar"
             style="@style/AmityCircularAvatarStyle"
-            backgroundColorShade="@{AmityColorShade.SHADE3}"
-            amityBackgroundColor="@{@color/amityColorPrimary}"
+            amityBackgroundColor="@{@color/fb_icon_light_gray}"
             imageUrl="@{avatarUrl}"
             placeHolder="@{@drawable/amity_ic_default_category_avatar}"
             android:layout_width="@dimen/amity_forty"
@@ -44,7 +43,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{communityCategory.name}"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_white"
             app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivAvatar"

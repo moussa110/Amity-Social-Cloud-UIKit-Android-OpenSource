@@ -51,7 +51,6 @@ class AmityCommunityCategoryAdapter(private val listener: AmityCategoryItemClick
             binding?.listener = listener
             binding?.avatarUrl = data?.getAvatar()?.getUrl(AmityImage.Size.MEDIUM)
         }
-
     }
 
     override fun getItemCount(): Int {

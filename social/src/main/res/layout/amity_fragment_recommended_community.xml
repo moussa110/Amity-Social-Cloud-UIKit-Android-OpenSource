@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/amityColorBlack"
+    android:background="@color/fb_darker_gray_post_bg"
     android:layout_height="wrap_content"
     tools:context=".explore.fragments.AmityRecommendedCommunityFragment">
 
@@ -12,7 +12,7 @@
         style="@style/AmityTextStyleTitleBold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/amityColorWhite"
+        android:textColor="@color/fb_text_light_gray"
         android:layout_marginStart="@dimen/amity_padding_m1"
         android:layout_marginTop="@dimen/amity_padding_m1"
         android:text="@string/amity_recommended_for_you"

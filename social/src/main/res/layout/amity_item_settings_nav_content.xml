@@ -28,7 +28,7 @@
             android:maxLines="1"
             android:paddingStart="@dimen/amity_padding_s"
             android:paddingEnd="@dimen/amity_padding_s"
-            android:textColor="@color/amityColorShuttleGray"
+            android:textColor="@color/fb_text_gray"
             android:textSize="@dimen/amity_text_size_caption"
             app:layout_constraintBottom_toBottomOf="@id/ivNavigation"
             app:layout_constraintEnd_toStartOf="@id/ivNavigation"
@@ -42,6 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:tint="@color/fb_text_gray"
             tools:src="@drawable/amity_ic_chevron_right" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

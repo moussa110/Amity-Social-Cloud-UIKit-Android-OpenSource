@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="amityColorPrimary">@color/upstraColorPrimary</color>
-    <color name="amityColorSecondary">@color/upstraColorSecondary</color>
+    <color name="amityColorSecondary">@color/upstraColorPrimary</color>
     <color name="amityColorAlert">@color/upstraColorAlert</color>
-    <color name="amityColorHighlight">@color/upstraColorHighlight</color>
+    <color name="amityColorHighlight">@color/fb_links_blue</color>
     <color name="amityColorBase">@color/amityColorWhite</color>
     <color name="amityColorBaseInverse">@color/upstraColorBaseInverse</color>
-    <color name="amityMessageBubble">@color/upstraMessageBubble</color>
-    <color name="amityMessageBubbleInverse">@color/upstraMessageBubbleInverse</color>
+    <color name="amityMessageBubble">@color/fb_darker_gray_on_base</color>
+    <color name="amityMessageBubbleInverse">@color/fb_darker_gray_on_base</color>
 
     <color name="amityColorWhite">#FFFFFF</color>
     <color name="amityColorBlack">#000</color>
@@ -32,11 +32,11 @@
     <color name="amityTranslucentBackground">#4D000000</color>
     <color name="amityTransparentBackground">#00000000</color>
 
+
     //kora kings
     <color name="darkYellowColor">#cc9c1d</color>
     <color name="yellowColor">#fbba00</color>
     <color name="resendInActiveColor">#35FBBA00</color>
-    <color name="gray">#676767</color>
     <color name="grayLight">#B4FFFFFF</color>
     <color name="grayDark">#22201b</color>
     <color name="grayOpacity">#30ffffff</color>
@@ -44,5 +44,24 @@
     <color name="greenColor">#00a712</color>
     <color name="darkGreenColor">#027148</color>
     <color name="gray_opactiy_50">#80FFFFFF</color>
+
+    //facebook colors
+    <color name="fb_darker_gray_bg_transparent_15">#E018191A</color>
+    <color name="fb_darker_gray_bg">#18191A</color>
+    <color name="fb_darker_gray_post_bg">#242526</color>
+    <color name="fb_darker_gray_on_base">#3a3b3c</color>
+    <color name="fb_icon_light_gray">#e4e6eb</color>
+    <color name="fb_text_light_gray">#e4e6eb</color>
+    <color name="fb_text_gray">#B4FFFFFF</color>
+    <color name="fb_text_white">#FFFFFF</color>
+    <color name="fb_gray_placeholder">#A5A9B5</color>
+    <color name="fb_gray">#b0b3b8</color>
+    <color name="fb_links_blue">#0F82AF</color>
+    <color name="post_transparent_80">#33000000</color>
+
+
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+
 
 </resources>

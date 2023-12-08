@@ -38,7 +38,7 @@ class AmityToolBar : MaterialToolbar {
     private fun init() {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         binding = DataBindingUtil.inflate(inflater, R.layout.amity_toolbar, this, true)
-        binding.rightStringActive = false
+        binding.rightStringActive = true
         toggleRightTextColor(false)
         setContentInsetsRelative(0, 0)
         setUpImageViewLeft()
@@ -65,6 +65,8 @@ class AmityToolBar : MaterialToolbar {
         }
 
     }
+
+    fun getLeftTextView() = binding.tvLeft
 
     fun setRightString(value: String) {
         binding.rightString = value

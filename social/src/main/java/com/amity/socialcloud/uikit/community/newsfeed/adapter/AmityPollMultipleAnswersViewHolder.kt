@@ -26,8 +26,8 @@ class AmityPollMultipleAnswersViewHolder(
         binding.voteCheckBox.text = data.data
         binding.voteCheckBox.setTextColor(
             when (isEnabled) {
-                true -> ContextCompat.getColor(context, R.color.amityColorWhite)
-                false -> ContextCompat.getColor(context, R.color.amityPlaceHolderDarkColor)
+                true -> ContextCompat.getColor(context, R.color.fb_text_white)
+                false -> ContextCompat.getColor(context, R.color.fb_text_gray)
             }
         )
 
@@ -35,7 +35,7 @@ class AmityPollMultipleAnswersViewHolder(
             ContextCompat.getColor(
                 context, when (isEnabled) {
                     true -> R.color.amityColorPrimary
-                    false -> R.color.amityPlaceHolderDarkColor
+                    false -> R.color.fb_text_gray
                 }
             )
         )

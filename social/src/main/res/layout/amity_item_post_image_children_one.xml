@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/imageContainerLayout"
     android:layout_width="match_parent"
-    android:background="@color/amityColorBlack"
+    android:background="@color/fb_darker_gray_post_bg"
     android:layout_height="@dimen/amity_post_image_content_height">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -18,7 +18,7 @@
         android:visibility="gone"
         android:layout_width="@dimen/amity_thirty_six"
         android:layout_height="@dimen/amity_thirty_six"
-        android:background="@color/amityTranslucentBackground"
+        android:background="@color/fb_gray_placeholder"
         android:scaleType="centerInside"
         android:src="@drawable/amity_ic_play"
         app:shapeAppearanceOverlay="@style/AmityCircleImage"

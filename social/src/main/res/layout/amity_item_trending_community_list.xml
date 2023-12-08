@@ -30,8 +30,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivAvatar"
             style="@style/AmityCircularAvatarStyle"
-            backgroundColorShade="@{AmityColorShade.SHADE3}"
-            amityBackgroundColor="@{@color/amityColorPrimary}"
+            amityBackgroundColor="@{@color/fb_icon_light_gray}"
             imageUrl="@{avatarUrl}"
             placeHolder="@{@drawable/amity_ic_default_community_avatar_circular}"
             android:layout_width="@dimen/amity_forty"
@@ -46,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_padding_s"
-            android:textColor="@color/amityColorHighlight"
+            android:textColor="@color/darkGreenColor"
             app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
             app:layout_constraintStart_toEndOf="@id/ivAvatar"
             app:layout_constraintTop_toTopOf="@id/ivAvatar" />
@@ -72,14 +71,13 @@
                 android:drawablePadding="@dimen/amity_padding_xxs"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/fb_text_white"
                 tools:text="Community Name" />
         </FrameLayout>
 
         <TextView
             android:id="@+id/tvCategory"
             style="@style/AmityTextStyleCaption"
-            textColorShade="@{AmityColorShade.SHADE1}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -87,29 +85,27 @@
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/amity_padding_xxs"
             android:text="@string/amity_general"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_gray"
             app:layout_constrainedWidth="true" />
 
         <TextView
             android:id="@+id/tvDot"
             style="@style/AmityTextStyleCaption"
-            textColorShade="@{AmityColorShade.SHADE1}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/amity_bullet"
-            android:textColor="@color/amityColorBase" />
+            android:textColor="@color/fb_text_gray" />
 
         <TextView
             android:id="@+id/tvMembersCount"
             style="@style/AmityTextStyleCaption"
-            textColorShade="@{AmityColorShade.SHADE1}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingStart="@dimen/amity_padding_xxs"
             android:paddingEnd="@dimen/amity_padding_m1"
-            android:textColor="@color/amityColorBase" />
+            android:textColor="@color/fb_text_gray" />
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow"

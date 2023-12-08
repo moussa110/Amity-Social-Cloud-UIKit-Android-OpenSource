@@ -22,34 +22,35 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:background="@color/amityColorBlack"
-        android:onClick="@{() -> listener.onCommunitySelected(ekoCommunity)}">
+        android:onClick="@{() -> listener.onCommunitySelected(ekoCommunity)}"
+        tools:background="@color/amityColorBlack">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivAvatar"
             style="@style/AmityCircularAvatarStyle"
-            backgroundColorShade="@{AmityColorShade.SHADE3}"
             amityBackgroundColor="@{@color/amityColorPrimary}"
+            backgroundColorShade="@{AmityColorShade.SHADE3}"
             android:layout_width="@dimen/amity_forty"
             android:layout_height="@dimen/amity_forty"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvName"
             style="@style/AmityTextStyleCaption"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/amity_forty_eight"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/amity_padding_xxs"
             android:ellipsize="end"
             android:gravity="center"
-            android:textColor="@color/amityColorWhite"
-            tools:text="رابطة الدوري"
             android:maxLines="1"
             android:text="@{ekoCommunity.displayName}"
+            android:textColor="@color/amityColorWhite"
             app:layout_constraintEnd_toStartOf="@id/ivOfficial"
             app:layout_constraintStart_toStartOf="@id/ivAvatar"
-            app:layout_constraintTop_toBottomOf="@id/ivAvatar" />
+            app:layout_constraintTop_toBottomOf="@id/ivAvatar"
+            tools:text="رابطة الدوري" />
 
         <ImageView
             android:id="@+id/ivOfficial"

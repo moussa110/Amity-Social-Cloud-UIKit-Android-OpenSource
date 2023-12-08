@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/amity_post_image_content_height"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/amityColorBlack"
+    android:background="@color/fb_darker_gray_post_bg"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -27,7 +27,7 @@
             android:layout_centerInParent="true"
             android:visibility="gone"
             app:shapeAppearanceOverlay="@style/AmityCircleImage"
-            android:background="@color/amityTranslucentBackground"
+            android:background="@color/fb_gray_placeholder"
             android:scaleType="centerInside"
             android:src="@drawable/amity_ic_play" />
     </RelativeLayout>

@@ -9,7 +9,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        tools:background="@color/grayDark"
         android:layout_height="wrap_content">
 
         <TextView
@@ -19,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_padding_m1"
             android:text="@string/amity_my_community"
-            android:textColor="@color/amityColorWhite"
+            android:textColor="@color/fb_text_light_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,6 +30,8 @@
             android:paddingHorizontal="@dimen/amity_padding_xs"
             android:paddingVertical="@dimen/amity_six"
             android:src="@drawable/amity_ic_chevron_right"
+            android:tint="@color/fb_icon_light_gray"
+            app:tint="@color/fb_icon_light_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvMyCommunity"
             />
@@ -40,6 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/amity_padding_s"
+            android:layout_marginLeft="@dimen/amity_four"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvMyCommunity" />

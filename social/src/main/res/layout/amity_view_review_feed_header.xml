@@ -4,12 +4,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/amityPlaceHolderColor"
+        android:background="@color/darkGreenColor"
         android:paddingLeft="@dimen/amity_padding_m1"
         android:paddingTop="@dimen/amity_padding_s"
         android:paddingRight="@dimen/amity_padding_m1"
         android:paddingBottom="@dimen/amity_padding_s"
         android:text="@string/amity_pending_posts_description"
-        android:textColor="@color/amityColorBase"
+        android:textColor="@color/fb_text_light_gray"
         android:textSize="@dimen/amity_text_size_caption" />
 </layout>

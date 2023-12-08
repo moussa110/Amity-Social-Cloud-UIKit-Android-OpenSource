@@ -35,7 +35,7 @@ class AmityPollAnswerVotedViewHolder(val context: Context, private val totalVote
         binding.voteCountTextView.setTextColor(
             when (data.isVotedByUser) {
                 true -> ContextCompat.getColor(context, R.color.amityColorPrimary)
-                false -> ContextCompat.getColor(context, R.color.amityColorShuttleGray)
+                false -> ContextCompat.getColor(context, R.color.fb_darker_gray_on_base)
             }
         )
 
@@ -48,13 +48,13 @@ class AmityPollAnswerVotedViewHolder(val context: Context, private val totalVote
         binding.answerCardView.setCardBackgroundColor(
             when (data.isVotedByUser) {
                 true -> ContextCompat.getColor(context, R.color.amityColorPrimary)
-                false -> ContextCompat.getColor(context, R.color.amityColorWhite)
+                false -> ContextCompat.getColor(context, R.color.fb_gray_placeholder)
             }
         )
 
         binding.answerCardView.strokeColor = when (data.isVotedByUser) {
             true -> ContextCompat.getColor(context, R.color.amityColorPrimary)
-            false -> ContextCompat.getColor(context, R.color.upstraMessageBubbleInverse)
+            false -> ContextCompat.getColor(context, R.color.fb_gray_placeholder)
         }
     }
 }

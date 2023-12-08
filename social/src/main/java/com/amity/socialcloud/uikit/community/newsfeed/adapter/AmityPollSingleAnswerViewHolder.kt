@@ -22,7 +22,7 @@ class AmityPollSingleAnswerViewHolder(
         binding.voteRadioButton.setTextColor(
             when (isEnabled) {
                 true -> ContextCompat.getColor(context, R.color.amityColorWhite)
-                false -> ContextCompat.getColor(context, R.color.amityPlaceHolderDarkColor)
+                false -> ContextCompat.getColor(context, R.color.fb_text_gray)
             }
         )
 
@@ -30,7 +30,7 @@ class AmityPollSingleAnswerViewHolder(
             ContextCompat.getColor(
                 context, when (isEnabled) {
                     true -> R.color.amityColorPrimary
-                    false -> R.color.amityPlaceHolderDarkColor
+                    false -> R.color.fb_text_gray
                 }
             )
         )

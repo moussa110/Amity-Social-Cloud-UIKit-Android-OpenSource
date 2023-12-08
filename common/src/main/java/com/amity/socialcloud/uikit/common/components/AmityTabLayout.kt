@@ -4,15 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TableLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
-import com.amity.socialcloud.uikit.common.common.setBackgroundColor
-import com.amity.socialcloud.uikit.common.common.views.AmityColorPaletteUtil
-import com.amity.socialcloud.uikit.common.common.views.AmityColorShade
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -44,7 +40,7 @@ class AmityTabLayout : ConstraintLayout {
         viewPager2 = rootView.findViewById(R.id.viewpager)
         val divider = rootView.findViewById<View>(R.id.divider)
         divider.setBackgroundColor(
-            ContextCompat.getColor(context, R.color.gray)
+            ContextCompat.getColor(context, R.color.grayOpacity)
         )
     }
 
@@ -53,7 +49,7 @@ class AmityTabLayout : ConstraintLayout {
         viewPager2.adapter = mAdapter
 
         tabLayout.setTabTextColors(
-                ContextCompat.getColor(context, R.color.gray)
+                ContextCompat.getColor(context, R.color.fb_text_light_gray)
             , ContextCompat.getColor(
                 context,
                 R.color.yellowColor

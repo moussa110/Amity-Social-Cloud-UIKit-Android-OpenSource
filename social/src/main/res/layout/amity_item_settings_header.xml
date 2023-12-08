@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/amityColorBase"
+        android:textColor="@color/fb_text_light_gray"
         android:textSize="@dimen/amity_text_size_title"
         android:textStyle="bold"
         tools:text="Header">

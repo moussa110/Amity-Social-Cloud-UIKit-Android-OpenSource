@@ -89,7 +89,7 @@ class AmityPostItemPollViewHolder(itemView: View) : AmityPostContentViewHolder(i
 
                         binding.submitTextView.isVisible = it.getStatus() == AmityPoll.Status.OPEN && isEnabled
                         binding.submitTextView.setOnClickListener(null)
-                        binding.submitTextView.setTextColor(ContextCompat.getColor(context, R.color.amityColorShuttleGray))
+                        binding.submitTextView.setTextColor(ContextCompat.getColor(context, R.color.fb_text_gray))
 
                         val answerIds = hashSetOf<String>()
                         val holders = mutableMapOf<String, MaterialCardView>()
@@ -132,7 +132,7 @@ class AmityPostItemPollViewHolder(itemView: View) : AmityPostContentViewHolder(i
                             binding.submitTextView.setTextColor(
                                 when (isVotable) {
                                     true -> ContextCompat.getColor(context, R.color.amityColorPrimary)
-                                    false -> ContextCompat.getColor(context, R.color.amityColorShuttleGray)
+                                    false -> ContextCompat.getColor(context, R.color.fb_text_gray)
                                 }
                             )
                         }

@@ -1,5 +1,7 @@
 package com.amity.socialcloud.uikit.social
 
+import android.content.Context
+import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityGlobalCommunityClickListener
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityGlobalUserClickListener
 import com.amity.socialcloud.uikit.feed.settings.AmityDefaultPostViewHolders
@@ -9,7 +11,8 @@ import com.amity.socialcloud.uikit.feed.settings.AmityPostSharingSettings
 
 object AmitySocialUISettings {
 
-    var postShareClickListener: AmityPostShareClickListener = object : AmityPostShareClickListener {}
+    var postShareClickListener: AmityPostShareClickListener = object : AmityPostShareClickListener {
+    }
 
     var postSharingSettings = AmityPostSharingSettings()
 

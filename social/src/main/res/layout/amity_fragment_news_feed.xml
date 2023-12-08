@@ -20,21 +20,30 @@
             android:layout_height="match_parent"
             tools:context=".newsfeed.fragment.AmityNewsFeedFragment">
 
+
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
-                android:theme="@style/AmityBarTheme"
                 app:elevation="0dp"
-                app:expanded="true">
+                >
+                <!--    <com.google.android.material.appbar.AppBarLayout
+                        android:id="@+id/appBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fitsSystemWindows="true"
+                        android:theme="@style/AmityBarTheme"
+                        app:elevation="0dp"
+                        app:expanded="true">-->
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:id="@+id/collapsingToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
-                    app:contentScrim="@color/gray"
+                    android:minHeight="0dp"
+                    app:contentScrim="@color/fb_darker_gray_bg"
+                    android:background="@color/fb_darker_gray_bg"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
                     app:scrimAnimationDuration="0">
 
@@ -42,8 +51,7 @@
                         android:id="@+id/myCommunityContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/amity_padding_m1"
-                        android:paddingBottom="@dimen/amity_padding_m1"
+                        android:layout_marginTop="@dimen/amity_padding_s"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
@@ -58,12 +66,10 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
                 <FrameLayout
                     android:id="@+id/globalFeedContainer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -79,5 +85,4 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 </layout>

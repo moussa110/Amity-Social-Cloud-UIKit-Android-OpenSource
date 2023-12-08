@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:background="@color/amityColorBlack"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@color/fb_darker_gray_bg_transparent_15"
+    >
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"

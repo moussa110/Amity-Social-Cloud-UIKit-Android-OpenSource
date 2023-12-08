@@ -1,21 +1,28 @@
 package com.amity.socialcloud.uikit.community.home.fragments
 
+import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
+import com.amity.socialcloud.uikit.common.common.isNotEmptyOrBlank
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
 import com.amity.socialcloud.uikit.community.R
@@ -33,7 +40,6 @@ class AmityCommunityHomePageFragment : Fragment() {
 
     private lateinit var fragmentStateAdapter: AmityFragmentStateAdapter
     private lateinit var globalSearchStateAdapter: AmityFragmentStateAdapter
-    private lateinit var searchMenuItem: MenuItem
     private lateinit var binding: AmityFragmentCommunityHomePageBinding
     private val viewModel: AmityCommunityHomeViewModel by activityViewModels()
     private var textChangeDisposable: Disposable? = null
@@ -66,6 +72,7 @@ class AmityCommunityHomePageFragment : Fragment() {
         addViewModelListeners()
         subscribeTextChangeEvents()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -129,6 +136,7 @@ class AmityCommunityHomePageFragment : Fragment() {
         }
     }
 
+
     private fun setUpSearchTabLayout() {
         globalSearchStateAdapter.setFragmentList(
             arrayListOf(
@@ -148,73 +156,18 @@ class AmityCommunityHomePageFragment : Fragment() {
     }
 
     private fun subscribeTextChangeEvents() {
+        viewModel.searchQueryLiveData.observe(viewLifecycleOwner){
+                textChangeSubject.onNext(it)
+        }
         textChangeDisposable = textChangeSubject.debounce(300, TimeUnit.MILLISECONDS)
             .map {
                 if (searchString.get() != it) {
                     searchString.set(it)
                 }
                 viewModel.emptySearchString.set(it.isEmpty())
-            }
-            .subscribe()
+            }.subscribe()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = SearchView((activity as AppCompatActivity).supportActionBar!!.themedContext)
-        //val mSearchButton = searchView.findViewById<ImageView>(R.id.search_button)
-        val mCloseButton = searchView.findViewById<ImageView>(R.id.search_close_btn)
-        mCloseButton.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.amity_ic_close))
-
-        searchView.queryHint = getString(R.string.amity_search)
-        searchView.maxWidth = Int.MAX_VALUE
-        val searchEditText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-        searchEditText.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.grayOpacity))
-        searchEditText.setTextColor(ContextCompat.getColor(requireContext(), R.color.amityColorWhite))
-        searchEditText.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.gray))
-        searchEditText.imeOptions = EditorInfo.IME_ACTION_NEXT
-        searchEditText.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    AmityAndroidUtil.hideKeyboard(searchEditText)
-                    return true
-                }
-                return false
-            }
-        })
-
-        searchMenuItem = menu.add("SearchMenu").setVisible(true).setActionView(searchView).setIcon(R.drawable.amity_ic_search)
-        searchMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-        val queryTextListener = object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let { textChangeSubject.onNext(it) }
-                return true
-            }
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { textChangeSubject.onNext(it) }
-                searchMenuItem.collapseActionView()
-                return true
-            }
-        }
-
-        searchView.setOnQueryTextListener(queryTextListener)
-
-        searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                viewModel.isSearchMode.set(true)
-                return true
-            }
-
-            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                viewModel.isSearchMode.set(false)
-                return true
-            }
-        })
-
-    }
 
     class Builder internal constructor() {
         fun build(): AmityCommunityHomePageFragment {

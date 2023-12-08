@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/amity_padding_xs"
-        android:background="@color/grayDark"
+        android:background="@color/fb_darker_gray_post_bg"
         android:paddingHorizontal="@dimen/amity_padding_m1">
 
         <ImageView
@@ -21,6 +21,8 @@
             android:layout_width="20dp"
             android:layout_height="16dp"
             android:src="@drawable/amity_ic_remove"
+            android:tint="@color/fb_gray_placeholder"
+            app:tint="@color/fb_gray_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,12 +30,11 @@
         <TextView
             android:id="@+id/tvDltMsg"
             style="@style/AmityTextStyleBody"
-            textColorShade="@{AmityColorShade.SHADE2}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_two"
             android:text="@string/amity_comment_deleted_message"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_light_gray"
             app:layout_constraintBottom_toBottomOf="@id/ivRemove"
             app:layout_constraintStart_toEndOf="@id/ivRemove"
             app:layout_constraintTop_toTopOf="@id/ivRemove" />
@@ -41,12 +42,11 @@
         <TextView
             android:id="@+id/tvDeletionTime"
             style="@style/AmityTextStyleCaption"
-            textColorShade="@{AmityColorShade.SHADE2}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_padding_xxs"
             android:layout_marginEnd="@dimen/amity_padding_m1"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_light_gray"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/ivRemove"
             app:layout_constraintStart_toEndOf="@id/tvDltMsg"

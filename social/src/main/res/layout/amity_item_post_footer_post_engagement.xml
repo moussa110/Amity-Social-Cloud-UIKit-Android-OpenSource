@@ -21,7 +21,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/grayDark"
+        android:background="@color/fb_darker_gray_post_bg"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +38,7 @@
                 android:layout_marginStart="@dimen/amity_padding_m1"
                 android:drawablePadding="@dimen/amity_padding_xs"
                 android:gravity="center_vertical"
-                android:textColor="@color/grayLight"
+                android:textColor="@color/fb_text_gray"
                 app:drawableStartCompat="@drawable/amity_ic_reaction_count"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textColor="@color/grayLight"
+                android:textColor="@color/fb_text_gray"
                 tools:text="18 comments" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,14 +84,14 @@
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cbLike"
                 style="@style/AmityTextStyleBodyBold"
-                android:textColor="@color/grayLight"
+                android:textColor="@color/fb_text_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/amity_ic_like_selector"
                 android:paddingHorizontal="@dimen/amity_padding_xs"
                 android:text="@string/amity_like"
                 app:checkBoxCheckedColor="@{@color/amityColorPrimary}"
-                app:checkBoxDefaultColor="@{@color/grayLight}"
+                app:checkBoxDefaultColor="@{@color/darkYellowColor}"
                 />
 
             <TextView
@@ -103,9 +103,8 @@
                 android:drawablePadding="@dimen/amity_padding_xs"
                 android:gravity="center_vertical"
                 android:text="@string/amity_comment"
-                android:textColor="@color/grayLight"
+                android:textColor="@color/fb_text_gray"
                 app:drawableStartCompat="@drawable/amity_ic_comment"
-                android:drawableTint="@color/grayLight"
                 />
 
             <TextView
@@ -117,8 +116,7 @@
                 android:drawablePadding="@dimen/amity_padding_xs"
                 android:gravity="center_vertical"
                 android:text="@string/amity_share"
-                android:textColor="@color/grayLight"
-                android:drawableTint="@color/grayLight"
+                android:textColor="@color/fb_text_gray"
                 android:visibility="@{showShareButton? View.VISIBLE: View.GONE}"
                 app:drawableStartCompat="@drawable/amity_ic_share"
                 />
@@ -141,7 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/amity_join_community_message"
-                android:textColor="@color/amityColorWhite"
+                android:textColor="@color/fb_text_light_gray"
                 />
 
         </LinearLayout>

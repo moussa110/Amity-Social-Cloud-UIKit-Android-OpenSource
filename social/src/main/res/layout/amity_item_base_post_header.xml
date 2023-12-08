@@ -10,14 +10,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutNewsFeedHeader"
         android:layout_width="match_parent"
-        android:background="@color/grayDark"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/amity_padding_m3">
+        android:background="@color/fb_darker_gray_post_bg"
+        android:layout_marginTop="@dimen/amity_padding_s"
+        android:paddingTop="@dimen/amity_padding_s">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/avatarView"
             style="@style/AmityCircularAvatarStyle"
-            app:amityBackgroundColor="@{@color/amityColorWhite}"
+            app:amityBackgroundColor="@{@color/white}"
             android:layout_width="@dimen/amity_forty"
             android:layout_height="@dimen/amity_forty"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +29,7 @@
             android:id="@+id/layoutPostedBy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/amity_padding_xxs"
+            android:layout_marginStart="@dimen/amity_padding_xs"
             android:layout_marginBottom="@dimen/amity_padding_xxs"
             app:layout_constraintEnd_toStartOf="@+id/btnFeedAction"
             app:layout_constraintStart_toEndOf="@id/avatarView"
@@ -43,10 +44,11 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:textAlignment="textStart"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/fb_text_white"
                 app:flow_horizontalAlign="start"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Thailand" />
+
 
             <TextView
                 android:id="@+id/communityName"
@@ -57,7 +59,7 @@
                 android:ellipsize="end"
                 android:paddingStart="@dimen/amity_padding_xxs"
                 android:paddingEnd="@dimen/amity_padding_xxs"
-                android:textColor="@color/grayLight"
+                android:textColor="@color/fb_text_white"
                 app:layout_constraintStart_toEndOf="@+id/userName"
                 tools:text="Thailand" />
 
@@ -81,7 +83,7 @@
             android:id="@+id/postInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/amity_padding_xxs"
+            android:layout_marginStart="@dimen/amity_padding_xs"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@id/avatarView"
@@ -96,8 +98,7 @@
                 android:drawablePadding="@dimen/amity_four"
                 android:gravity="center_vertical"
                 android:text="@string/amity_moderator"
-                android:textColor="@color/grayLight"
-                app:drawableTintColor="@{@color/grayLight}"
+                android:textColor="@color/fb_text_gray"
                 app:drawableEndCompat="@drawable/amity_ic_dot_base"
                 app:drawableStartCompat="@drawable/amity_ic_moderator"
                 app:layout_constraintStart_toStartOf="parent"
@@ -109,8 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                android:textColor="@color/grayLight"
-                android:layout_marginStart="@dimen/amity_four"
+                android:textColor="@color/fb_text_gray"
                 app:layout_constraintBottom_toBottomOf="@id/tvPostBy"
                 app:layout_constraintLeft_toRightOf="@id/tvPostBy"
                 app:layout_constraintTop_toTopOf="@id/tvPostBy" />
@@ -124,7 +124,7 @@
                 android:drawablePadding="@dimen/amity_four"
                 android:gravity="bottom"
                 android:text="@string/amity_edited"
-                android:textColor="@color/grayLight"
+                android:textColor="@color/fb_text_gray"
                 android:visibility="gone"
                 app:drawableStartCompat="@drawable/amity_ic_dot_base"
                 app:layout_constraintBottom_toBottomOf="@id/feedPostTime"
@@ -141,12 +141,22 @@
             android:paddingEnd="@dimen/amity_padding_m1"
             android:background="@android:color/transparent"
             android:src="@drawable/amity_ic_more_horizontal"
-            app:tint="@color/amityColorWhite"
-            android:tint="@color/amityColorWhite"
+            app:tint="@color/fb_icon_light_gray"
+            android:tint="@color/fb_icon_light_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:theme="@style/AmityDivider"
+            android:layout_marginStart="@dimen/amity_padding_m1"
+            android:layout_marginEnd="@dimen/amity_padding_m1"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/avatarView"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

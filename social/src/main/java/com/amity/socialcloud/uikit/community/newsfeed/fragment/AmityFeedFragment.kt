@@ -44,6 +44,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.flow.combine
 import java.util.concurrent.TimeUnit
 
 
@@ -126,6 +127,7 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 		binding.recyclerViewFeed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 			override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
 				super.onScrollStateChanged(recyclerView, newState)
+				binding.progressBar.visibility = View.GONE
 				if (newState == SCROLL_STATE_SETTLING) {
 					getViewModel().sendPendingReactions()
 				}
@@ -202,6 +204,8 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 			}
 		}
 		getViewModel().feedLoadStatePublisher.onNext(AmityFeedLoadStateEvent.LOADED(itemCount))
+
+
 	}
 
 	private fun getInflater(): LayoutInflater {
@@ -440,6 +444,7 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 		bottomSheet.show(getViewModel().getSharingOptionMenuItems(post = post, shareToMyFeed = {
 			bottomSheet.dismiss()
 			AmitySocialUISettings.postShareClickListener.shareToMyTimeline(requireContext(), post)
+			getViewModel()
 		}, shareToGroupFeed = {
 			bottomSheet.dismiss()
 			AmitySocialUISettings.postShareClickListener.shareToGroup(requireContext(), post)

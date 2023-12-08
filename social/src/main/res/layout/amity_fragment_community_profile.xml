@@ -32,6 +32,7 @@
                 android:src="@drawable/amity_ic_default_community_avatar" />
 
             <ImageView
+
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
                 android:background="@drawable/amity_bg_avatar_overlay_with_gradient" />
@@ -39,8 +40,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="@dimen/amity_padding_m1"
+                android:layout_alignBottom="@id/ivAvatar"
+                android:layout_marginStart="@dimen/amity_padding_m1"
+                android:layout_marginTop="@dimen/amity_padding_m1"
+                android:layout_marginEnd="@dimen/amity_padding_m1"
+                android:layout_marginBottom="@dimen/amity_padding_m1"
                 android:orientation="vertical">
 
                 <TextView
@@ -48,12 +52,12 @@
                     style="@style/AmityTextStyleHeadline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTint="@color/amityColorBaseInverse"
                     android:drawablePadding="@dimen/amity_padding_xxs"
+                    android:drawableTint="@color/fb_text_white"
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:text="Commmunity"
-                    android:textColor="@color/amityColorBaseInverse" />
+                    android:textColor="@color/fb_text_white" />
 
                 <TextView
                     android:id="@+id/tvCategory"
@@ -64,7 +68,7 @@
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:text="Category"
-                    android:textColor="@color/amityColorBaseInverse" />
+                    android:textColor="@color/fb_text_light_gray" />
 
             </LinearLayout>
 
@@ -88,23 +92,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textColor="@color/amityColorBase" />
+                    android:textColor="@color/fb_text_white" />
 
                 <TextView
                     android:id="@+id/tvPostUnit"
                     style="@style/AmityTextStyleCaption"
-                    textColorShade="@{AmityColorShade.SHADE2}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/amity_posts"
-                    android:textColor="@color/amityColorBase" />
+                    android:textColor="@color/fb_text_gray" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="@dimen/amity_twenty_four"
-                android:background="@color/amityPlaceHolderColor"
+                android:background="@color/fb_text_gray"
                 android:layout_gravity="center_vertical" />
 
             <LinearLayout
@@ -120,16 +123,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textColor="@color/amityColorBase" />
+                    android:textColor="@color/fb_text_white" />
 
                 <TextView
                     android:id="@+id/tvMemberUnit"
                     style="@style/AmityTextStyleCaption"
-                    textColorShade="@{AmityColorShade.SHADE2}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/amity_members"
-                    android:textColor="@color/amityColorBase" />
+                    android:textColor="@color/fb_text_gray" />
 
             </LinearLayout>
 
@@ -142,7 +144,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/amity_padding_m1"
             android:text="description"
-            android:textColor="@color/amityColorBase" />
+            android:textColor="@color/fb_text_white" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -157,14 +159,14 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_chat"
                     style="@style/AmityOutlinedButtonStyle"
-                    amityButtonStrokeShade="@{AmityColorShade.SHADE3}"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:text="@string/amity_message"
                     android:visibility="gone"
+                    android:textColor="@color/fb_text_light_gray"
                     app:icon="@drawable/amity_ic_conversation"
                     app:iconGravity="textStart"
-                    app:iconTint="@color/amityColorBase" />
+                    app:iconTint="@color/fb_text_light_gray" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_chat_shorten"
@@ -173,22 +175,23 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:visibility="gone"
+                    android:textColor="@color/fb_text_light_gray"
                     app:icon="@drawable/amity_ic_conversation"
                     app:iconGravity="textStart"
-                    app:iconTint="@color/amityColorBase" />
+                    app:iconTint="@color/fb_text_light_gray" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_edit_profile"
                     style="@style/AmityOutlinedButtonStyle"
-                    amityButtonStrokeShade="@{AmityColorShade.SHADE3}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@+id/button_chat"
+                    android:textColor="@color/fb_text_light_gray"
                     android:text="@string/amity_edit_profile"
                     android:visibility="gone"
                     app:icon="@drawable/amity_ic_create"
                     app:iconGravity="textStart"
-                    app:iconTint="@color/amityColorBase" />
+                    app:iconTint="@color/fb_text_light_gray" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_join"
@@ -197,6 +200,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/amity_join"
                     android:visibility="gone"
+                    android:textColor="@color/fb_text_light_gray"
                     app:icon="@drawable/amity_ic_plus"
                     app:iconGravity="textStart" />
 
@@ -207,8 +211,8 @@
                 android:id="@+id/layout_pending_post_banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background=" @drawable/amity_btn_inactive"
-                android:backgroundTint="@color/amityPlaceHolderColor"
+                android:background="@drawable/amity_btn_inactive"
+                android:backgroundTint="@color/darkGreenColor"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:visibility="gone">
@@ -219,7 +223,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/amity_padding_xxs"
                     android:text="@string/amity_pending_posts"
-                    android:textColor="@color/amityColorSecondary"
+                    android:textColor="@color/fb_text_light_gray"
                     android:textSize="@dimen/amity_text_size_body"
                     android:layout_marginTop="@dimen/amity_padding_m1"
                     app:drawableStartCompat="@drawable/amity_ic_ellipse" />
@@ -230,7 +234,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/amity_padding_m1"
-                    android:textColor="@color/amityColorShuttleGray" />
+                    android:textColor="@color/fb_text_gray" />
 
             </LinearLayout>
 

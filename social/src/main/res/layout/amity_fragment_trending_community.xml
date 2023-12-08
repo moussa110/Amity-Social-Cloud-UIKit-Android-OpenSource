@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/amityColorBlack"
     android:layout_marginTop="@dimen/amity_padding_m2"
     tools:context=".explore.fragments.AmityTrendingCommunityFragment">
 
@@ -15,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/amity_padding_m1"
         android:text="@string/amity_todays_trending"
-        android:textColor="@color/amityColorBase"
+        android:textColor="@color/fb_text_light_gray"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
