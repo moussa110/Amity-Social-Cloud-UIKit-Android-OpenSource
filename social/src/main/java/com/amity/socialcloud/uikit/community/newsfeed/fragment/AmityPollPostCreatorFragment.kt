@@ -19,6 +19,8 @@ import com.amity.socialcloud.sdk.model.social.poll.AmityPoll
 import com.amity.socialcloud.sdk.model.social.poll.AmityPollAnswer
 import com.amity.socialcloud.uikit.common.base.AmityBaseFragment
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
+import com.amity.socialcloud.uikit.common.utils.getAmityActionBar
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightText
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentPollCreatorBinding
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityPollDraftAnswerAdapter
@@ -60,14 +62,13 @@ class AmityPollPostCreatorFragment : AmityBaseFragment(), SuggestionsVisibilityM
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setHasOptionsMenu(true)
         binding = AmityFragmentPollCreatorBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        initRightActionBarButton()
         highlightLastChar(binding.questionTitleTextView)
         highlightLastChar(binding.answerTitleTextView)
 
@@ -121,7 +122,7 @@ class AmityPollPostCreatorFragment : AmityBaseFragment(), SuggestionsVisibilityM
                 requireContext(),
                 when (isExceeded) {
                     true -> R.color.amityColorAlert
-                    false -> R.color.amityColorShuttleGray
+                    false -> R.color.fb_text_gray
                 }
             )
         )
@@ -132,12 +133,12 @@ class AmityPollPostCreatorFragment : AmityBaseFragment(), SuggestionsVisibilityM
                 requireContext(),
                 when (isExceeded) {
                     true -> R.color.amityColorAlert
-                    false -> R.color.amityColorAthensGray
+                    false -> R.color.grayOpacity
                 }
             )
         )
 
-        requireActivity().invalidateOptionsMenu()
+        validateRightActionBarText()
     }
 
     private fun initAnswers() {
@@ -165,7 +166,7 @@ class AmityPollPostCreatorFragment : AmityBaseFragment(), SuggestionsVisibilityM
         binding.answerCountTextView.text = String.format("%s/%s", count, MAX_ANSWER_COUNT)
         binding.addAnswerLinearLayout.isVisible = count < MAX_ANSWER_COUNT
 
-        requireActivity().invalidateOptionsMenu()
+        validateRightActionBarText()
     }
 
     private fun initTimeFrame() {
@@ -186,75 +187,58 @@ class AmityPollPostCreatorFragment : AmityBaseFragment(), SuggestionsVisibilityM
                 requireContext(),
                 when (isExceeded) {
                     true -> R.color.amityColorAlert
-                    false -> R.color.amityColorAthensGray
+                    false -> R.color.grayOpacity
                 }
             )
         )
 
-        requireActivity().invalidateOptionsMenu()
+        validateRightActionBarText()
     }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val menuItem =
-            menu.add(Menu.NONE, R.id.amity_poll_post, Menu.NONE, getString(R.string.amity_post))
-
-        val isEnabled = binding.questionEditText.length() in 1..MAX_QUESTION_LENGTH
-                && adapter.itemCount >= MIN_ANSWER_COUNT
-                && binding.closedInEditText.text?.toString()
-            ?.toIntOrNull() ?: 0 <= DEFAULT_TIME_FRAME_DAYS
-
-        val color = when (isEnabled) {
-            true -> ContextCompat.getColor(requireContext(), R.color.amityColorPrimary)
-            false -> ContextCompat.getColor(requireContext(), R.color.amityColorShuttleGray)
-        }
-
-        val title = SpannableString(menuItem.title)
-        title.setSpan(ForegroundColorSpan(color), 0, title.length, 0)
-
-        menuItem.title = title
-        menuItem.isEnabled = isEnabled
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.amity_poll_post) {
-            for (answer in adapter.getItems()) {
-                if (answer.data.isEmpty() || answer.data.length > MAX_ANSWER_LENGTH) {
-                    adapter.invalidateAnswers()
-                    return true
+    
+    private fun initRightActionBarButton() {
+        setActionBarRightText(getString(R.string.amity_post)){
+                for (answer in adapter.getItems()) {
+                    if (answer.data.isEmpty() || answer.data.length > MAX_ANSWER_LENGTH) {
+                        adapter.invalidateAnswers()
+                        return@setActionBarRightText
+                    }
                 }
-            }
 
-            viewModel.createPoll(
-                question = binding.questionEditText.text.toString(),
-                answerType = when (binding.multipleAnswerSwitch.isChecked) {
-                    true -> AmityPoll.AnswerType.MULTIPLE
-                    false -> AmityPoll.AnswerType.SINGLE
-                },
-                answers = adapter.getItems().map { AmityPollAnswer.Data.TEXT(it.data) },
-                closedIn = Days.days(
-                    binding.closedInEditText.text?.toString()?.toIntOrNull()
-                        ?: DEFAULT_TIME_FRAME_DAYS
-                ).toStandardDuration().millis,
+                viewModel.createPoll(
+                    question = binding.questionEditText.text.toString(),
+                    answerType = when (binding.multipleAnswerSwitch.isChecked) {
+                        true -> AmityPoll.AnswerType.MULTIPLE
+                        false -> AmityPoll.AnswerType.SINGLE
+                    },
+                    answers = adapter.getItems().map { AmityPollAnswer.Data.TEXT(it.data) },
+                    closedIn = Days.days(
+                        binding.closedInEditText.text?.toString()?.toIntOrNull()
+                            ?: DEFAULT_TIME_FRAME_DAYS
+                    ).toStandardDuration().millis,
                     binding.questionEditText.getUserMentions()
-            )
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete {
-                    val resultIntent = Intent()
-                    resultIntent.putExtra(
-                        EXTRA_PARAM_POST_ID,
-                        viewModel.communityId
-                    )
-                    activity?.setResult(Activity.RESULT_OK, resultIntent)
-                    activity?.finish()
-                }
-                .untilLifecycleEnd(this)
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-
-            return true
+                )
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnComplete {
+                        val resultIntent = Intent()
+                        resultIntent.putExtra(
+                            EXTRA_PARAM_POST_ID,
+                            viewModel.communityId
+                        )
+                        activity?.setResult(Activity.RESULT_OK, resultIntent)
+                        activity?.finish()
+                    }
+                    .untilLifecycleEnd(this)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
         }
-        return false
+        validateRightActionBarText()
+    }
+    
+    private fun validateRightActionBarText(){
+        val isEnabled = (binding.questionEditText.length() in 1..MAX_QUESTION_LENGTH && adapter.itemCount >= MIN_ANSWER_COUNT && (binding.closedInEditText.text?.toString()
+            ?.toIntOrNull() ?: 0) <= DEFAULT_TIME_FRAME_DAYS)
+        
+        getAmityActionBar()?.setRightStringActive(isEnabled)
     }
     
     private fun setupUserMention() {

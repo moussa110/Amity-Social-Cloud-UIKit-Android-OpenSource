@@ -101,7 +101,8 @@
             android:name=".newsfeed.activity.AmityPostDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Amity.Base.Theme.AmityApp"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity
             android:name=".newsfeed.activity.AmityPostCreatorActivity"
             android:screenOrientation="portrait"

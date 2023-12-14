@@ -17,7 +17,6 @@
 
     <style name="Amity.ThemeOverlay.Theme.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Amity.Widget.Theme.BottomSheet</item>
-        <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
@@ -30,8 +29,8 @@
 
     <style name="Amity.ThemeOverlay.ThemeShapeAppearanceBottomSheetDialog" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">@dimen/amity_six</item>
-        <item name="cornerSizeTopLeft">@dimen/amity_six</item>
+        <item name="cornerSizeTopRight">@dimen/amity_sixteen</item>
+        <item name="cornerSizeTopLeft">@dimen/amity_sixteen</item>
     </style>
 
 </resources>

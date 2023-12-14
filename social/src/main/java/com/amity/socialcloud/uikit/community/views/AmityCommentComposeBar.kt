@@ -2,6 +2,7 @@ package com.amity.socialcloud.uikit.community.views
 
 import android.content.Context
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -59,13 +60,7 @@ class AmityCommentComposeBar : ConstraintLayout {
         binding =
                 DataBindingUtil.inflate(inflater, R.layout.amity_comment_compose_bar, this, true)
         binding.apply {
-            avProfile.setBackgroundColor(
-
-                            ContextCompat.getColor(context, R.color.fb_gray)
-
-            )
             btnPost.isEnabled = false
-
             etPostComment.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
 

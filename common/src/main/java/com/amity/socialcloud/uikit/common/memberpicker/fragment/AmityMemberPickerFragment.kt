@@ -83,7 +83,7 @@ class AmityMemberPickerFragment : RxFragment(), AmitySelectMemberListener,
 
         binding.etSearch.setShape(
             null, null, null, null,
-            R.color.amityColorBase, null, AmityColorShade.SHADE4
+            R.color.fb_darker_gray_post_bg, null,null
         )
 
     }

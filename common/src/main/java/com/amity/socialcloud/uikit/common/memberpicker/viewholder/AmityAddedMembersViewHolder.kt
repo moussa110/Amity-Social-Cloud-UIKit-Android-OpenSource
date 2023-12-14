@@ -33,8 +33,8 @@ open class AmityAddedMembersViewHolder(
         val radius =
             itemView.context.resources.getDimensionPixelSize(R.dimen.amity_twenty_four).toFloat()
         layout?.setShape(
-            radius, radius, radius, radius, R.color.amityColorBase,
-            R.color.amityColorBase, AmityColorShade.SHADE4
+            radius, radius, radius, radius, R.color.fb_darker_gray_post_bg,
+            null,null
         )
 
     }

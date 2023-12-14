@@ -24,6 +24,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:focusable="true"
         android:focusableInTouchMode="true">
 
@@ -56,8 +57,9 @@
             android:id="@+id/view_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/fb_darker_gray_bg"
+            android:focusableInTouchMode="true"
             android:layout_alignParentBottom="true"
-            android:background="@color/amityColorBlack"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +70,6 @@
                     android:id="@+id/recycler_view_user_mention"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/amityColorBlack"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
                     app:layout_constraintDimensionRatio="375:280"
@@ -81,7 +82,6 @@
                 android:id="@+id/view_reply_to"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/amityColorBlack"
                 android:orientation="horizontal"
                 android:visibility="@{showReplying ? View.VISIBLE : View.GONE}">
 
@@ -94,7 +94,7 @@
                     android:maxLines="1"
                     android:padding="@dimen/amity_ten"
                     android:text="@{String.format(@string/amity_replying_to, replyingToUser)}"
-                    android:textColor="@color/amityColorShuttleGray"
+                    android:textColor="@color/fb_text_light_gray"
                     app:layout_constraintEnd_toStartOf="@+id/imageview_close_reply"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -107,7 +107,7 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="@dimen/amity_fourteen"
                     android:background="@drawable/amity_ic_close"
-                    android:backgroundTint="@color/amityColorManatee"
+                    android:backgroundTint="@color/fb_icon_light_gray"
                     android:padding="@dimen/amity_padding_xxs"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
@@ -125,6 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/amity_padding_m1"
+                android:focusableInTouchMode="true"
                 android:layout_marginTop="@dimen/amity_padding_xs"
                 android:layout_marginEnd="@dimen/amity_padding_m1"
                 android:layout_marginBottom="@dimen/amity_padding_xs" />

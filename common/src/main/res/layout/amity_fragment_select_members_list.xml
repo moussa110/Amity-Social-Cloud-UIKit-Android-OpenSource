@@ -19,6 +19,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="@dimen/amity_padding_xs"
         tools:context=".ui.view.AmityMemberPickerFragment">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -32,7 +33,7 @@
             android:id="@+id/rvSelectedMembers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/amity_fourteen"
+            android:layout_marginTop="@dimen/amity_padding_xs"
             android:layout_marginEnd="@dimen/amity_padding_m1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,16 +62,14 @@
             <TextView
                 android:id="@+id/tv_search_result"
                 style="@style/AmityTextStyleBodyBold"
-                backgroundColorShade="@{AmityColorShade.SHADE4}"
-                amityBackgroundColor="@{@color/amityColorBase}"
-                textColorShade="@{AmityColorShade.SHADE1}"
+                amityBackgroundColor="@{@color/fb_darker_gray_post_bg}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/amity_padding_m1"
                 android:paddingHorizontal="@dimen/amity_padding_m1"
                 android:paddingVertical="@dimen/amity_padding_xxs"
                 android:text="@string/amity_search_results"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/fb_text_light_gray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,12 +83,11 @@
 
             <TextView
                 style="@style/AmityTextStyleBodyBold"
-                textColorShade="@{AmityColorShade.SHADE3}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/amity_padding_l"
                 android:text="@string/amity_no_user_found"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/fb_text_light_gray"
                 android:visibility="@{viewModel.isSearchUser() ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

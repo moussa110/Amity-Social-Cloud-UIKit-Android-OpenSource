@@ -36,6 +36,9 @@ import com.amity.socialcloud.uikit.common.model.AmityMenuItem
 import com.amity.socialcloud.uikit.common.utils.AmityCameraUtil
 import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.common.utils.AmityOptionMenuColorUtil
+import com.amity.socialcloud.uikit.common.utils.getAmityActionBar
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightText
+import com.amity.socialcloud.uikit.common.utils.setRightActionBarClickListener
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentPostCreateBinding
 import com.amity.socialcloud.uikit.community.domain.model.AmityFileAttachment
@@ -132,7 +135,7 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+        setupActionBarRightText()
         addPostEditTextListener()
         setupUserMention()
         setupPostAttachmentOptions()
@@ -141,22 +144,14 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
         addViewModelListener()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menuItemPost =
-            menu.add(Menu.NONE, ID_MENU_ITEM_POST, Menu.NONE, getString(R.string.amity_save))
-        menuItemPost?.setTitle(getPostMenuText())
-            ?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+
+    private fun setupActionBarRightText() {
+        setActionBarRightText(getPostMenuText()){
+            handlePostMenuItemClick()
+        }
         updatePostMenu(isRightButtonActive())
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == ID_MENU_ITEM_POST) {
-            handlePostMenuItemClick()
-            return false
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     abstract fun handlePostMenuItemClick()
 
@@ -378,7 +373,7 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
     }
 
     private fun showExpandedAttachmentOptions() {
-        val bottomSheet = AmityBottomSheetDialog(requireContext())
+        val bottomSheet = AmityBottomSheetDialog(requireContext(), isShowTint = false)
         val options = getAvailableAttachmentOptions().map {
             val imageRes = if (it.isEnable) it.activeIcon else it.inactiveIcon
             val action: () -> Unit = {
@@ -406,7 +401,7 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
                     }
                 }
             }
-            BottomSheetMenuItem(imageRes, null, it.optionName, action)
+            BottomSheetMenuItem(imageRes, R.color.yellowColor, it.optionName, action)
         }
         if (options.isNotEmpty()) {
             bottomSheet.show(options)
@@ -650,20 +645,7 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
     }
 
     fun updatePostMenu(enabled: Boolean) {
-        menuItemPost?.isEnabled = enabled
-        val title = menuItemPost?.title
-        title?.let {
-            val spannableString = SpannableString(title)
-            spannableString.setSpan(
-                ForegroundColorSpan(
-                    AmityOptionMenuColorUtil.getColor(
-                        menuItemPost?.isEnabled
-                            ?: false, requireContext()
-                    )
-                ), 0, spannableString.length, 0
-            )
-            menuItemPost?.title = spannableString
-        }
+        getAmityActionBar()?.setRightStringActive(enabled)
     }
 
     private fun isEmptyFileAttachments(): Boolean {

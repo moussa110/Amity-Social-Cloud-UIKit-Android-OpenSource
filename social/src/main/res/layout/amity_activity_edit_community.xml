@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/auth_bg"
     tools:context=".edit.AmityCommunityProfileActivity">
 
     <com.amity.socialcloud.uikit.common.components.AmityToolBar
@@ -18,6 +19,7 @@
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/fb_darker_gray_bg_transparent_15"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editCommunityToolbar" />

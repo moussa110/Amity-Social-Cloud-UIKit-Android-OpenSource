@@ -18,8 +18,7 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/smAvatar"
-            amityBackgroundColor="@{@color/amityColorPrimary}"
-            backgroundColorShade="@{AmityColorShade.SHADE3}"
+            amityBackgroundColor="@{@color/white}"
             imageUrl="@{avatarUrl}"
             placeHolder="@{@drawable/amity_ic_default_profile_large}"
             android:layout_width="@dimen/amity_forty"
@@ -39,7 +38,7 @@
             android:layout_marginEnd="@dimen/amity_padding_xs"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_light_gray"
             app:layout_constraintBottom_toBottomOf="@id/smAvatar"
             app:layout_constraintEnd_toStartOf="@id/ivStatus"
             app:layout_constraintStart_toEndOf="@id/smAvatar"
@@ -47,10 +46,9 @@
 
         <TextView
             android:id="@+id/smSubTitle"
-            textColorShade="@{AmityColorShade.SHADE1}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_gray"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/smTitle"
             app:layout_constraintTop_toBottomOf="@id/smTitle" />

@@ -21,8 +21,9 @@ class AmityCategoryPickerActivity :
     private lateinit var defaultSelection: AmitySelectCategoryItem
 
 
+
     override fun initToolbar() {
-        showToolbarDivider()
+        //showToolbarDivider()
         getToolBar()?.setLeftDrawable(
             ContextCompat.getDrawable(this, R.drawable.amity_ic_cross)
         )

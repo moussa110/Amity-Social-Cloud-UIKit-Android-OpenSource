@@ -13,6 +13,7 @@ import com.amity.socialcloud.uikit.common.memberpicker.fragment.AmityMemberPicke
 import com.amity.socialcloud.uikit.common.memberpicker.viewmodel.AmityMemberPickerViewModel
 import com.amity.socialcloud.uikit.common.model.AmitySelectMemberItem
 import com.amity.socialcloud.uikit.common.utils.AmityConstants
+import com.amity.socialcloud.uikit.common.utils.setKoraKingsTransparentBackground
 
 class AmityMemberPickerActivity : AmityBaseActivity<AmityActivityPickMemberListBinding,
         AmityMemberPickerViewModel>(), AmityToolBarClickListener {
@@ -32,6 +33,7 @@ class AmityMemberPickerActivity : AmityBaseActivity<AmityActivityPickMemberListB
         super.onCreate(savedInstanceState)
         setUpToolBar()
         loadFragment()
+        setKoraKingsTransparentBackground(getViewDataBinding().root,getViewDataBinding().fragmentContainer)
     }
 
     private fun loadFragment() {
@@ -58,6 +60,13 @@ class AmityMemberPickerActivity : AmityBaseActivity<AmityActivityPickMemberListB
         getViewDataBinding().smToolBar.setRightString(getString(R.string.amity_done))
         getViewDataBinding().smToolBar.setClickListener(this@AmityMemberPickerActivity)
         setSelectionCount()
+        setLeftStringTitle()
+    }
+
+    private fun setLeftStringTitle() {
+        mViewModel.leftString.observe(this, Observer {
+            getViewDataBinding().smToolBar.setLeftString(it)
+        })
     }
 
     private fun setSelectionCount() {

@@ -10,6 +10,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.amity.socialcloud.sdk.model.social.category.AmityCommunityCategory
+import com.amity.socialcloud.uikit.common.utils.getAmityActionBar
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightDrawable
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightText
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.data.AmitySelectCategoryItem
 import com.amity.socialcloud.uikit.community.explore.activity.EXTRA_DEFAULT_CATEGORY_SELECTION
@@ -31,10 +34,15 @@ class AmityCategoryPickerFragment : AmityBaseCategoryListFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+        setActionBarRightText(getString(R.string.amity_done)){
+            val resultIntent = Intent()
+            resultIntent.putExtra(EXTRA_DEFAULT_CATEGORY_SELECTION, selectedCategoryAmity)
+            activity?.setResult(Activity.RESULT_OK, resultIntent)
+            activity?.finish()
+        }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menuItemDone =
             menu.add(
                 Menu.NONE,
@@ -44,23 +52,21 @@ class AmityCategoryPickerFragment : AmityBaseCategoryListFragment() {
             )
         menuItemDone?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         super.onCreateOptionsMenu(menu, inflater)
-    }
+    }*/
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+ /*   override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == ID_MENU_ITEM_SAVE_PROFILE) {
-            var resultIntent = Intent()
-            resultIntent.putExtra(EXTRA_DEFAULT_CATEGORY_SELECTION, selectedCategoryAmity)
-            activity?.setResult(Activity.RESULT_OK, resultIntent)
-            activity?.finish()
+
             return false
         }
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 
     override fun onCategorySelected(category: AmityCommunityCategory) {
         super.onCategorySelected(category)
         selectedCategoryAmity =
             AmitySelectCategoryItem(category.getCategoryId(), category.getName())
+       getAmityActionBar()?.setRightStringActive(true)
     }
 
     override fun getCategoryListAdapter(): AmityCategoryListAdapter {

@@ -17,7 +17,6 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:background="@color/fb_darker_gray_bg_transparent_15"
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView

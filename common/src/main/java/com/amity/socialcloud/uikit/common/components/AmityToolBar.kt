@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.common.expandViewHitArea
@@ -54,6 +55,7 @@ class AmityToolBar : MaterialToolbar {
     }
 
     fun setLeftString(value: String) {
+        binding.logoIv.isVisible = false
         binding.leftString = value
     }
 
@@ -81,15 +83,15 @@ class AmityToolBar : MaterialToolbar {
         if (value) {
             binding.tvRight.setTextColor(
                 AmityColorPaletteUtil.getColor(
-                    ContextCompat.getColor(context, R.color.amityColorHighlight),
+                    ContextCompat.getColor(context, R.color.yellowColor),
                     AmityColorShade.DEFAULT
                 )
             )
         } else {
             binding.tvRight.setTextColor(
                 AmityColorPaletteUtil.getColor(
-                    ContextCompat.getColor(context, R.color.amityColorHighlight),
-                    AmityColorShade.SHADE2
+                    ContextCompat.getColor(context, R.color.fb_gray_placeholder),
+                    AmityColorShade.DEFAULT
                 )
             )
         }
@@ -101,6 +103,11 @@ class AmityToolBar : MaterialToolbar {
             binding.rightDrawable!!.colorFilter =
                 PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
         }
+    }
+
+    fun showLogoImage(){
+        binding.logoIv.isVisible = true
+        binding.tvLeft.isVisible = false
     }
 
     fun setClickListener(listener: AmityToolBarClickListener) {

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/amityColorBlack">
+    android:paddingTop="@dimen/amity_thirty"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -13,13 +14,10 @@
 
         <com.amity.socialcloud.sdk.video.AmityCameraView
             android:id="@+id/amity_camera"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintDimensionRatio="H,9:16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            >
 
         </com.amity.socialcloud.sdk.video.AmityCameraView>
 
@@ -55,20 +53,20 @@
         android:background="@color/amityTranslucentBackground">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:visibility="visible"
             android:id="@+id/icon_close"
+            amityBackgroundColorAlpha="@{@integer/alpha_fifty}"
             android:layout_width="@dimen/amity_thirty_six"
             android:layout_height="@dimen/amity_thirty_six"
-            android:background="@color/amityTranslucentBackground"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:background="@color/amityTranslucentBackground"
             android:scaleType="centerInside"
             android:src="@drawable/amity_ic_close"
-            app:shapeAppearanceOverlay="@style/AmityCircleImage"
-            amityBackgroundColorAlpha="@{@integer/alpha_fifty}"
-            android:layout_centerInParent="true" />
+            android:visibility="visible"
+            app:shapeAppearanceOverlay="@style/AmityCircleImage" />
 
         <RelativeLayout
             android:id="@+id/add_thumbnail_container"
@@ -163,11 +161,10 @@
 
             <TextView
                 android:id="@+id/community_title"
-
                 android:layout_marginStart="@dimen/amity_eight"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/amityColorWhite"
+                android:textColor="@color/fb_text_white"
                 tools:text="@string/amity_video_stream_finish"
                 style="@style/AmityTextStyleTitle"
                 android:layout_width="wrap_content"
@@ -191,8 +188,8 @@
                     android:id="@+id/title_edittext"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="60dp"
-                    android:textColorHint="@color/amityColorWhite"
-                    android:textColor="@color/amityColorWhite"
+                    android:textColorHint="@color/darkYellowColor"
+                    android:textColor="@color/yellowColor"
                     android:background="@android:color/transparent"
                     android:textStyle="bold"
                     android:textSize="@dimen/amity_text_size_headline"
@@ -206,8 +203,8 @@
                     android:id="@+id/description_edittext"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="8dp"
-                    android:textColorHint="@color/amityColorWhite"
-                    android:textColor="@color/amityColorWhite"
+                    android:textColorHint="@color/fb_text_light_gray"
+                    android:textColor="@color/fb_text_white"
                     android:background="@android:color/transparent"
                     android:textSize="@dimen/amity_text_size_body"
                     android:hapticFeedbackEnabled="true"
@@ -230,11 +227,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/amityColorWhite"
+        android:backgroundTint="@color/yellowColor"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="@string/amity_video_stream_go_live"
-        android:textColor="@color/amityColorBlack"
+        android:textColor="@color/fb_text_white"
         android:visibility="visible" />
 
     <TextView

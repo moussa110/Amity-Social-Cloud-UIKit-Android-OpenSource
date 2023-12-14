@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:background="@color/amityColorBlack"
+        android:background="@color/fb_darker_gray_post_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -25,7 +25,7 @@
             android:layout_width="@dimen/amity_twenty"
             android:layout_height="@dimen/amity_twenty"
             android:layout_margin="@dimen/amity_padding_xs"
-            android:background="@color/amityColorBase"
+            android:background="@color/fb_darker_gray_bg_transparent_15"
             android:scaleType="centerInside"
             android:src="@drawable/amity_ic_cross_white"
             amityBackgroundColorAlpha="@{@integer/alpha_fifty}"
@@ -41,7 +41,7 @@
             android:layout_marginStart="@dimen/amity_padding_m1"
             android:layout_marginEnd="@dimen/amity_padding_m1"
             android:max="@integer/maxProgressImageUpload"
-            android:progressBackgroundTint="@color/amityColorWhite"
+            android:progressBackgroundTint="@color/fb_icon_light_gray"
             android:progressTint="@color/amityColorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
             android:id="@+id/ivError"
             android:layout_width="@dimen/amity_twenty_five"
             android:layout_height="@dimen/amity_twenty_five"
-            android:background="@color/amityColorBase"
+            android:background="@color/fb_gray_placeholder"
             android:scaleType="centerInside"
             android:src="@drawable/amity_ic_info"
             amityBackgroundColorAlpha="@{@integer/alpha_fifty}"
@@ -67,7 +67,7 @@
             android:visibility="gone"
             android:layout_width="@dimen/amity_thirty_six"
             android:layout_height="@dimen/amity_thirty_six"
-            android:background="@color/amityTranslucentBackground"
+            android:background="@color/fb_darker_gray_post_bg"
             android:scaleType="centerInside"
             android:src="@drawable/amity_ic_play"
             amityBackgroundColorAlpha="@{@integer/alpha_fifty}"

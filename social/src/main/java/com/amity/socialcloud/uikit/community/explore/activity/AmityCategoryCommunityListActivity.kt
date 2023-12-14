@@ -26,7 +26,7 @@ class AmityCategoryCommunityListActivity : AmityBaseToolbarFragmentContainerActi
             ContextCompat.getDrawable(this, R.drawable.amity_ic_arrow_back)
         )
         getToolBar()?.setLeftString(category?.getName() ?: "")
-        showToolbarDivider()
+        //showToolbarDivider()
     }
 
     override fun getContentFragment(): Fragment {

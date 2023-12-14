@@ -7,7 +7,6 @@ import com.amity.socialcloud.sdk.model.social.poll.AmityPollAnswer
 import com.amity.socialcloud.uikit.common.base.AmityViewHolder
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityItemPollAnswerVotedBinding
-
 class AmityPollAnswerVotedViewHolder(val context: Context, private val totalVoteCount: Int) :
     AmityViewHolder<AmityPollAnswer>(
         View.inflate(
@@ -34,8 +33,8 @@ class AmityPollAnswerVotedViewHolder(val context: Context, private val totalVote
 
         binding.voteCountTextView.setTextColor(
             when (data.isVotedByUser) {
-                true -> ContextCompat.getColor(context, R.color.amityColorPrimary)
-                false -> ContextCompat.getColor(context, R.color.fb_darker_gray_on_base)
+                true -> ContextCompat.getColor(context, R.color.darkYellowColor                                                                                                                                                                   )
+                false -> ContextCompat.getColor(context, R.color.fb_text_white)
             }
         )
 
@@ -47,13 +46,13 @@ class AmityPollAnswerVotedViewHolder(val context: Context, private val totalVote
 
         binding.answerCardView.setCardBackgroundColor(
             when (data.isVotedByUser) {
-                true -> ContextCompat.getColor(context, R.color.amityColorPrimary)
-                false -> ContextCompat.getColor(context, R.color.fb_gray_placeholder)
+                true -> ContextCompat.getColor(context, R.color.post_transparent_80)
+                false -> ContextCompat.getColor(context, R.color.post_transparent_80)
             }
         )
 
         binding.answerCardView.strokeColor = when (data.isVotedByUser) {
-            true -> ContextCompat.getColor(context, R.color.amityColorPrimary)
+            true -> ContextCompat.getColor(context, R.color.darkYellowColor)
             false -> ContextCompat.getColor(context, R.color.fb_gray_placeholder)
         }
     }

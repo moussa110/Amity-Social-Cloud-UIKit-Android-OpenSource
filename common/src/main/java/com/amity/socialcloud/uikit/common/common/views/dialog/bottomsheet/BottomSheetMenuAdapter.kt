@@ -1,13 +1,15 @@
 package com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.databinding.AmityItemBottomSheetMenuBinding
 
-class BottomSheetMenuAdapter(private var items: List<BottomSheetMenuItem>) : RecyclerView.Adapter<BottomSheetMenuAdapter.BottomSheetMenuViewHolder>() {
+class BottomSheetMenuAdapter(private var items: List<BottomSheetMenuItem>, private val isShowTint: Boolean) : RecyclerView.Adapter<BottomSheetMenuAdapter.BottomSheetMenuViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomSheetMenuViewHolder {
         return BottomSheetMenuViewHolder(AmityItemBottomSheetMenuBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -19,7 +21,7 @@ class BottomSheetMenuAdapter(private var items: List<BottomSheetMenuItem>) : Rec
         holder.bind(items[position])
     }
 
-    class BottomSheetMenuViewHolder(val binding: AmityItemBottomSheetMenuBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class BottomSheetMenuViewHolder(val binding: AmityItemBottomSheetMenuBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: BottomSheetMenuItem) {
             with(binding) {
@@ -33,13 +35,19 @@ class BottomSheetMenuAdapter(private var items: List<BottomSheetMenuItem>) : Rec
                 /*if (item.colorResId != null) {
                     bottomMenuTitle.setTextColor(itemView.resources.getColor(item.colorResId))
                 } else {*/
-                    bottomMenuTitle.setTextColor(itemView.resources.getColor(R.color.amityColorWhite))
+                    bottomMenuTitle.setTextColor(itemView.resources.getColor(R.color.fb_text_light_gray))
+                if (isShowTint){
+                    bottomMenuIcon.apply {
+                            drawable?.setTint(ContextCompat.getColor(context,R.color.white))
+                    }
+                }
                 //}
                 root.setOnClickListener { item.action() }
             }
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(items: List<BottomSheetMenuItem>) {
         this.items = items
         notifyDataSetChanged()

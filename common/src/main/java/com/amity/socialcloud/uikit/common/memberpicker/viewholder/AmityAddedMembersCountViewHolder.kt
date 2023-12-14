@@ -25,17 +25,17 @@ class AmityAddedMembersCountViewHolder(
     init {
         val radius = itemView.context.resources.getDimensionPixelSize(R.dimen.amity_twenty_four).toFloat()
         layoutMember.setShape(
-            radius, radius, radius, radius, R.color.amityColorBase,
-            R.color.amityColorBase, AmityColorShade.SHADE4
+            radius, radius, radius, radius, R.color.fb_darker_gray_post_bg,
+            null,null
         )
         binding?.ivAdd?.toCircularShape(
             AmityColorPaletteUtil.getColor(
-                ContextCompat.getColor(itemView.context, R.color.amityColorBase), AmityColorShade.SHADE4
+                ContextCompat.getColor(itemView.context, R.color.white), AmityColorShade.SHADE1
             )
         )
         binding?.tvCount?.toCircularShape(
             AmityColorPaletteUtil.getColor(
-                ContextCompat.getColor(itemView.context, R.color.amityColorBase), AmityColorShade.SHADE4
+                ContextCompat.getColor(itemView.context, R.color.white), AmityColorShade.SHADE1
             )
         )
     }

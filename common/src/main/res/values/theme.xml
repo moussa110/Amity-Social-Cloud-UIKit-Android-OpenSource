@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Amity.Base.Theme.MaterialThemeBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:statusBarColor" tools:ignore="NewApi">@color/amityColorBlack</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">@color/fb_darker_gray_bg</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">?android:attr/colorBackground
         </item>
@@ -29,7 +29,6 @@
         <item name="colorError">@color/amityColorAlert</item>
         <item name="colorOnError">@color/amityColorWhite</item>
         <item name="android:actionMenuTextColor">@color/amityColorHighlight</item>
-
         <item name="materialAlertDialogTheme">@style/AmityAlertDialogTheme</item>
         <item name="snackbarStyle">@style/AmitySnackBarStyle</item>
         <item name="searchViewStyle">@style/AmitySearchViewStyle</item>
@@ -97,20 +96,20 @@
     </style>
 
     <style name="AmityAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorSurface">#fff</item>
-        <item name="colorOnSurface">@color/amityColorBase</item>
+        <item name="colorSurface">@color/fb_darker_gray_bg</item>
+        <item name="colorOnSurface">@color/fb_text_light_gray</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AmityAlertDialogTheme.App.Title.Text
         </item>
     </style>
 
     <style name="AmityAlertDialogTheme.App.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
-        <item name="android:textColor">@color/amityColorBase</item>
+        <item name="android:textColor">@color/fb_text_light_gray</item>
         <item name="android:textAppearance">@style/AmityTextStyleTitleBold</item>
     </style>
 
     <style name="AmitySnackBarStyle" parent="Widget.MaterialComponents.Snackbar">
         <item name="android:layout_margin">@dimen/amity_padding_m1</item>
-        <item name="backgroundTint">#000</item>
+        <item name="backgroundTint">@color/fb_darker_gray_on_base</item>
         <item name="amityTextColor">#fff</item>
     </style>
 

@@ -41,7 +41,6 @@ class AmityImagePreviewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.amityColorSecondary);
 
         setContentView(binding.root)
         amityImages = intent.getParcelableArrayListExtra(EXTRA_IMAGES) ?: listOf()

@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/amity_padding_m1"
         android:layout_marginEnd="@dimen/amity_padding_m1"
+        android:layout_marginTop="@dimen/amity_padding_m1"
         tools:context=".newsfeed.fragment.AmityPostTargetPickerFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,8 +25,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/avProfile"
                 style="@style/AmityCircularAvatarStyle"
-                backgroundColorShade="@{AmityColorShade.SHADE3}"
-                amityBackgroundColor="@{@color/amityColorPrimary}"
+                amityBackgroundColor="@{@color/white}"
                 android:layout_width="@dimen/amity_forty"
                 android:layout_height="@dimen/amity_forty"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
                 android:layout_marginStart="@dimen/amity_padding_xs"
                 android:gravity="center_vertical"
                 android:text="@string/amity_my_timeline"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/avProfile"
                 app:layout_constraintStart_toEndOf="@id/avProfile"
                 app:layout_constraintTop_toTopOf="@id/avProfile"
@@ -61,10 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/amity_padding_m1"
             android:text="@string/amity_community"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/separator"
-            app:textColorShade="@{AmityColorShade.SHADE2}" />
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCommunity"

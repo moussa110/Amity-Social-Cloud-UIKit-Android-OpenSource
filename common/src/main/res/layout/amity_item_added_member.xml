@@ -18,8 +18,7 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/amAvatar"
-            backgroundColorShade="@{AmityColorShade.SHADE3}"
-            amityBackgroundColor="@{@color/amityColorPrimary}"
+            android:background="@color/white"
             android:layout_width="@dimen/amity_twenty_eight"
             android:layout_height="@dimen/amity_twenty_eight"
             android:layout_marginStart="@dimen/amity_padding_xs"
@@ -37,21 +36,20 @@
             android:layout_marginStart="@dimen/amity_six"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_white"
             app:layout_constraintBottom_toBottomOf="@id/amAvatar"
             app:layout_constraintEnd_toStartOf="@id/amCross"
             app:layout_constraintStart_toEndOf="@id/amAvatar"
             app:layout_constraintTop_toTopOf="@id/amAvatar" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/amCross"
-            amityFillColor="@{@color/amityColorBase}"
-            amityFillShade="@{AmityColorShade.SHADE4}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_padding_xs"
             android:layout_marginEnd="@dimen/amity_padding_xs"
             android:src="@drawable/amity_ic_cross"
+            app:shapeAppearanceOverlay="@style/AmityCircleImage"
             app:layout_constraintBottom_toBottomOf="@id/amAvatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/amName"

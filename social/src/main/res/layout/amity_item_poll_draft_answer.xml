@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/amity_bg_poll_draft_answer"
+            android:backgroundTint="@color/fb_darker_gray_on_base"
             android:minHeight="@dimen/amity_forty_eight"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/amity_padding_s"
@@ -28,7 +29,8 @@
                 android:background="@color/amityTransparentBackground"
                 android:paddingTop="@dimen/amity_padding_xs"
                 android:paddingBottom="@dimen/amity_padding_xs"
-                android:textColor="@color/amityColorBlack"
+                android:textColorHint="@color/fb_text_gray"
+                android:textColor="@color/fb_text_white"
                 android:textSize="@dimen/amity_text_size_body" />
 
             <androidx.appcompat.widget.AppCompatImageView

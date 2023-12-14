@@ -14,7 +14,7 @@ class AmityFollowRequestsActivity : AmityBaseToolbarFragmentContainerActivity() 
             ContextCompat.getDrawable(this, R.drawable.amity_ic_arrow_back)
         )
         getToolBar()?.setLeftString(getString(R.string.amity_follow_requests))
-        showToolbarDivider()
+        //showToolbarDivider()
     }
 
     override fun getContentFragment(): Fragment {

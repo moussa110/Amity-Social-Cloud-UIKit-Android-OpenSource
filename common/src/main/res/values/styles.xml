@@ -25,8 +25,8 @@
     </style>
 
     <style name="AmityImagePreviewToolbarStyle" parent="Widget.MaterialComponents.Toolbar.Primary">
-        <item name="android:background">@color/amityColorBlack</item>
-        <item name="titleTextColor">@color/amityColorWhite</item>
+        <item name="android:background">@color/fb_darker_gray_bg</item>
+        <item name="titleTextColor">@color/fb_text_light_gray</item>
     </style>
 
     <style name="AmityImagePreviewTheme" parent="Amity.Base.Theme.AmityApp"/>
@@ -58,6 +58,8 @@
         <item name="android:layout_marginStart">@dimen/amity_padding_m1</item>
         <item name="android:layout_marginEnd">@dimen/amity_padding_m1</item>
         <item name="android:hint">@string/amity_search</item>
+        <item name="android:textColorHint">@color/fb_gray</item>
+        <item name="android:textColor">@color/yellowColor</item>
         <item name="android:textSize">@dimen/amity_text_size_body</item>
     </style>
 
@@ -90,16 +92,23 @@
     </style>
 
     <style name="AmityImagePickerTheme" parent="Matisse.Zhihu">
-        <item name="colorPrimary">@color/amityColorWhite</item>
-        <item name="colorPrimaryDark">@color/amityColorWhite</item>
+        <item name="colorPrimary">@color/fb_darker_gray_bg</item>
+        <item name="colorPrimaryDark">@color/fb_darker_gray_bg</item>
         <item name="toolbar">@style/AmityImagePickerToolbarStyle</item>
         <item name="album.dropdown.title.color">@color/amityColorBase</item>
         <item name="album.dropdown.count.color">@color/amityColorBase</item>
         <item name="album.element.color">@color/amityColorBase</item>
         <item name="bottomToolbar.preview.textColor">@color/amityColorBase</item>
-        <item name="bottomToolbar.apply.textColor">@color/amityColorBase</item>
-        <item name="item.checkCircle.backgroundColor">@color/amityColorBase</item>
+        <item name="bottomToolbar.apply.textColor">@color/yellowColor</item>
+        <item name="item.checkCircle.backgroundColor">@color/yellowColor</item>
+        <item name="bottomToolbar.bg">@color/fb_darker_gray_bg</item>
+        <item name="page.bg">@color/fb_darker_gray_post_bg</item>
+        <item name="listPopupWindowStyle">@style/Popup.amity</item>
+        <item name="capture.textColor">@color/amityColorBase</item>
+    </style>
 
+    <style name="Popup.amity" parent="Widget.AppCompat.Light.ListPopupWindow">
+        <item name="android:popupBackground">@color/fb_darker_gray_bg_transparent_15</item>
     </style>
 
     <style name="AmityImagePickerToolbarStyle" parent="Toolbar.Zhihu">
@@ -109,7 +118,7 @@
 
     <style name="AmityBrandedSwitch.control" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/amityColorPrimary</item>
-        <item name="colorSwitchThumbNormal">@color/amityColorWhite</item>
+        <item name="colorSwitchThumbNormal">@color/yellowInActiveColor</item>
     </style>
 
     <style name="AmityAlphabetHeaderStyle">

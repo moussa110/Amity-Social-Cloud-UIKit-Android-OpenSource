@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.amity.socialcloud.uikit.common.components.AmityToolBarClickListener
+import com.amity.socialcloud.uikit.common.utils.setKoraKingsTransparentBackground
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityActivityPushSettingsDetailBinding
 import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_COMMUNITY_ID
@@ -37,6 +38,7 @@ class AmityCommunityPostNotificationSettingsActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         binding = AmityActivityPushSettingsDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setKoraKingsTransparentBackground(binding.root,binding.fragmentContainer)
         initToolbar()
         loadFragment()
 

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center_vertical"
     android:background="@android:color/transparent"
     android:paddingStart="@dimen/amity_twenty_four"
@@ -14,6 +15,7 @@
         android:layout_gravity="center_vertical"
         app:cardCornerRadius="@dimen/amity_eight"
         app:cardElevation="@dimen/amity_eight"
+        app:cardBackgroundColor="@color/fb_darker_gray_bg"
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/amity_eighty_four"
                 android:src="@drawable/amity_ic_customize"
+                tools:tint="@color/yellowColor"
+                app:tint="@color/yellowColor"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +50,7 @@
                 android:gravity="center_horizontal"
                 android:lines="2"
                 android:text="@string/amity_customize_community_title"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/fb_text_white"
                 app:layout_constraintTop_toBottomOf="@+id/imageview_customize" />
 
             <TextView
@@ -58,6 +62,7 @@
                 android:ellipsize="end"
                 android:gravity="center_horizontal"
                 android:lines="3"
+                android:textColor="@color/fb_gray"
                 android:text="@string/amity_customize_community_description"
                 app:layout_constraintTop_toBottomOf="@+id/textview_customize_title" />
 
@@ -83,6 +88,7 @@
                 android:layout_marginTop="@dimen/amity_sixteen"
                 android:layout_marginBottom="@dimen/amity_thirty_two"
                 android:gravity="center"
+                android:textColor="@color/fb_gray_placeholder"
                 android:text="@string/amity_skip_for_now"
                 android:textSize="@dimen/amity_text_size_title"
                 app:layout_constraintBottom_toBottomOf="parent" />

@@ -14,7 +14,7 @@ class AmityCategoryListActivity :
     AmityBaseToolbarFragmentContainerActivity(), AmityCategoryItemClickListener {
 
     override fun initToolbar() {
-        showToolbarDivider()
+        //showToolbarDivider()
         getToolBar()?.setLeftDrawable(
             ContextCompat.getDrawable(this, R.drawable.amity_ic_arrow_back)
         )

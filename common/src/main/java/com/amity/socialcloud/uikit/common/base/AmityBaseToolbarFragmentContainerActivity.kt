@@ -9,6 +9,7 @@ import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.components.AmityToolBar
 import com.amity.socialcloud.uikit.common.components.AmityToolBarClickListener
 import com.amity.socialcloud.uikit.common.databinding.AmityActivityBaseToolbarFragmentContainerBinding
+import com.amity.socialcloud.uikit.common.utils.setKoraKingsTransparentBackground
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 
 abstract class AmityBaseToolbarFragmentContainerActivity : RxAppCompatActivity(),
@@ -24,6 +25,7 @@ abstract class AmityBaseToolbarFragmentContainerActivity : RxAppCompatActivity()
             fragmentTransaction.replace(R.id.fragmentContainer, fragment)
             fragmentTransaction.commit()
         }
+        setupBackground()
 
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         setSupportActionBar(binding.toolbar)
@@ -38,10 +40,14 @@ abstract class AmityBaseToolbarFragmentContainerActivity : RxAppCompatActivity()
 
 
     fun showToolbarDivider() {
-        binding.divider.visibility = View.VISIBLE
+        //binding.divider.visibility = View.VISIBLE
     }
 
     abstract fun initToolbar()
+
+    private fun setupBackground(){
+        setKoraKingsTransparentBackground(binding.root,binding.fragmentContainer)
+    }
 
     abstract fun getContentFragment(): Fragment
 

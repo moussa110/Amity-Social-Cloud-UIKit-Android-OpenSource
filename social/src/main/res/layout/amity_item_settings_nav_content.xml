@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/amity_padding_s"
         android:paddingBottom="@dimen/amity_padding_xs"
-        tools:background="@color/amityColorWhite">
+        tools:background="@color/fb_text_white">
 
         <include
             android:id="@+id/mainSettingsContent"
@@ -28,7 +28,7 @@
             android:maxLines="1"
             android:paddingStart="@dimen/amity_padding_s"
             android:paddingEnd="@dimen/amity_padding_s"
-            android:textColor="@color/fb_text_gray"
+            android:textColor="@color/fb_text_light_gray"
             android:textSize="@dimen/amity_text_size_caption"
             app:layout_constraintBottom_toBottomOf="@id/ivNavigation"
             app:layout_constraintEnd_toStartOf="@id/ivNavigation"

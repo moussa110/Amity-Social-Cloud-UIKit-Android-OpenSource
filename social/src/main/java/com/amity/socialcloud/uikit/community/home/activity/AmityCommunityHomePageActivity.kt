@@ -54,10 +54,8 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 	private fun handleSearchView() {
 		viewModel.search("")
 		val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-		val searchEditText =
-			binding.homeSearchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-		searchEditText.background =
-			ContextCompat.getDrawable(this, R.drawable.rounded_gray_serarch_bg)
+		val searchEditText = binding.homeSearchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+		searchEditText.background = ContextCompat.getDrawable(this, R.drawable.rounded_gray_serarch_bg)
 		searchEditText.setTextColor(ContextCompat.getColor(this, R.color.amityColorPrimary))
 		searchEditText.setHintTextColor(ContextCompat.getColor(this, R.color.fb_gray))
 		searchEditText.setHint(R.string.amity_search)

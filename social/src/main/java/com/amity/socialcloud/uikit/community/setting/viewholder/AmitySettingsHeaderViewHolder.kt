@@ -22,5 +22,4 @@ class AmitySettingsHeaderViewHolder(val context: Context, itemView: View) : Recy
             }
         }
     }
-
 }

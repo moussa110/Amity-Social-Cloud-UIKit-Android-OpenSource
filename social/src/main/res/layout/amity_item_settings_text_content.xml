@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="none"
-            android:textColor="@color/fb_text_gray"
+            android:textColor="@color/fb_text_light_gray"
             android:textSize="@dimen/amity_text_size_caption"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             tools:text="Description" />

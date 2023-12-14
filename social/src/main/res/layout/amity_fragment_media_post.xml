@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:background="@color/darkGreenColor"
+            android:background="@color/fb_darker_gray_bg_transparent_15"
             android:id="@+id/post_gallery_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

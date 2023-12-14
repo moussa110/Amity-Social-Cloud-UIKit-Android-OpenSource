@@ -5,15 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.amity.socialcloud.uikit.common.base.AmityBaseActivity
+import com.amity.socialcloud.uikit.common.base.AmityBaseToolbarFragmentContainerActivity
 import com.amity.socialcloud.uikit.common.components.AmityToolBarClickListener
+import com.amity.socialcloud.uikit.common.utils.setKoraKingsTransparentBackground
 import com.amity.socialcloud.uikit.community.BR
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityActivityPostReviewSettingsBinding
 
 class AmityPostReviewSettingsActivity :
-    AmityBaseActivity<AmityActivityPostReviewSettingsBinding, AmityPostReviewSettingsViewModel>(),
+    AmityBaseToolbarFragmentContainerActivity(),
     AmityToolBarClickListener {
 
     companion object {
@@ -26,60 +29,16 @@ class AmityPostReviewSettingsActivity :
 
     }
 
-    private val binding : AmityActivityPostReviewSettingsBinding by lazy {
-        AmityActivityPostReviewSettingsBinding.inflate(layoutInflater)
-    }
+    override fun initToolbar() {
+        getToolBar()?.apply {
+            setLeftDrawable(ContextCompat.getDrawable(this@AmityPostReviewSettingsActivity, R.drawable.amity_ic_arrow_back))
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setUpToolbar()
-        loadFragment()
-    }
-
-    private fun setUpToolbar() {
-        binding.postReviewToolbar.setLeftDrawable(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.amity_ic_arrow_back
-            )
-        )
-        binding.postReviewToolbar.setClickListener(this)
-
-        val titleToolbar = getString(R.string.amity_post_review)
-        binding.postReviewToolbar.setLeftString(titleToolbar)
-
-        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        setSupportActionBar(binding.postReviewToolbar)
-    }
-
-    private fun loadFragment() {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        var fragment: AmityPostReviewSettingsFragment? = null
-
-        intent.getStringExtra(COMMUNITY_ID)?.let { communityId ->
-            fragment = AmityPostReviewSettingsFragment.newInstance(communityId).build(this)
-        }
-
-        if (fragment != null) {
-            fragmentTransaction.replace(R.id.fragmentContainer, fragment!!)
-            fragmentTransaction.commit()
+            val titleToolbar = getString(R.string.amity_post_review)
+            setLeftString(titleToolbar)
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.amity_activity_post_review_settings
-
-    override fun getViewModel(): AmityPostReviewSettingsViewModel =
-        ViewModelProvider(this).get(AmityPostReviewSettingsViewModel::class.java)
-
-    override fun getBindingVariable(): Int = BR.viewModel
-
-    override fun leftIconClick() {
-        this.finish()
-    }
-
-    override fun rightIconClick() {
-        TODO("Not yet implemented")
+    override fun getContentFragment(): Fragment {
+        return AmityPostReviewSettingsFragment.newInstance(intent.getStringExtra(COMMUNITY_ID)!!).build(this)
     }
 }

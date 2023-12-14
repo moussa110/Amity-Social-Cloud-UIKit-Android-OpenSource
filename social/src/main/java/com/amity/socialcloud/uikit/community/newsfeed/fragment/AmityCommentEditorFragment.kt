@@ -12,6 +12,7 @@ import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.comment.AmityComment
 import com.amity.socialcloud.uikit.common.common.showSnackBar
 import com.amity.socialcloud.uikit.common.common.views.dialog.AmityAlertDialogFragment
+import com.amity.socialcloud.uikit.common.utils.setRightActionBarClickListener
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.newsfeed.activity.EXTRA_PARAM_COMMENT
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityUserMention
@@ -27,17 +28,15 @@ class AmityCommentEditorFragment :
         })?.subscribe()
     }
 
-    override fun getCommentMenuText(): String {
-        return getString(R.string.amity_save_caps)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == ID_MENU_ITEM_COMMENT) {
+    override fun initActionBarRightClickListener() {
+        setRightActionBarClickListener {
             updateCommentMenu(false)
             updateComment()
-            return false
         }
-        return super.onOptionsItemSelected(item)
+    }
+
+    override fun getCommentMenuText(): String {
+        return getString(R.string.amity_save_caps)
     }
 
     private fun setUpTextUserMentions(comment: AmityComment) {

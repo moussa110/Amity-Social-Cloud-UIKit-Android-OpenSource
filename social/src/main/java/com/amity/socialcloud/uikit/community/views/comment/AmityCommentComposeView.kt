@@ -46,6 +46,7 @@ class AmityCommentComposeView : MentionsEditText {
         }
     }
 
+
     override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect)
         tokenizer = MentionViewWordTokenizer().create()
@@ -85,7 +86,7 @@ class AmityCommentComposeView : MentionsEditText {
         setMentionSpanConfig(
             MentionSpanConfig.Builder()
                 .setMentionTextColor(
-                    ContextCompat.getColor(context, R.color.upstraColorPrimary)
+                    ContextCompat.getColor(context, R.color.fb_links_blue)
                 ).build()
         )
     }

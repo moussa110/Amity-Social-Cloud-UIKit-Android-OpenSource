@@ -4,7 +4,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/auth_bg">
 
         <com.amity.socialcloud.uikit.common.components.AmityToolBar
             android:id="@+id/communitySettingsToolbar"
@@ -18,7 +19,8 @@
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/amity_padding_xs"
+            android:background="@color/fb_darker_gray_bg_transparent_15"
+            android:paddingTop="@dimen/amity_padding_xs"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/communitySettingsToolbar" />

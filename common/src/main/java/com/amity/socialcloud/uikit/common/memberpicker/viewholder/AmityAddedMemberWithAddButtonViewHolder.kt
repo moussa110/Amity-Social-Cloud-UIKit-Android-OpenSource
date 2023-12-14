@@ -23,8 +23,8 @@ class AmityAddedMemberWithAddButtonViewHolder(
     init {
         ivAdd.toCircularShape(
             AmityColorPaletteUtil.getColor(
-                ContextCompat.getColor(itemView.context, R.color.amityColorBase),
-                AmityColorShade.SHADE4
+                ContextCompat.getColor(itemView.context, R.color.white),
+                AmityColorShade.SHADE1
             )
         )
     }

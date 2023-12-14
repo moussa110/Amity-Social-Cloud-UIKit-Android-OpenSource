@@ -55,7 +55,7 @@ class AmityPostComposeView : MentionsEditText {
     private fun parseStyle(attrs: AttributeSet) {
         tokenizer = null
         style = AmityPostComposeViewStyle(context, attrs).apply {
-            mentionColor = R.color.upstraColorPrimary
+            mentionColor = R.color.fb_links_blue
         }
         applyStyle()
 

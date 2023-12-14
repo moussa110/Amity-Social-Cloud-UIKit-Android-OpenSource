@@ -14,9 +14,9 @@ class AmityCommentComposeViewStyle : AmityStyle {
     var hint: Int = -1
 
     init {
-        backgroundColor = getColor(R.color.amityColorBlack)
-        textColor = getColor(R.color.amityColorBase)
-        hintTextColor = getColor(R.color.fb_gray)
+        backgroundColor = getColor(R.color.transparent_100)
+        textColor = getColor(R.color.yellowColor)
+        hintTextColor = getColor(R.color.fb_text_light_gray)
         hint = R.string.amity_post_comment_hint
     }
 

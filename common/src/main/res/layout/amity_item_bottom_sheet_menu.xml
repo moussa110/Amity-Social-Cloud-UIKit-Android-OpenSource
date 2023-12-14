@@ -13,8 +13,6 @@
         android:id="@+id/bottom_menu_icon"
         android:layout_width="22dp"
         android:layout_height="22dp"
-
-        android:tint="@color/amityColorWhite"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"/>
@@ -24,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/AmityTextStyleBodyBold"
-        android:textColor="@color/amityColorWhite"
+        android:textColor="@color/fb_text_light_gray"
         android:text="@{menuItem.title}"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"

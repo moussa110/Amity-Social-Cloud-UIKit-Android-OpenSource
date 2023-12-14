@@ -42,7 +42,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/amity_padding_m1"
-                    android:textColor="@color/amityColorBase" />
+                    android:textColorHint="@color/fb_text_light_gray"
+                    android:textColor="@color/yellowColor" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvAttachment"
@@ -62,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:background="@color/amityColorWhite"
+                android:background="@color/fb_darker_gray_post_bg"
                 android:paddingBottom="@dimen/amity_eight"
                 android:overScrollMode="never"
                 app:layout_constraintHeight_max="280dp"

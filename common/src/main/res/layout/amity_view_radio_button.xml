@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="@dimen/amity_text_size_body"
-    android:textColor="@color/upstraColorBase"
+    android:textColor="@color/amityPlaceHolderColor"
     android:paddingTop="@dimen/amity_padding_s"
     android:paddingBottom="@dimen/amity_padding_m2"
     style="@style/AmityRadioButtonSelectorStyle"

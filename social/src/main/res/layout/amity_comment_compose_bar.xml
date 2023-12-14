@@ -17,13 +17,13 @@
     <merge xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/amityColorBlack"
+        android:focusableInTouchMode="true"
         tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/avProfile"
             style="@style/AmityCircularAvatarStyle"
-            android:background="@color/fb_gray"
+            android:background="@color/white"
             imageUrl="@{avatarUrl}"
             android:layout_width="@dimen/amity_twenty_eight"
             android:layout_height="@dimen/amity_twenty_eight"
@@ -31,12 +31,12 @@
             android:src="@drawable/amity_ic_default_profile1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-
+        
         <RelativeLayout
             android:id="@+id/layoutPostComment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
             android:layout_marginStart="@dimen/amity_padding_xs"
             android:layout_marginEnd="@dimen/amity_padding_xs"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -53,7 +53,7 @@
                 android:maxLines="8"
                 android:minHeight="@dimen/amity_forty"
                 android:paddingStart="@dimen/amity_padding_m1"
-                android:paddingEnd="@dimen/amity_padding_l"
+                android:paddingEnd="@dimen/amity_forty"
                 app:cornerRadius="@{R.dimen.amity_twenty}"
                 app:fillColor="@{R.color.grayDark}"
                 app:roundedCorner="@{true}"

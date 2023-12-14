@@ -13,6 +13,7 @@ import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
 import com.amity.socialcloud.uikit.common.contract.AmityPickMemberContract
 import com.amity.socialcloud.uikit.common.utils.AmityAlertDialogUtil
 import com.amity.socialcloud.uikit.common.utils.AmityConstants
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightDrawable
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentCommunityMemberSettingsBinding
 import com.ekoapp.rxlifecycle.extension.untilLifecycleEnd
@@ -59,9 +60,9 @@ class AmityCommunityMemberSettingsFragment : AmityBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.addRemoveErrorData.observe(requireActivity(), {
+        viewModel.addRemoveErrorData.observe(requireActivity()) {
             handleNoPermissionError(it)
-        })
+        }
         setUpToolbar()
         setUpTabLayout()
     }
@@ -85,10 +86,17 @@ class AmityCommunityMemberSettingsFragment : AmityBaseFragment() {
             getString(R.string.amity_members_capital)
         viewModel.checkModeratorPermission { granted ->
             setHasOptionsMenu(granted)
+            if (granted) setupAddIconInToolbar()
             viewModel.isModerator.set(granted)
         }
             .untilLifecycleEnd(this)
             .subscribe()
+    }
+
+    private fun setupAddIconInToolbar() {
+        setActionBarRightDrawable(R.drawable.amity_ic_add){
+            selectMembers.launch(viewModel.selectMembersList)
+        }
     }
 
     private fun setUpTabLayout() {
@@ -125,7 +133,7 @@ class AmityCommunityMemberSettingsFragment : AmityBaseFragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+ /*   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.amity_ic_add)
         menu.add(Menu.NONE, 1, Menu.NONE, getString(R.string.amity_add))
             ?.setIcon(drawable)
@@ -136,7 +144,7 @@ class AmityCommunityMemberSettingsFragment : AmityBaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         selectMembers.launch(viewModel.selectMembersList)
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 
     class Builder internal constructor() {
         private var communityId = ""

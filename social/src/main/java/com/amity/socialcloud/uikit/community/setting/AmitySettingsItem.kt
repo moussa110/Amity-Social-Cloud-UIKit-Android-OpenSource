@@ -11,7 +11,7 @@ sealed class AmitySettingsItem {
             val icon: Int? = null,
             val title: Int,
             val description: Int? = null,
-            val titleTextColor: Int = R.color.upstraColorBase,
+            val titleTextColor: Int = R.color.fb_text_white,
             val isTitleBold: Boolean = false,
             val callback: () -> Unit) : AmitySettingsItem()
 

@@ -15,13 +15,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/amityColorBlack">
+        >
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/avCommunityProfile"
             style="@style/AmityCircularAvatarStyle"
-            backgroundColorShade="@{AmityColorShade.SHADE3}"
-            amityBackgroundColor="@{@color/amityColorPrimary}"
+            amityBackgroundColor="@{@color/white}"
             android:layout_width="@dimen/amity_forty"
             android:layout_height="@dimen/amity_forty"
             app:layout_constraintStart_toStartOf="parent"

@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.uikit.common.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class AmityBottomSheetDialog(context: Context, items: List<BottomSheetMenuItem>? = listOf()) {
+class AmityBottomSheetDialog(context: Context, items: List<BottomSheetMenuItem>? = listOf(),isShowTint:Boolean = true) {
 
     private val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(context)
-    private val adapter = BottomSheetMenuAdapter(items ?: listOf())
+    private val adapter = BottomSheetMenuAdapter(items ?: listOf(),isShowTint)
 
     init {
         val view =

@@ -71,9 +71,9 @@ class AmityAlertDialogFragment : DialogFragment() {
         val alertDialog = dialog.create()
         alertDialog.setOnShowListener {
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(requireContext(), R.color.amityColorPrimary))
+                .setTextColor(ContextCompat.getColor(requireContext(), R.color.yellowInActiveColor))
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(ContextCompat.getColor(requireContext(), R.color.amityColorPrimary))
+                .setTextColor(ContextCompat.getColor(requireContext(), R.color.yellowColor))
         }
         return alertDialog
     }

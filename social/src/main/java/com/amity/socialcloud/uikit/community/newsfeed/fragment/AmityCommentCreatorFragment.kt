@@ -1,23 +1,21 @@
 package com.amity.socialcloud.uikit.community.newsfeed.fragment
 
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.amity.socialcloud.sdk.model.core.error.AmityError
 import com.amity.socialcloud.sdk.model.social.comment.AmityComment
 import com.amity.socialcloud.uikit.common.common.showSnackBar
+import com.amity.socialcloud.uikit.common.utils.setRightActionBarClickListener
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.newsfeed.viewmodel.AmityCommentViewModel
 
 class AmityCommentCreatorFragment : AmityCommentBaseFragment() {
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == ID_MENU_ITEM_COMMENT) {
+    override fun initActionBarRightClickListener() {
+        setRightActionBarClickListener {
             updateCommentMenu(false)
             addComment()
-            return false
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun getCommentMenuText(): String {

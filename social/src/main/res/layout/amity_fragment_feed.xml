@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/fb_darker_gray_bg_transparent_15"
     >
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -29,6 +28,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_feed"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/amity_padding_xs"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="true" />
 

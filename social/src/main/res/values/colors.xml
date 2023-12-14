@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="amityColorAthensGray">#EBECEF</color>
-    <color name="amityColorShuttleGray">#636878</color>
+    <color name="fb_placeholder_icon">#636878</color>
     <color name="amityColorManatee">#898E9E</color>
     <color name="dark_green">#3A4C33</color>
     <color name="gray_yellow">#4C4A33</color>
+    <color name="post_transparent_100">#00000000</color>
 </resources>

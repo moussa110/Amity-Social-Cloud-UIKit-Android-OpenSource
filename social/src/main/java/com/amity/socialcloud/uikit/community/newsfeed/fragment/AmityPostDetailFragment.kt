@@ -22,6 +22,7 @@ import com.amity.socialcloud.uikit.common.common.showSnackBar
 import com.amity.socialcloud.uikit.common.common.views.dialog.AmityAlertDialogFragment
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.AmityBottomSheetDialog
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightDrawable
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentBasePostDetailBinding
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityCommentCreatorActivity
@@ -102,39 +103,20 @@ class AmityPostDetailFragment : AmityBaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
         observePost()
         renderPost()
         setupUserMention()
+        setupMoreIconInActionBar()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    private fun setupMoreIconInActionBar() {
         viewModel.post?.let {
             if (viewModel.shouldShowPostOptions(it)) {
-                val drawable =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.amity_ic_more_horiz)
-                drawable?.mutate()
-                drawable?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                    R.color.amityColorBlack,
-                    BlendModeCompat.SRC_ATOP
-                )
-                menuItem = menu.add(
-                    Menu.NONE,
-                    ID_MENU_ITEM,
-                    Menu.NONE,
-                    getString(R.string.amity_cancel)
-                )
-                menuItem?.setIcon(drawable)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                setActionBarRightDrawable(R.drawable.amity_ic_more_horiz) {
+                    showPostOptions()
+                }
             }
         }
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == ID_MENU_ITEM) {
-            showPostOptions()
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

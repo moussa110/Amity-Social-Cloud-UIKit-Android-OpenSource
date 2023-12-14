@@ -16,6 +16,8 @@ import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.common.base.AmityBaseFragment
 import com.amity.socialcloud.uikit.common.common.views.dialog.AmityAlertDialogFragment
 import com.amity.socialcloud.uikit.common.utils.AmityOptionMenuColorUtil
+import com.amity.socialcloud.uikit.common.utils.getAmityActionBar
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightText
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentBaseCommentBinding
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityUserMentionAdapter
@@ -35,7 +37,6 @@ abstract class AmityCommentBaseFragment: AmityBaseFragment(),
     AmityAlertDialogFragment.IAlertDialogActionListener,
     TextWatcher, SuggestionsVisibilityManager, QueryTokenReceiver {
     private val TAG = AmityCommentBaseFragment::class.java.canonicalName
-    private var menuItemComment: MenuItem? = null
     lateinit var viewModel: AmityCommentViewModel
     lateinit var binding: AmityFragmentBaseCommentBinding
 
@@ -70,7 +71,6 @@ abstract class AmityCommentBaseFragment: AmityBaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
         addEditCommentViewTextWatcher()
         if (viewModel.getReply() != null) {
             binding.replyingToUser = viewModel.getReply()?.getCreator()?.getDisplayName()
@@ -78,13 +78,15 @@ abstract class AmityCommentBaseFragment: AmityBaseFragment(),
         }
         setupPost()
         setupUserMention()
+        setupActionBarRightText()
+        initActionBarRightClickListener()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menuItemComment = menu.add(Menu.NONE, ID_MENU_ITEM_COMMENT, Menu.NONE, getCommentMenuText())
-        menuItemComment?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+    abstract fun initActionBarRightClickListener()
+
+    private fun setupActionBarRightText() {
+        setActionBarRightText(getCommentMenuText())
         updateCommentMenu(false)
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     abstract fun getCommentMenuText(): String
@@ -138,19 +140,7 @@ abstract class AmityCommentBaseFragment: AmityBaseFragment(),
     }
 
     fun updateCommentMenu(enabled: Boolean) {
-        if (menuItemComment != null) {
-            menuItemComment?.isEnabled = enabled
-            val s = SpannableString(menuItemComment?.title)
-            s.setSpan(
-                ForegroundColorSpan(
-                    AmityOptionMenuColorUtil.getColor(
-                        menuItemComment?.isEnabled ?: false,
-                        requireContext()
-                    )
-                ), 0, s.length, 0
-            )
-            menuItemComment?.title = s
-        }
+        getAmityActionBar()?.setRightStringActive(enabled)
     }
 
     override fun handleBackPress() {

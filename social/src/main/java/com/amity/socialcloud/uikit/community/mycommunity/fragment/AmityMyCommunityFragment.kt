@@ -18,6 +18,7 @@ import com.amity.socialcloud.uikit.common.common.views.AmityColorShade
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
 import com.amity.socialcloud.uikit.common.utils.AmityRecyclerViewItemDecoration
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightDrawable
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentMyCommunityBinding
 import com.amity.socialcloud.uikit.community.detailpage.AmityCommunityPageActivity
@@ -77,7 +78,7 @@ class AmityMyCommunityFragment : AmityBaseFragment(),
     private fun handleEditTextInput() {
         binding.etSearch.setShape(
             null, null, null, null,
-            R.color.amityColorBase, null, AmityColorShade.SHADE4
+            R.color.fb_darker_gray_post_bg, null,null
         )
         binding.etSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -93,6 +94,14 @@ class AmityMyCommunityFragment : AmityBaseFragment(),
     private fun setUpToolBar() {
         (activity as AppCompatActivity).supportActionBar?.title =
             getString(R.string.amity_my_community)
+        val shouldShowAddButton = resources.getBoolean(R.bool.amity_uikit_social_community_creation_button_visible)
+        if (shouldShowAddButton) {
+            setActionBarRightDrawable( R.drawable.amity_ic_add){
+                val createCommunityIntent =
+                    Intent(requireActivity(), AmityCommunityCreatorActivity::class.java)
+                startActivity(createCommunityIntent)
+            }
+        }
     }
 
     private fun subscribeObservers() {
@@ -147,9 +156,8 @@ class AmityMyCommunityFragment : AmityBaseFragment(),
         )
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        val shouldShowAddButton =
-            resources.getBoolean(R.bool.amity_uikit_social_community_creation_button_visible)
+ /*   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val shouldShowAddButton = resources.getBoolean(R.bool.amity_uikit_social_community_creation_button_visible)
         if (shouldShowAddButton) {
             val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.amity_ic_add)
             menu.add(Menu.NONE, 1, Menu.NONE, getString(R.string.amity_add))
@@ -157,14 +165,14 @@ class AmityMyCommunityFragment : AmityBaseFragment(),
                 ?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         }
         super.onCreateOptionsMenu(menu, inflater)
-    }
+    }*/
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+  /*  override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val createCommunityIntent =
             Intent(requireActivity(), AmityCommunityCreatorActivity::class.java)
         startActivity(createCommunityIntent)
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 
     override fun onCommunitySelected(ekoCommunity: AmityCommunity?) {
         if (viewModel.myCommunityItemClickListener != null) {

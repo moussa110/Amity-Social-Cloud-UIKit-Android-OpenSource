@@ -14,10 +14,8 @@
         <TextView
             android:id="@+id/tvHeader"
             style="@style/AmityAlphabetHeaderStyle"
-            amityBackgroundColor="@{@color/amityColorBase}"
-            backgroundColorShade="@{AmityColorShade.SHADE4}"
-            textColorShade="@{AmityColorShade.SHADE3}"
-            android:textColor="@color/amityColorBase"
+            amityBackgroundColor="@{@color/fb_darker_gray_post_bg}"
+            android:textColor="@color/fb_text_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
