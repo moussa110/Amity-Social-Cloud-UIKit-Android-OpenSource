@@ -19,8 +19,6 @@
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
-                android:theme="@style/AmityBarTheme"
                 app:elevation="0dp"
                 app:expanded="false">
 
@@ -28,8 +26,8 @@
                     android:id="@+id/collapsingToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    app:contentScrim="@color/amityColorWhite"
+                    app:contentScrim="@color/fb_darker_gray_bg"
+                    android:background="@color/fb_darker_gray_bg"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
                     app:scrimAnimationDuration="300">
 

@@ -80,20 +80,17 @@ class AmityToolBar : MaterialToolbar {
     }
 
     private fun toggleRightTextColor(value: Boolean) {
-        if (value) {
-            binding.tvRight.setTextColor(
-                AmityColorPaletteUtil.getColor(
-                    ContextCompat.getColor(context, R.color.yellowColor),
-                    AmityColorShade.DEFAULT
-                )
-            )
-        } else {
-            binding.tvRight.setTextColor(
-                AmityColorPaletteUtil.getColor(
-                    ContextCompat.getColor(context, R.color.fb_gray_placeholder),
-                    AmityColorShade.DEFAULT
-                )
-            )
+        binding.tvRight.apply {
+            if (value) {
+                isEnabled=true
+                setTextColor(AmityColorPaletteUtil.getColor(ContextCompat.getColor(context,
+                    R.color.yellowColor), AmityColorShade.DEFAULT))
+            } else {
+                isEnabled = false
+                setTextColor(AmityColorPaletteUtil.getColor(ContextCompat.getColor(
+                    context,
+                    R.color.fb_gray_placeholder), AmityColorShade.DEFAULT))
+            }
         }
     }
 

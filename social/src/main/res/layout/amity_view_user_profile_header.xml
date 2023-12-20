@@ -32,13 +32,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:paddingTop="@dimen/amity_padding_m1"
+        android:paddingBottom="@dimen/amity_padding_xs"
         android:layout_height="wrap_content">
 
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivAvatar"
-            amityBackgroundColor="@{@color/amityColorPrimary}"
-            backgroundColorShade="@{AmityColorShade.SHADE3}"
+            amityBackgroundColor="@{@color/amityColorBase}"
             imageUrl="@{amityUser.avatar.url}"
             placeHolder="@{@drawable/amity_ic_default_profile2}"
             android:layout_width="@dimen/amity_sixty_four"
@@ -61,7 +62,7 @@
             android:drawablePadding="@dimen/amity_padding_xxs"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_white"
             app:layout_constraintStart_toEndOf="@id/ivAvatar"
             app:layout_constraintTop_toTopOf="@id/ivAvatar"
             app:safeText="@{amityUser.displayName}" />
@@ -72,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/amity_padding_xxs"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_light_gray"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/tvName"
             app:layout_constraintTop_toBottomOf="@id/tvName"
@@ -84,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_padding_xs"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_light_gray"
             app:layout_constraintStart_toEndOf="@id/tvPostCount"
             app:layout_constraintTop_toTopOf="@id/tvPostCount"
             tools:text="0 following" />
@@ -95,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_padding_xs"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_light_gray"
             app:layout_constraintStart_toEndOf="@id/tvFollowingCount"
             app:layout_constraintTop_toTopOf="@id/tvPostCount"
             tools:text="0 followers" />
@@ -109,8 +110,8 @@
             android:layout_marginTop="@dimen/amity_padding_s"
             android:paddingTop="@dimen/amity_padding_xxs"
             android:text="@{amityUser.description}"
-            android:textColor="@color/amityColorBase"
-            android:visibility="@{amityUser.description.length() > 0 ? View.VISIBLE : View.VISIBLE}"
+            android:textColor="@color/fb_gray"
+            android:visibility="@{amityUser.description.length() > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="@id/ivAvatar"
             app:layout_constraintTop_toBottomOf="@id/ivAvatar"
             tools:text="Duis congue eros vitae lectus varius pharetra. Cla ss aptent taciti sociosqu ad litora torquent " />
@@ -125,11 +126,10 @@
             android:layout_marginEnd="@dimen/amity_padding_m1"
             android:text="@{isSelf ? @string/amity_edit_profile : @string/amity_message}"
             android:visibility="@{isSelf ? View.VISIBLE : View.GONE}"
-            app:amityButtonStrokeShade="@{AmityColorShade.SHADE3}"
             app:cornerRadius="@dimen/amity_four"
             app:icon="@{isSelf ? @drawable/amity_ic_edit_profile : @drawable/amity_ic_chat}"
             app:iconGravity="textStart"
-            app:iconTint="@color/amityColorBase"
+            app:iconTint="@color/amityColorPrimary"
             app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
         <com.google.android.material.button.MaterialButton
@@ -141,6 +141,7 @@
             android:text="@string/amity_follow"
             android:visibility="@{connectionState == AmityFollowStatus.NONE ? View.VISIBLE : View.GONE, default=gone}"
             app:icon="@drawable/amity_ic_plus"
+            app:iconTint="@color/fb_text_white"
             app:iconGravity="textStart"
             app:layout_constraintEnd_toEndOf="@id/btnProfileDefaultAction"
             app:layout_constraintStart_toStartOf="@id/btnProfileDefaultAction"
@@ -154,7 +155,6 @@
             android:layout_marginTop="@dimen/amity_padding_s"
             android:text="@string/amity_cancel_request"
             android:visibility="@{connectionState == AmityFollowStatus.PENDING ? View.VISIBLE : View.GONE, default=gone}"
-            app:amityButtonStrokeShade="@{AmityColorShade.SHADE4}"
             app:cornerRadius="@dimen/amity_four"
             app:icon="@drawable/amity_ic_cancel_request"
             app:iconGravity="textStart"

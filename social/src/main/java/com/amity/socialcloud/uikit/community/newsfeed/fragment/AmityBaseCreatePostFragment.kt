@@ -360,11 +360,11 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
                 })
             }
 
-            if (requestedOptions.contains(AmityPostAttachmentOptionItem.FILE)) {
+          /*  if (requestedOptions.contains(AmityPostAttachmentOptionItem.FILE)) {
                 presentingOptions.add(AmityPostAttachmentOptionItem.FILE.apply {
                     isEnable = !viewModel.hasImages()
                 })
-            }
+            }*/
 
             showComposeBar()
         }

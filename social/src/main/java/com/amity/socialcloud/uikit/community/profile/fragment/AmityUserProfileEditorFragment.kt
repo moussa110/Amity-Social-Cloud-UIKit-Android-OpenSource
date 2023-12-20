@@ -19,6 +19,10 @@ import com.amity.socialcloud.uikit.common.common.showSnackBar
 import com.amity.socialcloud.uikit.common.common.views.dialog.AmityBottomSheetDialogFragment
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
 import com.amity.socialcloud.uikit.common.utils.AmityOptionMenuColorUtil
+import com.amity.socialcloud.uikit.common.utils.getAmityActionBar
+import com.amity.socialcloud.uikit.common.utils.setActionBarLeftText
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightText
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightTextEnabled
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentEditUserProfileBinding
 import com.amity.socialcloud.uikit.community.profile.viewmodel.AmityEditUserProfileViewModel
@@ -29,7 +33,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
 
 class AmityUserProfileEditorFragment : AmityPickerFragment() {
-    private var menuItemSaveProfile: MenuItem? = null
     private val ID_MENU_ITEM_SAVE_PROFILE: Int = 111
     private val TAG = AmityUserProfileEditorFragment::class.java.canonicalName
     private val viewModel: AmityEditUserProfileViewModel by activityViewModels()
@@ -65,7 +68,6 @@ class AmityUserProfileEditorFragment : AmityPickerFragment() {
         binding.avatarView.setOnClickListener {
             showOptionTakePhoto()
         }
-
         observeProfileUpdate()
 
         binding.etDisplayName.filters = arrayOf<InputFilter>(LengthFilter(viewModel.userNameMaxTextLength))
@@ -136,42 +138,20 @@ class AmityUserProfileEditorFragment : AmityPickerFragment() {
     }
 
     private fun initToolBar() {
-        setHasOptionsMenu(true)
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.amity_edit_profile)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menuItemSaveProfile =
-            menu.add(Menu.NONE, ID_MENU_ITEM_SAVE_PROFILE, Menu.NONE, getString(R.string.amity_save))
-        menuItemSaveProfile?.setTitle(R.string.amity_save)
-            ?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        updateSaveProfileMenu(viewModel.hasProfileUpdate.value ?: false)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == ID_MENU_ITEM_SAVE_PROFILE) {
+        setActionBarLeftText(getString(R.string.amity_edit_profile))
+        setActionBarRightText(getString(R.string.amity_save)){
             if (profileUri == null) {
                 updateUser()
             } else {
                 uploadProfilePicture(profileUri!!)
             }
-            return false
         }
-        return super.onOptionsItemSelected(item)
+        updateSaveProfileMenu(viewModel.hasProfileUpdate.value ?: false)
+
     }
 
     private fun updateSaveProfileMenu(enabled: Boolean) {
-        menuItemSaveProfile?.isEnabled = enabled
-        val s = SpannableString(getString(R.string.amity_save))
-        s.setSpan(
-            ForegroundColorSpan(
-                AmityOptionMenuColorUtil.getColor(
-                    menuItemSaveProfile?.isEnabled ?: false, requireContext()
-                )
-            ), 0, s.length, 0
-        )
-        menuItemSaveProfile?.title = s
+        setActionBarRightTextEnabled(enabled)
     }
 
     private fun addViewModelListener() {

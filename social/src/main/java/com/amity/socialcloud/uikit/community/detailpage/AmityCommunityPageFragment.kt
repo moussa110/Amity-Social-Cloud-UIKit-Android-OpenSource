@@ -20,6 +20,7 @@ import com.amity.socialcloud.uikit.common.common.setSafeOnClickListener
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.AmityBottomSheetDialog
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.BottomSheetMenuItem
 import com.amity.socialcloud.uikit.common.components.AmityToolBar
+import com.amity.socialcloud.uikit.common.utils.getAmityActionBar
 import com.amity.socialcloud.uikit.common.utils.setActionBarLeftText
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentCommunityPageBinding
@@ -106,8 +107,17 @@ class AmityCommunityPageFragment : RxFragment(), AppBarLayout.OnOffsetChangedLis
 			} else {
 				binding.fabCreatePost.visibility = View.GONE
 			}
-			setActionBarLeftText(it.getDisplayName())
+			initActionBarLeftTv(it.getDisplayName())
 		}.untilLifecycleEnd(this).subscribe()
+	}
+
+	private fun initActionBarLeftTv(name: String) {
+		getAmityActionBar()?.apply {
+			setLeftString(name)
+			getLeftTextView().setOnClickListener {
+				binding.appBar.setExpanded(true,true)
+			}
+		}
 	}
 
 	override fun onPause() {
@@ -122,7 +132,8 @@ class AmityCommunityPageFragment : RxFragment(), AppBarLayout.OnOffsetChangedLis
 
 	override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
 		binding.refreshLayout.isEnabled = (verticalOffset == 0)
-		baseToolBar?.getLeftTextView()?.alpha = abs(verticalOffset / 500).toFloat()
+		appBarLayout ?: return
+		baseToolBar?.getLeftTextView()?.alpha = abs(verticalOffset / appBarLayout.totalScrollRange).toFloat()
 	}
 
 	private fun setUpView() {

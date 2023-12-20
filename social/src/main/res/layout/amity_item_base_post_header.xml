@@ -29,6 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/amity_padding_xs"
+            android:layout_marginEnd="@dimen/amity_padding_xxs"
             android:layout_marginBottom="@dimen/amity_padding_xxs"
             app:layout_constraintEnd_toStartOf="@+id/btnFeedAction"
             app:layout_constraintStart_toEndOf="@id/avatarView"
@@ -37,7 +38,7 @@
             <TextView
                 android:id="@+id/userName"
                 style="@style/AmityTextStyleBodyBold"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawablePadding="@dimen/amity_padding_xxs"
                 android:ellipsize="end"
@@ -51,26 +52,20 @@
 
             <TextView
                 android:id="@+id/communityName"
-                style="@style/AmityTextStyleBodyBold"
+                style="@style/AmityTextStyleCaptionBold"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:drawablePadding="@dimen/amity_padding_xxs"
                 android:ellipsize="end"
-                android:paddingStart="@dimen/amity_padding_xxs"
-                android:paddingEnd="@dimen/amity_padding_xxs"
-                android:textColor="@color/fb_text_white"
-                app:layout_constraintStart_toEndOf="@+id/userName"
-                tools:text="Thailand" />
+                android:textColor="@color/fb_text_gray"
+                tools:text="community" />
 
             <androidx.constraintlayout.helper.widget.Flow
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="userName,communityName"
+                android:orientation="vertical"
                 app:flow_horizontalAlign="start"
-                app:flow_horizontalBias="0"
-                app:flow_horizontalGap="0dp"
-                app:flow_horizontalStyle="packed"
-                app:flow_wrapMode="chain"
+                app:constraint_referenced_ids="userName,communityName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -155,7 +150,7 @@
             android:layout_marginStart="@dimen/amity_padding_m1"
             android:layout_marginEnd="@dimen/amity_padding_m1"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/avatarView"/>
+            app:layout_constraintTop_toBottomOf="@id/postInfo"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

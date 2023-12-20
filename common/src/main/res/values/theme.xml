@@ -67,13 +67,13 @@
         <item name="backgroundTint">@color/material_btn_bg_color_selector</item>
         <item name="textAllCaps">false</item>
         <item name="android:textColor">@color/material_btn_text_color_selector</item>
-        <item name="iconTint">@color/fb_text_light_gray</item>
+        <item name="iconTint">@color/fb_text_white</item>
     </style>
 
     <style name="AmityOutlinedButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
         <item name="iconGravity">textStart</item>
         <item name="textAllCaps">false</item>
-        <item name="strokeColor">@color/amityColorSecondary</item>
+        <item name="strokeColor">@color/yellowInActiveColor</item>
         <item name="android:textColor">@color/amityColorSecondary</item>
     </style>
 
@@ -96,7 +96,7 @@
     </style>
 
     <style name="AmityAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorSurface">@color/fb_darker_gray_bg</item>
+        <item name="colorSurface">@color/grayDark</item>
         <item name="colorOnSurface">@color/fb_text_light_gray</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AmityAlertDialogTheme.App.Title.Text
         </item>
@@ -109,13 +109,13 @@
 
     <style name="AmitySnackBarStyle" parent="Widget.MaterialComponents.Snackbar">
         <item name="android:layout_margin">@dimen/amity_padding_m1</item>
-        <item name="backgroundTint">@color/fb_darker_gray_on_base</item>
-        <item name="amityTextColor">#fff</item>
+        <item name="backgroundTint">@color/grayDark</item>
+        <item name="amityTextColor">@color/fb_text_white</item>
     </style>
 
     <style name="AmityBarTheme">
-        <item name="android:colorPrimary">@color/fb_darker_gray_bg_transparent_15</item>
-        <item name="android:colorSecondary">@color/fb_darker_gray_bg_transparent_15</item>
+        <item name="android:colorPrimary">@color/fb_darker_gray_bg</item>
+        <item name="background">@color/fb_darker_gray_bg</item>
     </style>
 
     <style name="AmityMaterialTextButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/amity_padding_xs"
         android:background="@drawable/amity_bg_view_replies"
-        android:backgroundTint="@color/fb_gray_placeholder"
+        android:backgroundTint="@color/fb_darker_gray_bg_transparent_15"
         android:layout_marginHorizontal="@dimen/amity_padding_m1"
         android:paddingTop="@dimen/amity_padding_xxs"
         android:paddingBottom="@dimen/amity_padding_xxs">
@@ -23,13 +23,13 @@
             android:id="@+id/ivRemove"
             android:layout_width="20dp"
             android:layout_height="16dp"
-            android:backgroundTint="@color/fb_icon_light_gray"
             android:src="@drawable/amity_ic_remove"
             android:paddingStart="@dimen/amity_padding_xxs"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvDltMsg"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/fb_icon_light_gray" />
 
         <TextView
             android:id="@+id/tvDltMsg"

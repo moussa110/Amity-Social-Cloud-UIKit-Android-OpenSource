@@ -80,7 +80,7 @@
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/amity_padding_m1"
             android:indeterminate="true"
-            android:indeterminateTint="@color/amityMessageBubbleInverse"
+            android:indeterminateTint="@color/yellowColor"
             android:indeterminateTintMode="src_atop"
             android:visibility="gone" />
 

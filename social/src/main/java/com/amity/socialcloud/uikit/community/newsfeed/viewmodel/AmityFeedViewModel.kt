@@ -71,6 +71,7 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
     }
 
     internal fun createPostItem(post: AmityPost): AmityBasePostItem {
+
         return AmityBasePostItem(
             post,
             createPostHeaderItems(post),

@@ -34,22 +34,21 @@
                 android:layout_height="@dimen/amity_sixty_four"
                 android:scaleType="centerInside"
                 android:src="@drawable/amity_ic_default_profile2"
-                app:backgroundColorShade="@{AmityColorShade.SHADE3}"
-                amityBackgroundColor="@{@color/amityColorPrimary}"
+                amityBackgroundColor="@{@color/fb_text_light_gray}"
                 app:shapeAppearanceOverlay="@style/AmityCircleImage" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_camera"
-                backgroundColorShade="@{AmityColorShade.SHADE4}"
-                amityBackgroundColor="@{@color/amityColorBase}"
                 android:layout_width="@dimen/amity_twenty_eight"
                 android:layout_height="@dimen/amity_twenty_eight"
+                android:padding="1dp"
+                android:background="@color/fb_darker_gray_bg_transparent_15"
                 android:layout_gravity="bottom|end"
                 android:scaleType="centerInside"
-                android:src="@drawable/amity_ic_camera"
+                android:src="@drawable/amity_ic_camera_18"
+                android:tint="@color/fb_gray"
                 app:shapeAppearanceOverlay="@style/AmityCircleImage"
-                app:strokeColor="@color/amityColorWhite"
-                app:strokeWidth="2dp" />
+                />
         </FrameLayout>
 
 
@@ -61,6 +60,7 @@
             android:layout_marginTop="@dimen/amity_padding_m1"
             android:layout_marginEnd="@dimen/amity_padding_m1"
             android:text="@string/amity_display_name"
+            android:textColor="@color/fb_text_white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarView"
             app:required="@{true}" />
@@ -72,6 +72,7 @@
             android:layout_marginStart="@dimen/amity_padding_m1"
             android:layout_marginTop="@dimen/amity_padding_m1"
             android:layout_marginEnd="@dimen/amity_padding_m1"
+            android:textColor="@color/fb_text_light_gray"
             android:text='@{vm.displayName.trim().length() + "/" + vm.userNameMaxTextLength}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarView"
@@ -84,7 +85,8 @@
             android:layout_marginStart="@dimen/amity_padding_m1"
             android:layout_marginEnd="@dimen/amity_padding_m1"
             android:text="@={vm.displayName}"
-            android:textColor="@color/amityColorBase"
+            android:backgroundTint="@color/grayOpacity"
+            android:textColor="@color/yellowColor"
             app:layout_constraintTop_toBottomOf="@id/tvDisplayNameLabel" />
 
         <TextView
@@ -94,6 +96,7 @@
             android:layout_marginStart="@dimen/amity_padding_m1"
             android:layout_marginTop="@dimen/amity_padding_l"
             android:text="@string/amity_about"
+            android:textColor="@color/fb_text_white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etDisplayName" />
 
@@ -103,6 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/amity_padding_l"
             android:layout_marginEnd="@dimen/amity_padding_m1"
+            android:textColor="@color/fb_text_light_gray"
             android:text='@{vm.about.trim().length() + "/" + vm.aboutMaxTextLength}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etDisplayName"
@@ -115,6 +119,8 @@
             android:layout_marginStart="@dimen/amity_padding_m1"
             android:layout_marginEnd="@dimen/amity_padding_m1"
             android:maxLength="@integer/maxLimitProfileDescription"
+            android:backgroundTint="@color/grayOpacity"
+            android:textColor="@color/yellowColor"
             android:text="@={vm.about}"
             app:layout_constraintTop_toBottomOf="@id/tvAboutLabel" />
     </androidx.constraintlayout.widget.ConstraintLayout>

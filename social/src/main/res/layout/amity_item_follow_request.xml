@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,12 +14,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        tools:background="@color/fb_darker_gray_bg"
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivAvatar"
-            amityBackgroundColor="@{@color/amityColorPrimary}"
-            backgroundColorShade="@{AmityColorShade.SHADE3}"
+            android:src="@drawable/amity_ic_default_profile2"
+            amityBackgroundColor="@{@color/fb_text_light_gray}"
             android:layout_width="@dimen/amity_forty"
             android:layout_height="@dimen/amity_forty"
             android:layout_marginStart="@dimen/amity_padding_m1"
@@ -36,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/amity_padding_xs"
             android:ellipsize="end"
+            android:textColor="@color/fb_text_white"
             android:text="@{user.displayName}"
             app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,8 +47,7 @@
 
         <View
             android:id="@+id/divider"
-            amityBackgroundColor="@{@color/amityColorBase}"
-            backgroundColorShade="@{AmityColorShade.SHADE4}"
+            style="@style/AmityDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginHorizontal="@dimen/amity_padding_m1"
@@ -81,8 +83,7 @@
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <View
-            amityBackgroundColor="@{@color/amityColorBase}"
-            backgroundColorShade="@{AmityColorShade.SHADE4}"
+            style="@style/AmityDivider"
             android:layout_width="match_parent"
             android:layout_height="@dimen/amity_padding_xs"
             android:layout_marginTop="@dimen/amity_padding_s"

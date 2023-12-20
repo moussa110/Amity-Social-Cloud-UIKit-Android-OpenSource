@@ -6,9 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +17,9 @@ import com.amity.socialcloud.uikit.common.common.setSafeOnClickListener
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.AmityBottomSheetDialog
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.BottomSheetMenuItem
 import com.amity.socialcloud.uikit.common.utils.AmityAlertDialogUtil
+import com.amity.socialcloud.uikit.common.utils.getAmityActionBar
+import com.amity.socialcloud.uikit.common.utils.setActionBarLeftText
+import com.amity.socialcloud.uikit.common.utils.setActionBarRightDrawable
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentUserProfilePageBinding
 import com.amity.socialcloud.uikit.community.followers.AmityUserFollowersActivity
@@ -42,6 +42,7 @@ import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import timber.log.Timber
+import kotlin.math.abs
 
 const val ARG_USER_ID = "ARG_USER_ID"
 
@@ -83,7 +84,6 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         fragmentStateAdapter = AmityFragmentStateAdapter(
             childFragmentManager,
             requireActivity().lifecycle
@@ -107,6 +107,10 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setActionBarRightDrawable(R.drawable.amity_ic_more_horiz){
+            val intent = AmityUserSettingsActivity.newIntent(requireContext(), currentUser)
+            startActivity(intent)
+        }
         initTabLayout()
         binding.appBar.setExpanded(true)
         getUserDetails()
@@ -132,6 +136,9 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
         binding.refreshLayout.isEnabled = (verticalOffset == 0)
+        appBarLayout ?: return
+        getAmityActionBar()?.getLeftTextView()?.alpha = abs(verticalOffset / appBarLayout.totalScrollRange).toFloat()
+
     }
 
     override fun onResume() {
@@ -273,6 +280,8 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ result ->
                         binding.userProfileHeader.setUserData(result)
+                        initActionBarLeftTv(result.getDisplayName()?:"")
+
                         currentUser = result
                         binding.fabCreatePost.visibility =
                             if (viewModel.isSelfUser()) View.VISIBLE else View.GONE
@@ -282,6 +291,15 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
             )
         }
         getFollowInfo()
+    }
+
+    private fun initActionBarLeftTv(name: String) {
+        getAmityActionBar()?.apply {
+            setLeftString(name)
+            getLeftTextView().setOnClickListener {
+                binding.appBar.setExpanded(true,true)
+            }
+        }
     }
 
     private fun getFollowInfo() {
@@ -352,25 +370,6 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
                     binding.userProfileHeader.updateState(prevState)
                 }
             })
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        val drawable =
-            ContextCompat.getDrawable(requireContext(), R.drawable.amity_ic_more_horiz)
-        drawable?.mutate()
-        drawable?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-            R.color.amityColorBlack, BlendModeCompat.SRC_ATOP
-        )
-        menu.add(Menu.NONE, 1, Menu.NONE, getString(R.string.amity_more_options))
-            ?.setIcon(drawable)
-            ?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent = AmityUserSettingsActivity.newIntent(requireContext(), currentUser)
-        startActivity(intent)
-        return super.onOptionsItemSelected(item)
     }
 
     class Builder internal constructor() {

@@ -134,7 +134,7 @@
                 android:layout_marginBottom="@dimen/amity_padding_xxs"
                 android:autoLink="web"
                 android:background="@drawable/amity_bg_comment_bubble"
-                android:backgroundTint="@color/fb_gray_placeholder"
+                android:backgroundTint="@color/fb_darker_gray_bg_transparent_15"
                 android:maxLines="@integer/maxLineTextOnlyFeed"
                 android:padding="@dimen/amity_padding_s"
                 android:textColor="@color/fb_text_white"

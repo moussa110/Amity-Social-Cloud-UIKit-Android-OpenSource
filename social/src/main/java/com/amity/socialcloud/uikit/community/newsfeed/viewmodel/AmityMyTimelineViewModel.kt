@@ -13,6 +13,7 @@ class AmityMyTimelineViewModel : AmityFeedViewModel() {
 
     @ExperimentalPagingApi
     override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable {
+
         return AmitySocialClient
             .newPostRepository()
             .getPosts()
