@@ -9,9 +9,11 @@ import com.amity.socialcloud.sdk.api.social.community.query.AmityCommunitySortOp
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunityFilter
+import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPostData
 import io.reactivex.rxjava3.core.Flowable
 
 private const val SAVED_POST_CREATION_TYPE = "SAVED_POST_CREATION_TYPE"
+private const val SAVED_SHARED_POST_DATA = "SAVED_SHARED_POST_DATA"
 
 class AmityPostTargetViewModel(private val savedState: SavedStateHandle) : ViewModel() {
 
@@ -21,8 +23,15 @@ class AmityPostTargetViewModel(private val savedState: SavedStateHandle) : ViewM
             field = value
         }
 
+    var sharedPostData: SharedPostData = SharedPostData(postId = "")
+        set(value) {
+            savedState.set(SAVED_SHARED_POST_DATA, value)
+            field = value
+        }
+
     init {
         savedState.get<String>(SAVED_POST_CREATION_TYPE)?.let { postCreationType = it }
+        savedState.get<SharedPostData>(SAVED_SHARED_POST_DATA)?.let { sharedPostData = it }
     }
 
     fun getUser(): AmityUser {

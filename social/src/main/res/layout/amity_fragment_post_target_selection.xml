@@ -45,14 +45,16 @@
                 app:layout_constraintTop_toTopOf="@id/avProfile"
 
                 />
+
+            <View
+                android:id="@+id/separator"
+                style="@style/AmityDivider"
+                android:layout_marginTop="@dimen/amity_padding_m1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/avProfile" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
-            android:id="@+id/separator"
-            style="@style/AmityDivider"
-            android:layout_marginTop="@dimen/amity_padding_m1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clMyTimeline" />
+
 
         <TextView
             android:id="@+id/tvCommunityLabel"
@@ -63,7 +65,7 @@
             android:text="@string/amity_community"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/separator"
+            app:layout_constraintTop_toBottomOf="@id/clMyTimeline"
             />
 
         <androidx.recyclerview.widget.RecyclerView

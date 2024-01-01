@@ -39,6 +39,7 @@
     <string name="amity_discard_post_title">Discard post?</string>
     <string name="amity_discard_post_message">Do you want to discard your post?</string>
     <string name="amity_share">Share</string>
+    <string name="amity_share_caps">SHARE</string>
     <string name="amity_comment">Comment</string>
     <string name="amity_like">Like</string>
     <string name="amity_liked">Liked</string>
@@ -343,5 +344,6 @@
     <string name="amity_delete_poll">Delete Poll</string>
     <string name="amity_close_poll">Close Poll</string>
     <string name="amity_reaction_separator">•</string>
-
+    <string name="amity_share_to">Share to</string>
+    <string name="amity_profile">Profile</string>
 </resources>

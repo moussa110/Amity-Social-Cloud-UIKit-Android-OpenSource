@@ -37,6 +37,7 @@ class AmityPostFooterAdapter(
     private val POST_ENGAGEMENT = Random().nextInt()
     private val COMMENT_PREVIEW = Random().nextInt()
     private val POST_REVIEW = Random().nextInt()
+    private var isHasSharedPost = false
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -53,7 +54,8 @@ class AmityPostFooterAdapter(
                 AmityPostFooterPostEngagementViewHolder(
                     itemBinding,
                     postEngagementClickPublisher,
-                    reactionCountClickPublisher
+                    reactionCountClickPublisher,
+                    isHasSharedPost
                 )
             }
             COMMENT_PREVIEW -> {
@@ -91,6 +93,7 @@ class AmityPostFooterAdapter(
                     itemBinding,
                     postEngagementClickPublisher,
                     reactionCountClickPublisher,
+                    isHasSharedPost,
                 )
             }
         }
@@ -114,7 +117,8 @@ class AmityPostFooterAdapter(
         }
     }
 
-    fun submitList(newList: List<AmityBasePostFooterItem>) {
+    fun submitList(newList: List<AmityBasePostFooterItem>, isHasSharedPost: Boolean) {
+        this.isHasSharedPost = isHasSharedPost
         setItems(newList, DiffCallback(list, newList))
     }
 

@@ -48,8 +48,7 @@ class AmityPostEditorFragment : AmityBaseCreatePostFragment() {
 	}
 
 	override fun setToolBarText() {
-		(activity as AppCompatActivity).supportActionBar?.title =
-			getString(R.string.amity_edit_post)
+		(activity as AppCompatActivity).supportActionBar?.title = getString(R.string.amity_edit_post)
 	}
 
 	override fun getPostMenuText(): String {
@@ -107,10 +106,9 @@ class AmityPostEditorFragment : AmityBaseCreatePostFragment() {
 		viewModel.getPost()?.let {
 			setUpTextUserMentions(it)
 		}
-		pinPost(post)
 	}
 
-	fun pinPost(post: AmityPost) {
+/*	fun pinPost(post: AmityPost) {
 		val completableObserver = object : io.reactivex.rxjava3.core.CompletableObserver {
 			override fun onSubscribe(d: io.reactivex.rxjava3.disposables.Disposable) {
 				showLoading()
@@ -126,7 +124,7 @@ class AmityPostEditorFragment : AmityBaseCreatePostFragment() {
 		}
 
 		viewModel.pinPost(post).untilLifecycleEnd(this).subscribe(completableObserver)
-	}
+	}*/
 
 	private fun setUpTextUserMentions(post: AmityPost) {
 		(post.getData() as? AmityPost.Data.TEXT)?.getText()?.let { postText ->

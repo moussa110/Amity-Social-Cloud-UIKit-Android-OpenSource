@@ -1,4 +1,4 @@
-package com.amity.socialcloud.uikit.community.newsfeed.adapter
+package com.amity.socialcloud.uikit.community.newsfeed.adapter.sharedposts
 
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -15,24 +15,20 @@ import com.amity.socialcloud.uikit.common.common.readableFeedPostTime
 import com.amity.socialcloud.uikit.common.components.setImageUrl
 import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.community.R
-import com.amity.socialcloud.uikit.community.databinding.AmityItemBasePostHeaderBinding
-import com.amity.socialcloud.uikit.community.newsfeed.events.PostOptionClickEvent
+import com.amity.socialcloud.uikit.community.databinding.AmityItemBaseSharedPostHeaderBinding
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostHeaderItem
 import io.reactivex.rxjava3.subjects.PublishSubject
 
-class AmityPostHeaderViewHolder(
-    itemView: View,
-    private val userClickPublisher: PublishSubject<AmityUser>,
-    private val communityClickPublisher: PublishSubject<AmityCommunity>,
-    private val postOptionClickPublisher: PublishSubject<PostOptionClickEvent>,
-    var sharedViewListener: ((View) -> Unit)? = null
-) : RecyclerView.ViewHolder(itemView) {
+class AmityPostSharedHeaderViewHolder(itemView: View,
+                                      private val userClickPublisher: PublishSubject<AmityUser>,
+                                      private val communityClickPublisher: PublishSubject<AmityCommunity>,
+                                      var sharedViewListener: ((View) -> Unit)? = null) : RecyclerView.ViewHolder(itemView) {
 
     private val context = itemView.context
-    private val binding = AmityItemBasePostHeaderBinding.bind(itemView)
+    private val binding = AmityItemBaseSharedPostHeaderBinding.bind(itemView)
 
     private fun getSharedView(): ConstraintLayout {
-        binding.btnFeedAction.visibility = View.INVISIBLE
+        //binding.btnFeedAction.visibility = View.INVISIBLE
         return binding.layoutNewsFeedHeader
     }
     fun bind(data: AmityBasePostHeaderItem) {
@@ -46,10 +42,8 @@ class AmityPostHeaderViewHolder(
         renderCreatorName(post)
         renderEditBadge(post)
         renderTimeStamp(post)
-        renderModBadge(post)
         renderTarget(post, data.showTarget)
         sharedViewListener?.invoke(getSharedView())
-        renderPostOption(data.showOptions)
 
     }
 
@@ -88,13 +82,6 @@ class AmityPostHeaderViewHolder(
         binding.feedPostTime.text = post.getCreatedAt()?.millis?.readableFeedPostTime(context) ?: ""
     }
 
-    private fun renderPostOption(showOptions: Boolean) {
-        if (showOptions) {
-            binding.btnFeedAction.visibility = View.VISIBLE
-        } else {
-            binding.btnFeedAction.visibility = View.GONE
-        }
-    }
 
     private fun renderTarget(post: AmityPost, showTarget: Boolean) {
         val target = post.getTarget()
@@ -138,15 +125,6 @@ class AmityPostHeaderViewHolder(
         )
     }
 
-    private fun renderModBadge(post: AmityPost) {
-        val roles =
-            (post.getTarget() as? AmityPost.Target.COMMUNITY)?.getCreatorMember()?.getRoles()
-        if (isCommunityModerator(roles)) {
-            binding.tvPostBy.visibility = View.VISIBLE
-        } else {
-            binding.tvPostBy.visibility = View.GONE
-        }
-    }
 
     private fun isCommunityModerator(roles: AmityRoles?): Boolean {
         return roles?.any {
@@ -182,10 +160,6 @@ class AmityPostHeaderViewHolder(
                 }
                 else -> {}
             }
-        }
-
-        binding.btnFeedAction.setOnClickListener {
-            postOptionClickPublisher.onNext(PostOptionClickEvent(post))
         }
 
     }

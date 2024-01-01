@@ -30,7 +30,10 @@ import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
 import com.amity.socialcloud.uikit.community.domain.model.AmityFileAttachment
 import com.amity.socialcloud.uikit.community.newsfeed.model.FileUploadState
 import com.amity.socialcloud.uikit.community.newsfeed.model.PostMedia
+import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPostData
 import com.amity.socialcloud.uikit.community.utils.NewsFeedMetaDataKeys
+import com.amity.socialcloud.uikit.community.utils.getSharedPostId
+import com.amity.socialcloud.uikit.community.utils.mergeJsonObjects
 import com.google.gson.JsonObject
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -53,7 +56,7 @@ class AmityCreatePostViewModel : AmityBaseViewModel() {
 	var postId: String? = null
 	var community: AmityCommunity? = null
 	var postText: CharSequence? = null
-
+	var sharedPostData: SharedPostData? = null
 	private var post: AmityPost? = null
 
 	private val postMediaLiveData = MutableLiveData<MutableList<PostMedia>>()
@@ -259,9 +262,9 @@ class AmityCreatePostViewModel : AmityBaseViewModel() {
 		return deleteImageOrFileInPost().andThen(Completable.defer {
 			val attachments = post?.getChildren()?.map { it.getData() } ?: emptyList()
 			updateParentPost(postText, textData, attachments, userMentions)
-		}).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-			.doOnComplete { onUpdateSuccess.invoke(getPost()) }
-			.doOnError { onUpdateFailed.invoke(it) }
+		}).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnComplete {
+				onUpdateSuccess.invoke(getPost())
+			}.doOnError { onUpdateFailed.invoke(it) }
 	}
 
 	fun pinPost(post: AmityPost): Completable {
@@ -273,475 +276,489 @@ class AmityCreatePostViewModel : AmityBaseViewModel() {
 		}
 	}
 
-private fun updateParentPost(postText: String,
-                             textData: AmityPost.Data.TEXT,
-                             attachments: List<AmityPost.Data>,
-                             userMentions: List<AmityMentionMetadata.USER>): Completable {
-	val firstAttachment = attachments.firstOrNull()
-	val videos = attachments.mapNotNull {
-		it as? AmityPost.Data.VIDEO
-	}.filter {
-		!(it.getThumbnailImage()?.getFileId()?.let(deletedImageIds::contains) ?: false)
-	}.map {
-		it.getVideo().blockingGet()
-	}
-	val images = attachments.mapNotNull { (it as? AmityPost.Data.IMAGE)?.getImage() }
-		.filter { !deletedImageIds.contains(it.getFileId()) }
-	val files = attachments.mapNotNull { (it as? AmityPost.Data.FILE)?.getFile() }
-		.filter { !deletedFileIds.contains(it.getFileId()) }
-	val postEditor = when (firstAttachment) {
-		is AmityPost.Data.VIDEO -> {
-			textData.edit().videoAttachments(videos).text(postText)
+	private fun updateParentPost(postText: String,
+	                             textData: AmityPost.Data.TEXT,
+	                             attachments: List<AmityPost.Data>,
+	                             userMentions: List<AmityMentionMetadata.USER>): Completable {
+		var metadata = JsonObject()
+		val firstAttachment = attachments.firstOrNull()
+		val videos = attachments.mapNotNull {
+			it as? AmityPost.Data.VIDEO
+		}.filter {
+			!(it.getThumbnailImage()?.getFileId()?.let(deletedImageIds::contains) ?: false)
+		}.map {
+			it.getVideo().blockingGet()
 		}
-
-		is AmityPost.Data.IMAGE -> {
-			textData.edit().imageAttachments(images).text(postText)
-		}
-
-		is AmityPost.Data.FILE -> {
-			textData.edit().fileAttachments(files).text(postText)
-		}
-
-		else -> {
-			textData.edit().text(postText)
-		}
-	}
-	postEditor.metadata(AmityMentionMetadataCreator(userMentions).create())
-		.mentionUsers(userMentions.map { it.getUserId() })
-	return postEditor.build().apply()
-}
-
-private fun createPostText(postText: String,
-                           userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
-	return if (community != null) {
-		val postTextCreator =
-			postRepository.createPost().targetCommunity(community!!.getCommunityId()).text(postText)
-		if (userMentions.isNotEmpty()) {
-			postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
-				.mentionUsers(userMentions.map { it.getUserId() })
-		}
-		postTextCreator.build().post()
-	} else {
-		val postTextCreator = postRepository.createPost().targetMe().text(postText)
-		if (userMentions.isNotEmpty()) {
-			postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
-				.mentionUsers(userMentions.map { it.getUserId() })
-		}
-		postTextCreator.build().post()
-	}
-}
-
-private fun createPostTextAndImages(postText: String,
-                                    images: List<AmityImage>,
-                                    userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
-	val imageArray = images.toTypedArray()
-	return if (community != null) {
-		val postTextCreator =
-			postRepository.createPost().targetCommunity(community!!.getCommunityId())
-				.image(*imageArray).text(postText)
-		if (userMentions.isNotEmpty()) {
-			postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
-				.mentionUsers(userMentions.map { it.getUserId() })
-		}
-		postTextCreator.build().post()
-	} else {
-		val postTextCreator =
-			postRepository.createPost().targetMe().image(*imageArray).text(postText)
-		if (userMentions.isNotEmpty()) {
-			postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
-				.mentionUsers(userMentions.map { it.getUserId() })
-		}
-		postTextCreator.build().post()
-	}
-}
-
-private fun createPostTextAndVideos(postText: String,
-                                    videos: List<AmityVideo>,
-                                    userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
-	val videoArray = videos.toTypedArray()
-	return if (community != null) {
-		val postTextCreator =
-			postRepository.createPost().targetCommunity(community!!.getCommunityId())
-				.video(*videoArray).text(postText)
-		if (userMentions.isNotEmpty()) {
-			postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
-				.mentionUsers(userMentions.map { it.getUserId() })
-		}
-		postTextCreator.build().post()
-	} else {
-		val postTextCreator =
-			postRepository.createPost().targetMe().video(*videoArray).text(postText)
-		if (userMentions.isNotEmpty()) {
-			postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
-				.mentionUsers(userMentions.map { it.getUserId() })
-		}
-		postTextCreator.build().post()
-	}
-}
-
-private fun createPostTextAndFiles(postText: String,
-                                   files: List<AmityFile>,
-                                   userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
-	val fileArray = files.toTypedArray()
-	return if (community != null) {
-		val postTextCreator =
-			postRepository.createPost().targetCommunity(community!!.getCommunityId())
-				.file(*fileArray).text(postText)
-		if (userMentions.isNotEmpty()) {
-			postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
-				.mentionUsers(userMentions.map { it.getUserId() })
-		}
-		postTextCreator.build().post()
-	} else {
-		val postTextCreator = postRepository.createPost().targetMe().file(*fileArray).text(postText)
-		if (userMentions.isNotEmpty()) {
-			postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
-				.mentionUsers(userMentions.map { it.getUserId() })
-		}
-		postTextCreator.build().post()
-	}
-}
-
-fun uploadMediaList(postMedia: List<PostMedia>): Completable {
-	return Flowable.fromIterable(postMedia).flatMapCompletable(::uploadMedia)
-}
-
-private fun uploadMedia(postMedia: PostMedia): Completable {
-	when (postMedia.type) {
-		PostMedia.Type.IMAGE -> {
-			return fileRepository.uploadImage(postMedia.url).subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.doOnNext { updateMediaUploadStatus(postMedia, it) }.ignoreElements()
-		}
-
-		PostMedia.Type.VIDEO -> {
-			return fileRepository.uploadVideo(postMedia.url, AmityContentFeedType.POST)
-				.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-				.doOnNext { updateMediaUploadStatus(postMedia, it) }.ignoreElements()
-		}
-
-		else -> {
-			return Completable.error(Throwable("The media is not video or image"))
-		}
-	}
-}
-
-
-fun uploadFile(attachment: AmityFileAttachment): Flowable<AmityUploadResult<AmityFile>> {
-	return fileRepository.uploadFile(attachment.uri)
-}
-
-private fun deleteImageOrFileInPost(): Completable {
-	return post?.getChildren()?.let { ekoPostItems ->
-		Observable.fromIterable(ekoPostItems).map { ekoPostItem ->
-			when (val postData = ekoPostItem.getData()) {
-				is AmityPost.Data.IMAGE -> {
-					if (postData.getImage()?.getFileId() in deletedImageIds) {
-						ekoPostItem.delete()
-					} else {
-						Completable.complete()
-					}
-				}
-
-				is AmityPost.Data.VIDEO -> {
-					if (postData.getThumbnailImage()?.getFileId() in deletedImageIds) {
-						ekoPostItem.delete()
-					} else {
-						Completable.complete()
-					}
-				}
-
-				is AmityPost.Data.FILE -> {
-					if (postData.getFile()?.getFileId() in deletedFileIds) {
-						ekoPostItem.delete()
-					} else {
-						Completable.complete()
-					}
-				}
-
-				else -> {
-					Completable.complete()
-				}
+		val images = attachments.mapNotNull { (it as? AmityPost.Data.IMAGE)?.getImage() }
+			.filter { !deletedImageIds.contains(it.getFileId()) }
+		val files = attachments.mapNotNull { (it as? AmityPost.Data.FILE)?.getFile() }
+			.filter { !deletedFileIds.contains(it.getFileId()) }
+		val postEditor = when (firstAttachment) {
+			is AmityPost.Data.VIDEO -> {
+				textData.edit().videoAttachments(videos).text(postText)
 			}
-		}.ignoreElements()
-	} ?: kotlin.run {
-		Completable.complete()
-	}
-}
 
-fun addMedia(images: List<Uri>, mediaType: PostMedia.Type): List<PostMedia> {
-	val uploadingPostMediaList = arrayListOf<PostMedia>()
-	images.forEach { uriItem ->
-		if (!imageMap.containsKey(uriItem.toString())) {
-			val postMedia = PostMedia(UUID.randomUUID().toString(), uriItem, mediaType)
-			imageMap[uriItem.toString()] = postMedia
-			uploadingPostMediaList.add(postMedia)
+			is AmityPost.Data.IMAGE -> {
+				textData.edit().imageAttachments(images).text(postText)
+			}
+
+			is AmityPost.Data.FILE -> {
+				textData.edit().fileAttachments(files).text(postText)
+			}
+
+			else -> {
+				textData.edit().text(postText)
+			}
 		}
+
+		metadata = if (getPost()?.getMetadata() != null) mergeJsonObjects(listOf(AmityMentionMetadataCreator(userMentions).create(),getPost()!!.getMetadata()!!))
+		else AmityMentionMetadataCreator(userMentions).create()
+		postEditor.metadata(metadata)
+			.mentionUsers(userMentions.map { it.getUserId() })
+		return postEditor.build().apply()
 	}
-	val currentImages = imageMap.values.toMutableList()
-	postMediaLiveData.value = currentImages
-	return uploadingPostMediaList.filter { it.id == null }
-}
 
-fun removeMedia(postMedia: PostMedia) {
-	imageMap.remove(postMedia.url.toString())
-	uploadFailedMediaMap.remove(postMedia.url.toString())
-	cancelUpload(postMedia.uploadId)
-
-
-	if (postMedia.id != null) {
-		//In case update post we want to keep track of the images to delete
-		if (post != null) {
-			deletedImageIds.add(postMedia.id!!)
+	private fun createPostText(postText: String,
+	                           userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
+		return if (community != null) {
+			val postTextCreator =
+				postRepository.createPost().targetCommunity(community!!.getCommunityId())
+					.text(postText)
+			if (userMentions.isNotEmpty()) {
+				postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
+					.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			postTextCreator.build().post()
 		} else {
-			uploadedMediaMap.remove(postMedia.id!!)
+			val postTextCreator = postRepository.createPost().targetMe().text(postText)
+			if (userMentions.isNotEmpty()) {
+				postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
+					.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			postTextCreator.build().post()
 		}
 	}
-	postMediaLiveData.value = imageMap.values.toMutableList()
-	triggerImageRemovedEvent()
 
-}
-
-private fun cancelUpload(uploadId: String?) {
-	if (uploadId != null) {
-		Log.d(TAG, "cancel file upload $uploadId")
-		fileRepository.cancelUpload(uploadId)
-	}
-}
-
-private fun triggerImageRemovedEvent() {
-	triggerEvent(AmityEventIdentifier.CREATE_POST_IMAGE_REMOVED, postMediaLiveData.value?.size ?: 0)
-}
-
-private fun updateMediaUploadStatus(postMedia: PostMedia,
-                                    imageUpload: AmityUploadResult<AmityFileInfo>) {
-	when (imageUpload) {
-		is AmityUploadResult.PROGRESS -> {
-			val updatedFeedImage = PostMedia(postMedia.id,
-				postMedia.uploadId,
-				postMedia.url,
-				FileUploadState.UPLOADING,
-				imageUpload.getUploadInfo().getProgressPercentage(),
-				postMedia.type)
-			updateList(updatedFeedImage)
+	private fun createPostTextForShare(postText: String,
+	                                   userMentions: List<AmityMentionMetadata.USER>,
+	                                   sharedPostId: String): Single<AmityPost> {
+		var metadata = JsonObject()
+		return if (community != null) {
+			val postTextCreator =
+				postRepository.createPost().targetCommunity(community!!.getCommunityId())
+					.text(postText)
+			if (userMentions.isNotEmpty()) {
+				metadata = AmityMentionMetadataCreator(userMentions).create()
+				postTextCreator.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			metadata.addProperty(NewsFeedMetaDataKeys.SHARED_POST_ID.key, sharedPostId)
+			postTextCreator.metadata(metadata).build().post()
+		} else {
+			val postTextCreator = postRepository.createPost().targetMe().text(postText)
+			if (userMentions.isNotEmpty()) {
+				metadata = AmityMentionMetadataCreator(userMentions).create()
+				postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
+					.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			metadata.addProperty(NewsFeedMetaDataKeys.SHARED_POST_ID.key, sharedPostId)
+			postTextCreator.metadata(metadata).build().post()
 		}
+	}
 
-		is AmityUploadResult.COMPLETE -> {
-			uploadFailedMediaMap.remove(postMedia.url.toString())
-			uploadedMediaMap[imageUpload.getFile().getFileId()] = imageUpload.getFile()
-			val updatedFeedImage = PostMedia(imageUpload.getFile().getFileId(),
-				postMedia.uploadId,
-				postMedia.url,
-				FileUploadState.COMPLETE,
-				100,
-				postMedia.type)
-			updateList(updatedFeedImage)
-			if (!hasPendingImageToUpload() && hasFirstTimeFailedToUploadImages()) {
-				triggerImageUploadFailedEvent()
+	private fun createPostTextAndImages(postText: String,
+	                                    images: List<AmityImage>,
+	                                    userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
+		val imageArray = images.toTypedArray()
+		return if (community != null) {
+			val postTextCreator =
+				postRepository.createPost().targetCommunity(community!!.getCommunityId())
+					.image(*imageArray).text(postText)
+			if (userMentions.isNotEmpty()) {
+				postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
+					.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			postTextCreator.build().post()
+		} else {
+			val postTextCreator =
+				postRepository.createPost().targetMe().image(*imageArray).text(postText)
+			if (userMentions.isNotEmpty()) {
+				postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
+					.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			postTextCreator.build().post()
+		}
+	}
+
+	private fun createPostTextAndVideos(postText: String,
+	                                    videos: List<AmityVideo>,
+	                                    userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
+		val videoArray = videos.toTypedArray()
+		return if (community != null) {
+			val postTextCreator =
+				postRepository.createPost().targetCommunity(community!!.getCommunityId())
+					.video(*videoArray).text(postText)
+			if (userMentions.isNotEmpty()) {
+				postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
+					.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			postTextCreator.build().post()
+		} else {
+			val postTextCreator =
+				postRepository.createPost().targetMe().video(*videoArray).text(postText)
+			if (userMentions.isNotEmpty()) {
+				postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
+					.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			postTextCreator.build().post()
+		}
+	}
+
+	private fun createPostTextAndFiles(postText: String,
+	                                   files: List<AmityFile>,
+	                                   userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
+		val fileArray = files.toTypedArray()
+		return if (community != null) {
+			val postTextCreator =
+				postRepository.createPost().targetCommunity(community!!.getCommunityId())
+					.file(*fileArray).text(postText)
+			if (userMentions.isNotEmpty()) {
+				postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
+					.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			postTextCreator.build().post()
+		} else {
+			val postTextCreator =
+				postRepository.createPost().targetMe().file(*fileArray).text(postText)
+			if (userMentions.isNotEmpty()) {
+				postTextCreator.metadata(AmityMentionMetadataCreator(userMentions).create())
+					.mentionUsers(userMentions.map { it.getUserId() })
+			}
+			postTextCreator.build().post()
+		}
+	}
+
+	fun uploadMediaList(postMedia: List<PostMedia>): Completable {
+		return Flowable.fromIterable(postMedia).flatMapCompletable(::uploadMedia)
+	}
+
+	private fun uploadMedia(postMedia: PostMedia): Completable {
+		when (postMedia.type) {
+			PostMedia.Type.IMAGE -> {
+				return fileRepository.uploadImage(postMedia.url).subscribeOn(Schedulers.io())
+					.observeOn(AndroidSchedulers.mainThread())
+					.doOnNext { updateMediaUploadStatus(postMedia, it) }.ignoreElements()
+			}
+
+			PostMedia.Type.VIDEO -> {
+				return fileRepository.uploadVideo(postMedia.url, AmityContentFeedType.POST)
+					.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+					.doOnNext { updateMediaUploadStatus(postMedia, it) }.ignoreElements()
+			}
+
+			else -> {
+				return Completable.error(Throwable("The media is not video or image"))
 			}
 		}
+	}
 
-		is AmityUploadResult.ERROR, AmityUploadResult.CANCELLED -> {
-			Log.d(TAG, "Image upload error " + postMedia.url)
-			if (imageMap.containsKey(postMedia.url.toString())) {
 
+	fun uploadFile(attachment: AmityFileAttachment): Flowable<AmityUploadResult<AmityFile>> {
+		return fileRepository.uploadFile(attachment.uri)
+	}
+
+	private fun deleteImageOrFileInPost(): Completable {
+		return post?.getChildren()?.let { ekoPostItems ->
+			Observable.fromIterable(ekoPostItems).map { ekoPostItem ->
+				when (val postData = ekoPostItem.getData()) {
+					is AmityPost.Data.IMAGE -> {
+						if (postData.getImage()?.getFileId() in deletedImageIds) {
+							ekoPostItem.delete()
+						} else {
+							Completable.complete()
+						}
+					}
+
+					is AmityPost.Data.VIDEO -> {
+						if (postData.getThumbnailImage()?.getFileId() in deletedImageIds) {
+							ekoPostItem.delete()
+						} else {
+							Completable.complete()
+						}
+					}
+
+					is AmityPost.Data.FILE -> {
+						if (postData.getFile()?.getFileId() in deletedFileIds) {
+							ekoPostItem.delete()
+						} else {
+							Completable.complete()
+						}
+					}
+
+					else -> {
+						Completable.complete()
+					}
+				}
+			}.ignoreElements()
+		} ?: kotlin.run {
+			Completable.complete()
+		}
+	}
+
+	fun addMedia(images: List<Uri>, mediaType: PostMedia.Type): List<PostMedia> {
+		val uploadingPostMediaList = arrayListOf<PostMedia>()
+		images.forEach { uriItem ->
+			if (!imageMap.containsKey(uriItem.toString())) {
+				val postMedia = PostMedia(UUID.randomUUID().toString(), uriItem, mediaType)
+				imageMap[uriItem.toString()] = postMedia
+				uploadingPostMediaList.add(postMedia)
+			}
+		}
+		val currentImages = imageMap.values.toMutableList()
+		postMediaLiveData.value = currentImages
+		return uploadingPostMediaList.filter { it.id == null }
+	}
+
+	fun removeMedia(postMedia: PostMedia) {
+		imageMap.remove(postMedia.url.toString())
+		uploadFailedMediaMap.remove(postMedia.url.toString())
+		cancelUpload(postMedia.uploadId)
+
+
+		if (postMedia.id != null) {
+			//In case update post we want to keep track of the images to delete
+			if (post != null) {
+				deletedImageIds.add(postMedia.id!!)
+			} else {
+				uploadedMediaMap.remove(postMedia.id!!)
+			}
+		}
+		postMediaLiveData.value = imageMap.values.toMutableList()
+		triggerImageRemovedEvent()
+
+	}
+
+	private fun cancelUpload(uploadId: String?) {
+		if (uploadId != null) {
+			Log.d(TAG, "cancel file upload $uploadId")
+			fileRepository.cancelUpload(uploadId)
+		}
+	}
+
+	private fun triggerImageRemovedEvent() {
+		triggerEvent(AmityEventIdentifier.CREATE_POST_IMAGE_REMOVED,
+			postMediaLiveData.value?.size ?: 0)
+	}
+
+	private fun updateMediaUploadStatus(postMedia: PostMedia,
+	                                    imageUpload: AmityUploadResult<AmityFileInfo>) {
+		when (imageUpload) {
+			is AmityUploadResult.PROGRESS -> {
 				val updatedFeedImage = PostMedia(postMedia.id,
 					postMedia.uploadId,
 					postMedia.url,
-					FileUploadState.FAILED,
-					0,
+					FileUploadState.UPLOADING,
+					imageUpload.getUploadInfo().getProgressPercentage(),
 					postMedia.type)
-				val firstTimeFailedToUpload =
-					!uploadFailedMediaMap.containsKey(updatedFeedImage.url.toString())
-				uploadFailedMediaMap[updatedFeedImage.url.toString()] = firstTimeFailedToUpload
+				updateList(updatedFeedImage)
+			}
+
+			is AmityUploadResult.COMPLETE -> {
+				uploadFailedMediaMap.remove(postMedia.url.toString())
+				uploadedMediaMap[imageUpload.getFile().getFileId()] = imageUpload.getFile()
+				val updatedFeedImage = PostMedia(imageUpload.getFile().getFileId(),
+					postMedia.uploadId,
+					postMedia.url,
+					FileUploadState.COMPLETE,
+					100,
+					postMedia.type)
 				updateList(updatedFeedImage)
 				if (!hasPendingImageToUpload() && hasFirstTimeFailedToUploadImages()) {
 					triggerImageUploadFailedEvent()
 				}
 			}
 
-		}
-	}
-}
+			is AmityUploadResult.ERROR, AmityUploadResult.CANCELLED -> {
+				Log.d(TAG, "Image upload error " + postMedia.url)
+				if (imageMap.containsKey(postMedia.url.toString())) {
 
-private fun triggerImageUploadFailedEvent() {
-	uploadFailedMediaMap.keys.forEach {
-		uploadFailedMediaMap[it] = false
-	}
-	triggerEvent(AmityEventIdentifier.FAILED_TO_UPLOAD_IMAGE)
-}
+					val updatedFeedImage = PostMedia(postMedia.id,
+						postMedia.uploadId,
+						postMedia.url,
+						FileUploadState.FAILED,
+						0,
+						postMedia.type)
+					val firstTimeFailedToUpload =
+						!uploadFailedMediaMap.containsKey(updatedFeedImage.url.toString())
+					uploadFailedMediaMap[updatedFeedImage.url.toString()] = firstTimeFailedToUpload
+					updateList(updatedFeedImage)
+					if (!hasPendingImageToUpload() && hasFirstTimeFailedToUploadImages()) {
+						triggerImageUploadFailedEvent()
+					}
+				}
 
-private fun updateList(postMedia: PostMedia) {
-	if (imageMap.containsKey(postMedia.url.toString())) {
-		imageMap[postMedia.url.toString()] = postMedia
-		postMediaLiveData.value = imageMap.values.toMutableList()
-	}
-}
-
-private fun updateList(fileAttachment: AmityFileAttachment) {
-	if (filesMap.containsKey(fileAttachment.uri.toString())) {
-		filesMap[fileAttachment.uri.toString()] = fileAttachment
-		filesLiveData.value = filesMap.values.toMutableList()
-	}
-}
-
-fun createPost(postText: String, userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
-	val orderById = imageMap.values.withIndex().associate { it.value.id to it.index }
-	val sortedImages = uploadedMediaMap.values.toList().sortedBy { orderById[it.getFileId()] }
-	return when {
-		isUploadedImageMedia() -> {
-			createPostTextAndImages(postText, sortedImages as List<AmityImage>, userMentions)
-		}
-
-		isUploadedVideoMedia() -> {
-			createPostTextAndVideos(postText,
-				uploadedMediaMap.values.toList() as List<AmityVideo>,
-				userMentions)
-		}
-		//TODO isFileMedia
-		uploadedFilesMap.isNotEmpty() -> {
-			createPostTextAndFiles(postText, uploadedFilesMap.values.toList(), userMentions)
-		}
-
-		else -> {
-			createPostText(postText, userMentions)
-		}
-	}
-}
-
-fun isUploadedImageMedia(): Boolean {
-	return uploadedMediaMap.values.any { it is AmityImage }
-}
-
-fun isUploadedVideoMedia(): Boolean {
-	return uploadedMediaMap.values.any { it is AmityVideo }
-}
-
-fun isUploadingImageMedia(): Boolean {
-	return imageMap.values.any { it.type == PostMedia.Type.IMAGE }
-}
-
-fun isUploadingVideoMedia(): Boolean {
-	return imageMap.values.any { it.type == PostMedia.Type.VIDEO }
-}
-
-private fun mapImageToFeedImage(ekoImage: AmityImage): PostMedia {
-	return PostMedia(ekoImage.getFileId(),
-		null,
-		Uri.parse(ekoImage.getUrl(AmityImage.Size.MEDIUM)),
-		FileUploadState.COMPLETE,
-		100)
-}
-
-fun hasPendingImageToUpload(): Boolean {
-	val totalImageProcessed = uploadedMediaMap.size + uploadFailedMediaMap.size
-	return if (post == null) postMediaLiveData.value != null && totalImageProcessed < postMediaLiveData.value!!.size
-	else false
-}
-
-fun hasPendingFileToUpload(): Boolean {
-	val totalFileProcessed = uploadedFilesMap.size + uploadFailedFile.size
-	return if (post == null) return filesLiveData.value != null && filesLiveData.value!!.size != totalFileProcessed
-	else false
-}
-
-
-fun hasUpdateOnPost(postText: String): Boolean {
-	if (post == null) return false
-	if (postText.isEmpty() && postMediaLiveData.value.isNullOrEmpty() && filesLiveData.value.isNullOrEmpty()) {
-		return false
-	}
-	if (postText != getPostText(post!!)) return true
-	if (deletedImageIds.size > 0) return true
-	if (deletedFileIds.size > 0) return true
-
-	return false
-}
-
-fun hasFailedToUploadImages(): Boolean {
-	return uploadFailedMediaMap.size > 0
-}
-
-fun hasFailedToUploadFiles(): Boolean {
-	return uploadFailedFile.size > 0
-}
-
-fun getFiles(): MutableLiveData<MutableList<AmityFileAttachment>> {
-	return filesLiveData
-}
-
-
-fun addFiles(fileAttachments: MutableList<AmityFileAttachment>): MutableList<AmityFileAttachment> {
-	val addedFiles = mutableListOf<AmityFileAttachment>()
-	fileAttachments.forEach {
-		val key = it.uri.toString()
-		if (!isDuplicateFile(it)) {
-			filesMap[key] = it
-			uploadedFilesMap.remove(key)
-			addedFiles.add(it)
-		}
-	}
-	filesLiveData.value = filesMap.values.toMutableList()
-	return addedFiles
-}
-
-private fun isDuplicateFile(fileAttachment: AmityFileAttachment): Boolean {
-	val result = filesMap.values.filter {
-		it.uri == fileAttachment.uri && it.uploadState != FileUploadState.FAILED
-	}
-	return result.isNotEmpty()
-}
-
-
-fun removeFile(file: AmityFileAttachment) {
-	filesMap.remove(file.uri.toString())
-	uploadFailedFile.remove(file.uri.toString())
-	cancelUpload(file.uploadId)
-
-	if (file.id != null) {
-		//In case update post we want to keep track of the images to delete
-		if (post != null) {
-			deletedFileIds.add(file.id)
-		} else {
-			uploadedFilesMap.remove(file.id)
-		}
-	}
-	filesLiveData.value = filesMap.values.toMutableList()
-}
-
-fun updateFileUploadStatus(fileAttachment: AmityFileAttachment,
-                           fileUpload: AmityUploadResult<AmityFile>) {
-	when (fileUpload) {
-		is AmityUploadResult.PROGRESS -> {
-			Log.d(TAG,
-				"File upload progress " + fileAttachment.name + fileUpload.getUploadInfo()
-					.getProgressPercentage())
-			val updatedFileAttachment = AmityFileAttachment(fileAttachment.id,
-				fileAttachment.uploadId,
-				fileAttachment.name,
-				fileAttachment.size,
-				fileAttachment.uri,
-				fileAttachment.readableSize,
-				fileAttachment.mimeType,
-				FileUploadState.UPLOADING,
-				fileUpload.getUploadInfo().getProgressPercentage())
-			updateList(updatedFileAttachment)
-		}
-
-		is AmityUploadResult.COMPLETE -> {
-			Log.d(TAG, "File upload Complete " + fileAttachment.name)
-			uploadedFilesMap[fileUpload.getFile().getFileId()] = fileUpload.getFile()
-			val updatedFileAttachment =
-				mapFileToFileAttachment(fileAttachment, fileUpload.getFile())
-			updateList(updatedFileAttachment)
-			if (!hasPendingFileToUpload() && hasFirstTimeFailedToUploadFiles()) {
-				triggerFileUploadFailedEvent()
 			}
 		}
+	}
 
-		is AmityUploadResult.ERROR, AmityUploadResult.CANCELLED -> {
-			Log.d(TAG, "File upload error " + fileAttachment.name)
-			if (filesMap.containsKey(fileAttachment.uri.toString())) {
+	private fun triggerImageUploadFailedEvent() {
+		uploadFailedMediaMap.keys.forEach {
+			uploadFailedMediaMap[it] = false
+		}
+		triggerEvent(AmityEventIdentifier.FAILED_TO_UPLOAD_IMAGE)
+	}
+
+	private fun updateList(postMedia: PostMedia) {
+		if (imageMap.containsKey(postMedia.url.toString())) {
+			imageMap[postMedia.url.toString()] = postMedia
+			postMediaLiveData.value = imageMap.values.toMutableList()
+		}
+	}
+
+	private fun updateList(fileAttachment: AmityFileAttachment) {
+		if (filesMap.containsKey(fileAttachment.uri.toString())) {
+			filesMap[fileAttachment.uri.toString()] = fileAttachment
+			filesLiveData.value = filesMap.values.toMutableList()
+		}
+	}
+
+	fun createPost(postText: String,
+	               userMentions: List<AmityMentionMetadata.USER>): Single<AmityPost> {
+		val orderById = imageMap.values.withIndex().associate { it.value.id to it.index }
+		val sortedImages = uploadedMediaMap.values.toList().sortedBy { orderById[it.getFileId()] }
+		return when {
+			isUploadedImageMedia() -> {
+				createPostTextAndImages(postText, sortedImages as List<AmityImage>, userMentions)
+			}
+
+			isUploadedVideoMedia() -> {
+				createPostTextAndVideos(postText,
+					uploadedMediaMap.values.toList() as List<AmityVideo>,
+					userMentions)
+			}
+			//TODO isFileMedia
+			uploadedFilesMap.isNotEmpty() -> {
+				createPostTextAndFiles(postText, uploadedFilesMap.values.toList(), userMentions)
+			}
+
+			else -> {
+				createPostText(postText, userMentions)
+			}
+		}
+	}
+
+	fun sharePost(postText: String,
+	              userMentions: List<AmityMentionMetadata.USER>,
+	              sharedPostId: String): Single<AmityPost> {
+		return createPostTextForShare(postText, userMentions, sharedPostId)
+	}
+
+	fun isUploadedImageMedia(): Boolean {
+		return uploadedMediaMap.values.any { it is AmityImage }
+	}
+
+	fun isUploadedVideoMedia(): Boolean {
+		return uploadedMediaMap.values.any { it is AmityVideo }
+	}
+
+	fun isUploadingImageMedia(): Boolean {
+		return imageMap.values.any { it.type == PostMedia.Type.IMAGE }
+	}
+
+	fun isUploadingVideoMedia(): Boolean {
+		return imageMap.values.any { it.type == PostMedia.Type.VIDEO }
+	}
+
+	private fun mapImageToFeedImage(ekoImage: AmityImage): PostMedia {
+		return PostMedia(ekoImage.getFileId(),
+			null,
+			Uri.parse(ekoImage.getUrl(AmityImage.Size.MEDIUM)),
+			FileUploadState.COMPLETE,
+			100)
+	}
+
+	fun hasPendingImageToUpload(): Boolean {
+		val totalImageProcessed = uploadedMediaMap.size + uploadFailedMediaMap.size
+		return if (post == null) postMediaLiveData.value != null && totalImageProcessed < postMediaLiveData.value!!.size
+		else false
+	}
+
+	fun hasPendingFileToUpload(): Boolean {
+		val totalFileProcessed = uploadedFilesMap.size + uploadFailedFile.size
+		return if (post == null) return filesLiveData.value != null && filesLiveData.value!!.size != totalFileProcessed
+		else false
+	}
+
+
+	fun hasUpdateOnPost(postText: String): Boolean {
+		if (post == null) return false
+		if (postText.isEmpty() && postMediaLiveData.value.isNullOrEmpty() && filesLiveData.value.isNullOrEmpty()) {
+			return false
+		}
+		if (postText != getPostText(post!!)) return true
+		if (deletedImageIds.size > 0) return true
+		if (deletedFileIds.size > 0) return true
+
+		return false
+	}
+
+	fun hasFailedToUploadImages(): Boolean {
+		return uploadFailedMediaMap.size > 0
+	}
+
+	fun hasFailedToUploadFiles(): Boolean {
+		return uploadFailedFile.size > 0
+	}
+
+	fun getFiles(): MutableLiveData<MutableList<AmityFileAttachment>> {
+		return filesLiveData
+	}
+
+
+	fun addFiles(fileAttachments: MutableList<AmityFileAttachment>): MutableList<AmityFileAttachment> {
+		val addedFiles = mutableListOf<AmityFileAttachment>()
+		fileAttachments.forEach {
+			val key = it.uri.toString()
+			if (!isDuplicateFile(it)) {
+				filesMap[key] = it
+				uploadedFilesMap.remove(key)
+				addedFiles.add(it)
+			}
+		}
+		filesLiveData.value = filesMap.values.toMutableList()
+		return addedFiles
+	}
+
+	private fun isDuplicateFile(fileAttachment: AmityFileAttachment): Boolean {
+		val result = filesMap.values.filter {
+			it.uri == fileAttachment.uri && it.uploadState != FileUploadState.FAILED
+		}
+		return result.isNotEmpty()
+	}
+
+
+	fun removeFile(file: AmityFileAttachment) {
+		filesMap.remove(file.uri.toString())
+		uploadFailedFile.remove(file.uri.toString())
+		cancelUpload(file.uploadId)
+
+		if (file.id != null) {
+			//In case update post we want to keep track of the images to delete
+			if (post != null) {
+				deletedFileIds.add(file.id)
+			} else {
+				uploadedFilesMap.remove(file.id)
+			}
+		}
+		filesLiveData.value = filesMap.values.toMutableList()
+	}
+
+	fun updateFileUploadStatus(fileAttachment: AmityFileAttachment,
+	                           fileUpload: AmityUploadResult<AmityFile>) {
+		when (fileUpload) {
+			is AmityUploadResult.PROGRESS -> {
+				Log.d(TAG,
+					"File upload progress " + fileAttachment.name + fileUpload.getUploadInfo()
+						.getProgressPercentage())
 				val updatedFileAttachment = AmityFileAttachment(fileAttachment.id,
 					fileAttachment.uploadId,
 					fileAttachment.name,
@@ -749,64 +766,90 @@ fun updateFileUploadStatus(fileAttachment: AmityFileAttachment,
 					fileAttachment.uri,
 					fileAttachment.readableSize,
 					fileAttachment.mimeType,
-					FileUploadState.FAILED,
-					0)
-				val firstTimeFailedToUpload =
-					!uploadFailedFile.containsKey(fileAttachment.uri.toString())
+					FileUploadState.UPLOADING,
+					fileUpload.getUploadInfo().getProgressPercentage())
+				updateList(updatedFileAttachment)
+			}
 
-				uploadFailedFile[updatedFileAttachment.uri.toString()] = firstTimeFailedToUpload
+			is AmityUploadResult.COMPLETE -> {
+				Log.d(TAG, "File upload Complete " + fileAttachment.name)
+				uploadedFilesMap[fileUpload.getFile().getFileId()] = fileUpload.getFile()
+				val updatedFileAttachment =
+					mapFileToFileAttachment(fileAttachment, fileUpload.getFile())
 				updateList(updatedFileAttachment)
 				if (!hasPendingFileToUpload() && hasFirstTimeFailedToUploadFiles()) {
 					triggerFileUploadFailedEvent()
 				}
 			}
 
+			is AmityUploadResult.ERROR, AmityUploadResult.CANCELLED -> {
+				Log.d(TAG, "File upload error " + fileAttachment.name)
+				if (filesMap.containsKey(fileAttachment.uri.toString())) {
+					val updatedFileAttachment = AmityFileAttachment(fileAttachment.id,
+						fileAttachment.uploadId,
+						fileAttachment.name,
+						fileAttachment.size,
+						fileAttachment.uri,
+						fileAttachment.readableSize,
+						fileAttachment.mimeType,
+						FileUploadState.FAILED,
+						0)
+					val firstTimeFailedToUpload =
+						!uploadFailedFile.containsKey(fileAttachment.uri.toString())
+
+					uploadFailedFile[updatedFileAttachment.uri.toString()] = firstTimeFailedToUpload
+					updateList(updatedFileAttachment)
+					if (!hasPendingFileToUpload() && hasFirstTimeFailedToUploadFiles()) {
+						triggerFileUploadFailedEvent()
+					}
+				}
+
+			}
 		}
 	}
-}
 
-private fun hasFirstTimeFailedToUploadFiles(): Boolean {
-	return uploadFailedFile.values.contains(true)
-}
-
-private fun hasFirstTimeFailedToUploadImages(): Boolean {
-	return uploadFailedMediaMap.values.contains(true)
-}
-
-
-private fun triggerFileUploadFailedEvent() {
-	uploadFailedFile.keys.forEach {
-		uploadFailedFile[it] = false
+	private fun hasFirstTimeFailedToUploadFiles(): Boolean {
+		return uploadFailedFile.values.contains(true)
 	}
-	triggerEvent(AmityEventIdentifier.FAILED_TO_UPLOAD_FILES)
-}
 
-fun hasAttachments(): Boolean {
-	if (filesLiveData.value != null) return filesLiveData.value!!.size > 0
-	return false
-}
-
-fun hasImages(): Boolean {
-	if (postMediaLiveData.value != null) return postMediaLiveData.value!!.size > 0
-	return false
-}
-
-fun discardPost() {
-	postMediaLiveData.value?.forEach {
-		if (it.id == null && it.uploadId != null) cancelUpload(it.uploadId)
+	private fun hasFirstTimeFailedToUploadImages(): Boolean {
+		return uploadFailedMediaMap.values.contains(true)
 	}
-	filesLiveData.value?.forEach {
-		if (it.id == null && it.uploadId != null) {
-			cancelUpload(it.uploadId)
+
+
+	private fun triggerFileUploadFailedEvent() {
+		uploadFailedFile.keys.forEach {
+			uploadFailedFile[it] = false
+		}
+		triggerEvent(AmityEventIdentifier.FAILED_TO_UPLOAD_FILES)
+	}
+
+	fun hasAttachments(): Boolean {
+		if (filesLiveData.value != null) return filesLiveData.value!!.size > 0
+		return false
+	}
+
+	fun hasImages(): Boolean {
+		if (postMediaLiveData.value != null) return postMediaLiveData.value!!.size > 0
+		return false
+	}
+
+	fun discardPost() {
+		postMediaLiveData.value?.forEach {
+			if (it.id == null && it.uploadId != null) cancelUpload(it.uploadId)
+		}
+		filesLiveData.value?.forEach {
+			if (it.id == null && it.uploadId != null) {
+				cancelUpload(it.uploadId)
+			}
 		}
 	}
-}
 
-fun checkReviewingPost(feedTye: AmityFeedType, showDialog: () -> Unit, closePage: () -> Unit) {
-	if (feedTye == AmityFeedType.REVIEWING) {
-		showDialog()
-	} else {
-		closePage()
+	fun checkReviewingPost(feedTye: AmityFeedType, showDialog: () -> Unit, closePage: () -> Unit) {
+		if (feedTye == AmityFeedType.REVIEWING) {
+			showDialog()
+		} else {
+			closePage()
+		}
 	}
-}
 }

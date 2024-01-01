@@ -3,8 +3,10 @@ package com.amity.socialcloud.uikit.community.home.activity
 import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -18,10 +20,14 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
+import com.amity.socialcloud.uikit.common.utils.FirebaseConstants
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityActivityCommunityHomeBinding
 import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomePageFragment
 import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomeViewModel
+import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostDetailsActivity
+import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_POST_ID
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 
 
 class AmityCommunityHomePageActivity : AppCompatActivity() {
@@ -31,16 +37,33 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 		AmityActivityCommunityHomeBinding.inflate(layoutInflater)
 	}
 
+	companion object {
+		fun createIntentToOpenPostDetails(context: Context, postId: String) =
+			Intent(context, AmityCommunityHomePageActivity::class.java).apply {
+				putExtra(EXTRA_PARAM_POST_ID, postId)
+			}
+	}
+
 	private val viewModel: AmityCommunityHomeViewModel by viewModels()
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(binding.root)
+		checkIfIsToOpenPostDetails()
 		initToolbar()
 		loadFragment()
 		initActions()
 		handleSearchView()
+	}
+
+	private fun checkIfIsToOpenPostDetails() {
+		intent?.getStringExtra(EXTRA_PARAM_POST_ID)?.let {
+			AmityPostDetailsActivity.newIntent(this,it).also {
+				startActivity(it)
+				finish()
+			}
+		}
 	}
 
 	private fun initActions() {
@@ -54,8 +77,10 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 	private fun handleSearchView() {
 		viewModel.search("")
 		val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-		val searchEditText = binding.homeSearchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-		searchEditText.background = ContextCompat.getDrawable(this, R.drawable.rounded_gray_serarch_bg)
+		val searchEditText =
+			binding.homeSearchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+		searchEditText.background =
+			ContextCompat.getDrawable(this, R.drawable.rounded_gray_serarch_bg)
 		searchEditText.setTextColor(ContextCompat.getColor(this, R.color.amityColorPrimary))
 		searchEditText.setHintTextColor(ContextCompat.getColor(this, R.color.fb_gray))
 		searchEditText.setHint(R.string.amity_search)
@@ -110,7 +135,6 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 		fragmentTransaction.replace(R.id.fragmentContainer, fragment)
 		fragmentTransaction.commit()
 	}
-
 
 
 }

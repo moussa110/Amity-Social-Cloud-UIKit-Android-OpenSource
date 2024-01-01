@@ -47,7 +47,7 @@ open class AmityPostContentViewHolder(itemView: View) : RecyclerView.ViewHolder(
 
         tvPost.setExpandOnlyOnReadMoreClick(true)
 
-        tvPost.setOnClickListener {
+        itemView.setOnClickListener {
             if (tvPost.isReadMoreClicked()) {
                 tvPost.showCompleteText()
                 tvPost.tag = tvPost.getVisibleLineCount()

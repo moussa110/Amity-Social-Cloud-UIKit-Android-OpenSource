@@ -1,5 +1,6 @@
 package com.amity.socialcloud.uikit.community.newsfeed.events
 
+import android.view.View
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
 
 sealed class PostEngagementClickEvent {

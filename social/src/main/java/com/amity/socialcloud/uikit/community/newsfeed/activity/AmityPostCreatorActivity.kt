@@ -13,7 +13,11 @@ import com.amity.socialcloud.uikit.common.base.AmityBaseToolbarFragmentContainer
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.explore.activity.EXTRA_PARAM_COMMUNITY
 import com.amity.socialcloud.uikit.community.newsfeed.fragment.AmityPostCreatorFragment
+import com.amity.socialcloud.uikit.community.newsfeed.fragment.AmitySharePostCreatorFragment
+import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPostData
 import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_POST_ID
+import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_SHARED_POST_DATA
+import com.amity.socialcloud.uikit.community.utils.parcelable
 import com.ekoapp.rxlifecycle.extension.untilLifecycleEnd
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -23,7 +27,11 @@ class AmityPostCreatorActivity : AmityBaseToolbarFragmentContainerActivity() {
     private var communityRepository: AmityCommunityRepository = AmitySocialClient.newCommunityRepository()
 
     override fun initToolbar() {
-        val communityId = intent?.getStringExtra(EXTRA_PARAM_COMMUNITY)
+        var communityId = intent?.getStringExtra(EXTRA_PARAM_COMMUNITY)
+        if (communityId == null){
+            communityId = intent?.parcelable<SharedPostData>(EXTRA_PARAM_SHARED_POST_DATA)?.communityId
+        }
+
         getToolBar()?.setLeftDrawable(ContextCompat.getDrawable(this, R.drawable.amity_ic_cross))
         if (communityId != null) {
             getCommunity(communityRepository,communityId)
@@ -46,6 +54,14 @@ class AmityPostCreatorActivity : AmityBaseToolbarFragmentContainerActivity() {
 
 
     override fun getContentFragment(): Fragment {
+        //to share post
+        intent?.parcelable<SharedPostData>(EXTRA_PARAM_SHARED_POST_DATA)?.let {
+                return AmitySharePostCreatorFragment.newInstance()
+                    .onCommunityFeed(it)
+                    .build()
+
+        }
+        //to create post
         return intent?.getStringExtra(EXTRA_PARAM_COMMUNITY)?.let { communityId ->
             return AmityPostCreatorFragment.newInstance()
                     .onCommunityFeed(communityId)
@@ -62,6 +78,21 @@ class AmityPostCreatorActivity : AmityBaseToolbarFragmentContainerActivity() {
         override fun createIntent(context: Context, communityId: String?): Intent {
             return Intent(context, AmityPostCreatorActivity::class.java).apply {
                 putExtra(EXTRA_PARAM_COMMUNITY, communityId)
+            }
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): String? {
+            val data = intent?.getStringExtra(EXTRA_PARAM_POST_ID)
+            return if (resultCode == Activity.RESULT_OK && data != null) data
+            else null
+        }
+    }
+
+    class AmityCreateCommunitySharedPostActivityContract :
+        ActivityResultContract<SharedPostData, String?>() {
+        override fun createIntent(context: Context, sharedPostData: SharedPostData): Intent {
+            return Intent(context, AmityPostCreatorActivity::class.java).apply {
+                putExtra(EXTRA_PARAM_SHARED_POST_DATA,sharedPostData)
             }
         }
 

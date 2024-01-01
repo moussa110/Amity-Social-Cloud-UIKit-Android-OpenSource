@@ -8,6 +8,7 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.amity.socialcloud.sdk.model.core.follow.AmityFollowStatus
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
@@ -107,10 +108,11 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setActionBarRightDrawable(R.drawable.amity_ic_more_horiz){
-            val intent = AmityUserSettingsActivity.newIntent(requireContext(), currentUser)
-            startActivity(intent)
-        }
+            setActionBarRightDrawable(R.drawable.amity_ic_more_horiz){
+                val intent = AmityUserSettingsActivity.newIntent(requireContext(), currentUser)
+                startActivity(intent)
+            }
+
         initTabLayout()
         binding.appBar.setExpanded(true)
         getUserDetails()
@@ -377,7 +379,7 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
         var feedFragmentDelegate: AmityFeedFragmentDelegate? = null
         var editUserProfileClickListener: AmityEditUserProfileClickListener? = null
 
-        fun build(activity: AppCompatActivity): AmityUserProfilePageFragment {
+        fun build(activity: FragmentActivity): AmityUserProfilePageFragment {
             val fragment = AmityUserProfilePageFragment()
             fragment.viewModel =
                 ViewModelProvider(activity).get(AmityUserProfileViewModel::class.java)

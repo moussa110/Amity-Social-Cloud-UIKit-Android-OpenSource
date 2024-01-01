@@ -27,4 +27,5 @@ dependencies {
     api ("com.linkedin.android.spyglass:spyglass:3.0.1")
     api("com.github.AmityCo.Amity-Social-Cloud-SDK-Android:amity-video-publisher:$amityMessagingSdkVersion")
     api("com.github.AmityCo.Amity-Social-Cloud-SDK-Android:amity-video-player:$amityMessagingSdkVersion")
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx:21.2.0'
 }

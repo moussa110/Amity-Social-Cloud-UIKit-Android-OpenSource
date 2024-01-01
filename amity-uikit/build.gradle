@@ -4,10 +4,10 @@ apply plugin: 'com.android.library'
 android {
     buildTypes {
         release {
-            consumerProguardFiles 'amity-proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            consumerProguardFiles 'amity-proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

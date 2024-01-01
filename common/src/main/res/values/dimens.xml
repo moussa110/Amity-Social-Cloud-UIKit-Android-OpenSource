@@ -6,6 +6,7 @@
     <dimen name="amity_text_size_title">16sp</dimen>
     <dimen name="amity_text_size_body">14sp</dimen>
     <dimen name="amity_text_size_caption">12sp</dimen>
+    <dimen name="amity_text_size_ten">10sp</dimen>
 
     // padding
     <dimen name="amity_padding_xxs">4dp</dimen>

@@ -17,7 +17,9 @@ import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentNewsFeedBinding
 import com.amity.socialcloud.uikit.community.mycommunity.fragment.AmityMyCommunityPreviewFragment
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostTargetPickerActivity
+import com.amity.socialcloud.uikit.community.newsfeed.activity.AmitySharePostTargetPickerActivity
 import com.amity.socialcloud.uikit.community.newsfeed.events.AmityFeedRefreshEvent
+import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPostData
 import com.google.android.material.appbar.AppBarLayout
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.subjects.BehaviorSubject
@@ -28,12 +30,13 @@ class AmityNewsFeedFragment : AmityBaseFragment(),
     private lateinit var binding: AmityFragmentNewsFeedBinding
     private var refreshEventPublisher = BehaviorSubject.create<AmityFeedRefreshEvent>()
 
-    private val createPost =
-        registerForActivityResult<AmityPostTargetPickerActivity.CreationType, String>(
+    private val createPost = registerForActivityResult<AmityPostTargetPickerActivity.CreationType, String>(
             AmityPostTargetPickerActivity.AmityPostTargetPickerActivityContract()
         ) {
             refreshFeed()
         }
+
+
     companion object {
         fun newInstance(): Builder {
             return Builder()

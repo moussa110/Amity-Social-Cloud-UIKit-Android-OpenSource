@@ -2,12 +2,16 @@ package com.amity.socialcloud.uikit.community.newsfeed.fragment
 
 import android.Manifest
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Matrix
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.activityViewModels
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -35,8 +39,10 @@ import com.amity.socialcloud.uikit.community.newsfeed.activity.*
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityPostListAdapter
 import com.amity.socialcloud.uikit.community.newsfeed.events.*
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
+import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPostData
 import com.amity.socialcloud.uikit.community.newsfeed.viewmodel.AmityFeedViewModel
 import com.amity.socialcloud.uikit.community.utils.AmityCommunityNavigation
+import com.amity.socialcloud.uikit.community.utils.getSharedPostId
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
 import com.ekoapp.rxlifecycle.extension.untilLifecycleEnd
 import com.google.android.material.snackbar.Snackbar
@@ -44,7 +50,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
-import kotlinx.coroutines.flow.combine
 import java.util.concurrent.TimeUnit
 
 
@@ -70,6 +75,17 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 		registerForActivityResult(AmityEditCommentActivity.AmityEditCommentContract()) { comment ->
 			// no need for this if update comes from Flowable
 		}
+
+	private val sharePostToCommunity =
+		registerForActivityResult<SharedPostData, String>(AmitySharePostTargetPickerActivity.AmitySharePostActivityContract()) {
+			//refreshFeed()
+		}
+
+	private val sharePostToTimeLine =
+		registerForActivityResult<SharedPostData, String>(AmityPostCreatorActivity.AmityCreateCommunitySharedPostActivityContract()) {
+
+		}
+
 
 	override fun onCreateView(inflater: LayoutInflater,
 	                          container: ViewGroup?,
@@ -148,11 +164,11 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 			.doOnNext { shouldShowEmptyState ->
 				if (shouldShowEmptyState) {
 					communityHomeViewModel.showExplore().also {
-						if (it){
+						if (it) {
 							Handler(Looper.getMainLooper()).postDelayed({
 								handleEmptyState(getEmptyView(getInflater()))
 							}, 100)
-						}else{
+						} else {
 							handleEmptyState(getEmptyView(getInflater()))
 						}
 					}
@@ -343,28 +359,28 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 
 	private fun observePostOptionClickEvents() {
 		getViewModel().getPostOptionClickEvents(onReceivedEvent = {
-				showPostOptions(it.post)
-			}).untilLifecycleEnd(this).subscribe()
+			showPostOptions(it.post)
+		}).untilLifecycleEnd(this).subscribe()
 	}
 
 	private fun observePostReviewClickEvents() {
 		getViewModel().getPostReviewClickEvents(onReceivedEvent = {
-				when (it) {
-					is PostReviewClickEvent.ACCEPT -> {
-						approvePost(it.post)
-					}
-
-					is PostReviewClickEvent.DECLINE -> {
-						declinePost(it.post)
-					}
+			when (it) {
+				is PostReviewClickEvent.ACCEPT -> {
+					approvePost(it.post)
 				}
-			}).untilLifecycleEnd(this).subscribe()
+
+				is PostReviewClickEvent.DECLINE -> {
+					declinePost(it.post)
+				}
+			}
+		}).untilLifecycleEnd(this).subscribe()
 	}
 
 	private fun observePollVoteClickEvents() {
 		getViewModel().getPollVoteClickEvents(onReceivedEvent = {
-				getViewModel().vote(pollId = it.pollId, answerIds = it.answerIds)
-			}).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+			getViewModel().vote(pollId = it.pollId, answerIds = it.answerIds)
+		}).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 			.untilLifecycleEnd(this).subscribe()
 	}
 
@@ -439,13 +455,45 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 		requireContext().startActivity(intent)
 	}
 
+
+	private fun getSharedBitmap(headerView: View, contentView: View): Bitmap {
+		headerView.findViewById<ImageButton>(R.id.btnFeedAction).visibility = View.INVISIBLE
+		val headerBitmap = Bitmap.createBitmap(headerView.measuredWidth,
+			headerView.measuredHeight,
+			Bitmap.Config.ARGB_8888)
+		val contentBitmap = Bitmap.createBitmap(contentView.measuredWidth,
+			contentView.measuredHeight,
+			Bitmap.Config.ARGB_8888)
+		val mergeBitmap = Bitmap.createBitmap(headerView.measuredWidth,
+			headerView.measuredHeight + contentView.measuredHeight,
+			Bitmap.Config.ARGB_8888)
+
+		val headerCanvas = Canvas(headerBitmap)
+		headerView.draw(headerCanvas)
+
+		val contentCanvas = Canvas(contentBitmap)
+		contentView.draw(contentCanvas)
+
+		val canvas = Canvas(mergeBitmap)
+		canvas.drawBitmap(headerBitmap, Matrix(), null)
+		canvas.drawBitmap(contentBitmap, 0f, headerView.height.toFloat(), null)
+		return mergeBitmap
+	}
+
 	internal fun showSharingOptions(post: AmityPost) {
+		val sharedPostData = SharedPostData(postId = post.getPostId(),
+			isTargetPostHasSharedPost = post.getSharedPostId() != null)
+		adapter.getSharedViewByPostId(post.getPostId())?.let {
+			sharedPostData.setBitmap(getSharedBitmap(it.first, it.second), requireContext())
+		}
 		val bottomSheet = AmityBottomSheetDialog(requireContext())
 		bottomSheet.show(getViewModel().getSharingOptionMenuItems(post = post, shareToMyFeed = {
+			sharePostToTimeLine.launch(sharedPostData)
 			bottomSheet.dismiss()
 			AmitySocialUISettings.postShareClickListener.shareToMyTimeline(requireContext(), post)
 			getViewModel()
 		}, shareToGroupFeed = {
+			sharePostToCommunity.launch(sharedPostData)
 			bottomSheet.dismiss()
 			AmitySocialUISettings.postShareClickListener.shareToGroup(requireContext(), post)
 		}, shareToExternal = {
@@ -497,9 +545,9 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 	private fun showDeletePostWarning(post: AmityPost) {
 		val deleteConfirmationDialogFragment =
 			AmityAlertDialogFragment.newInstance(R.string.amity_delete_post_title,
-					R.string.amity_delete_post_warning_message,
-					R.string.amity_delete,
-					R.string.amity_cancel)
+				R.string.amity_delete_post_warning_message,
+				R.string.amity_delete,
+				R.string.amity_cancel)
 		deleteConfirmationDialogFragment.show(childFragmentManager, AmityAlertDialogFragment.TAG)
 		deleteConfirmationDialogFragment.listener =
 			object : AmityAlertDialogFragment.IAlertDialogActionListener {
@@ -516,9 +564,9 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 	private fun showClosePollWarning(post: AmityPost) {
 		val closeConfirmationDialogFragment =
 			AmityAlertDialogFragment.newInstance(R.string.amity_close_poll_title,
-					R.string.amity_close_poll_message,
-					R.string.amity_close,
-					R.string.amity_cancel)
+				R.string.amity_close_poll_message,
+				R.string.amity_close,
+				R.string.amity_cancel)
 		closeConfirmationDialogFragment.show(childFragmentManager, AmityAlertDialogFragment.TAG)
 		closeConfirmationDialogFragment.listener =
 			object : AmityAlertDialogFragment.IAlertDialogActionListener {
@@ -536,9 +584,9 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 	private fun showDeletePollWarning(post: AmityPost) {
 		val deleteConfirmationDialogFragment =
 			AmityAlertDialogFragment.newInstance(R.string.amity_delete_poll_title,
-					R.string.amity_delete_poll_message,
-					R.string.amity_delete_poll,
-					R.string.amity_cancel)
+				R.string.amity_delete_poll_message,
+				R.string.amity_delete_poll,
+				R.string.amity_cancel)
 		deleteConfirmationDialogFragment.show(childFragmentManager, AmityAlertDialogFragment.TAG)
 		deleteConfirmationDialogFragment.listener =
 			object : AmityAlertDialogFragment.IAlertDialogActionListener {
@@ -640,9 +688,9 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 	private fun showDeleteCommentWarning(comment: AmityComment) {
 		val deleteConfirmationDialogFragment =
 			AmityAlertDialogFragment.newInstance(R.string.amity_delete_comment_title,
-					R.string.amity_delete_comment_warning_message,
-					R.string.amity_delete,
-					R.string.amity_cancel)
+				R.string.amity_delete_comment_warning_message,
+				R.string.amity_delete,
+				R.string.amity_cancel)
 		deleteConfirmationDialogFragment.show(childFragmentManager, AmityAlertDialogFragment.TAG)
 		deleteConfirmationDialogFragment.listener =
 			object : AmityAlertDialogFragment.IAlertDialogActionListener {
@@ -659,9 +707,9 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 	private fun showDeleteReplyWarning(comment: AmityComment) {
 		val deleteConfirmationDialogFragment =
 			AmityAlertDialogFragment.newInstance(R.string.amity_delete_reply_title,
-					R.string.amity_delete_reply_warning_message,
-					R.string.amity_delete,
-					R.string.amity_cancel)
+				R.string.amity_delete_reply_warning_message,
+				R.string.amity_delete,
+				R.string.amity_cancel)
 		deleteConfirmationDialogFragment.show(childFragmentManager, AmityAlertDialogFragment.TAG)
 		deleteConfirmationDialogFragment.listener =
 			object : AmityAlertDialogFragment.IAlertDialogActionListener {

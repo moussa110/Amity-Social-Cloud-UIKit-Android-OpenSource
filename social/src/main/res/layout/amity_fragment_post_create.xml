@@ -8,21 +8,6 @@
         android:layout_height="match_parent"
         tools:context=".newsfeed.activity.AmityPostCreatorActivity">
 
-        <RelativeLayout
-            android:id="@+id/layout_post_attachments_options"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/amity_bg_post_attachment_options"
-            android:elevation="@dimen/amity_padding_s">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_post_attachments_options"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
         <ScrollView
             android:id="@+id/scrollview_content"
             android:layout_width="match_parent"
@@ -42,35 +27,101 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/amity_padding_m1"
-                    android:textColorHint="@color/fb_text_light_gray"
-                    android:textColor="@color/yellowColor" />
+                    android:textColor="@color/yellowColor"
+                    android:textColorHint="@color/fb_text_light_gray" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/amity_padding_m1"
+                    android:layout_marginRight="@dimen/amity_padding_m1"
+                    android:background="@drawable/amity_bg_post_mention_list">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_user_mention"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:overScrollMode="never"
+                        app:layout_constraintDimensionRatio="375:280"
+                        app:layout_constraintHeight_max="280dp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvAttachment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/amity_padding_m1" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/sharedPostView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/sharedMultiableTimeCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginLeft="@dimen/amity_padding_m2"
+                        android:layout_marginTop="@dimen/amity_padding_m2"
+                        android:layout_marginRight="@dimen/amity_padding_s"
+                        app:cardBackgroundColor="@color/fb_darker_gray_post_bg"
+                        app:cardCornerRadius="@dimen/amity_padding_s"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@color/yellowInActiveColor"
+                        app:strokeWidth="@dimen/amity_one"
+                        tools:ignore="RtlHardcoded" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/sharedPostIvCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/amity_padding_m1"
+                        android:layout_marginTop="@dimen/amity_padding_m1"
+                        android:layout_marginRight="@dimen/amity_padding_m1"
+                        android:layout_marginBottom="@dimen/amity_padding_xxs"
+                        app:cardBackgroundColor="@color/fb_darker_gray_post_bg"
+                        app:cardCornerRadius="@dimen/amity_padding_s"
+                        app:layout_constraintBottom_toBottomOf="@id/sharedMultiableTimeCard"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@color/yellowInActiveColor"
+                        app:strokeWidth="@dimen/amity_one">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/sharedPostIv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@color/greenColor" />
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             </LinearLayout>
         </ScrollView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <RelativeLayout
+            android:id="@+id/layout_post_attachments_options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/layout_post_attachments_options">
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/amity_bg_post_attachment_options"
+            android:elevation="@dimen/amity_padding_s">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_user_mention"
+                android:id="@+id/recycler_view_post_attachments_options"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:background="@color/fb_darker_gray_post_bg"
-                android:paddingBottom="@dimen/amity_eight"
-                android:overScrollMode="never"
-                app:layout_constraintHeight_max="280dp"
-                app:layout_constraintDimensionRatio="375:280"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/pbLoading"

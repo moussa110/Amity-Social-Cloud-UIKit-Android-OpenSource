@@ -8,6 +8,12 @@
         android:layout_height="wrap_content"
         android:background="@color/fb_darker_gray_post_bg"
         android:orientation="vertical">
+        <View
+            style="@style/AmityDivider"
+            android:layout_marginBottom="@dimen/amity_padding_xxs"
+            android:layout_marginLeft="@dimen/amity_padding_m1"
+            android:layout_marginRight="@dimen/amity_padding_m1"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCommentFooter"

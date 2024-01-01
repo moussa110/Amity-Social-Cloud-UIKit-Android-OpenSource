@@ -25,7 +25,6 @@ import io.reactivex.rxjava3.core.Flowable
 class AmityGlobalFeedFragment : AmityFeedFragment() {
 
 
-
     override fun getViewModel(): AmityGlobalFeedViewModel {
         return ViewModelProvider(requireActivity()).get(AmityGlobalFeedViewModel::class.java)
     }

@@ -8,27 +8,66 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.base.AmityBaseToolbarFragmentContainerActivity
+import com.amity.socialcloud.uikit.common.components.AmityToolBar
 import com.amity.socialcloud.uikit.common.components.AmityToolBarClickListener
 
 fun Fragment.setActionBarRightDrawable(imageResource: Int, listener: () -> Unit) {
-	getAmityActionBar()?.let {
-		it.setRightDrawable(ContextCompat.getDrawable(requireActivity(), imageResource))
-		it.setClickListener(object : AmityToolBarClickListener {
-			override fun rightIconClick() {
-				listener.invoke()
-			}
+	try {
+		getAmityActionBar()?.let {
+			it.setRightDrawable(ContextCompat.getDrawable(requireActivity(), imageResource))
+			it.setClickListener(object : AmityToolBarClickListener {
+				override fun rightIconClick() {
+					listener.invoke()
+				}
 
-			override fun leftIconClick() {
-				requireActivity().onBackPressed()
-			}
-		})
+				override fun leftIconClick() {
+					requireActivity().onBackPressed()
+				}
+			})
+		}
+	}catch (e:Exception){
+		e.printStackTrace()
 	}
 }
 
 fun Fragment.setActionBarRightText(text: String, listener: () -> Unit) {
-	getAmityActionBar()?.let {
-		it.setRightString(text)
-		it.setClickListener(object : AmityToolBarClickListener {
+	try {
+		getAmityActionBar()?.let {
+			it.setRightString(text)
+			it.setClickListener(object : AmityToolBarClickListener {
+				override fun rightIconClick() {
+					listener.invoke()
+				}
+
+				override fun leftIconClick() {
+					requireActivity().onBackPressed()
+				}
+			})
+		}
+	}catch (e:Exception){
+		e.printStackTrace()
+	}
+}
+
+fun Fragment.setActionBarRightText(text: String) {
+	try {
+		getAmityActionBar()?.setRightString(text)
+	}catch (e:Exception){
+		e.printStackTrace()
+	}
+}
+
+fun Fragment.setActionBarRightTextEnabled(enabled:Boolean) {
+	try {
+		getAmityActionBar()?.setRightStringActive(enabled)
+	}catch (e:Exception){
+		e.printStackTrace()
+	}
+}
+
+fun Fragment.setRightActionBarClickListener(listener: () -> Unit){
+	try {
+		getAmityActionBar()?.setClickListener(object : AmityToolBarClickListener {
 			override fun rightIconClick() {
 				listener.invoke()
 			}
@@ -37,33 +76,24 @@ fun Fragment.setActionBarRightText(text: String, listener: () -> Unit) {
 				requireActivity().onBackPressed()
 			}
 		})
+	}catch (e:Exception){
+		e.printStackTrace()
+	}
+
+}
+
+fun Fragment.getAmityActionBar(): AmityToolBar? {
+	return try {
+		(requireActivity() as AmityBaseToolbarFragmentContainerActivity).getToolBar()
+	}catch (e:Exception){
+		e.printStackTrace()
+		null
 	}
 }
 
-fun Fragment.setActionBarRightText(text: String) {
-	getAmityActionBar()?.setRightString(text)
-}
-
-fun Fragment.setActionBarRightTextEnabled(enabled:Boolean) {
-	getAmityActionBar()?.setRightStringActive(enabled)
-}
-
-fun Fragment.setRightActionBarClickListener(listener: () -> Unit){
-	getAmityActionBar()?.setClickListener(object : AmityToolBarClickListener {
-		override fun rightIconClick() {
-			listener.invoke()
-		}
-
-		override fun leftIconClick() {
-			requireActivity().onBackPressed()
-		}
-	})
-}
-
-fun Fragment.getAmityActionBar() =
-	(requireActivity() as AmityBaseToolbarFragmentContainerActivity).getToolBar()
 
 fun Fragment.setActionBarLeftText(text: String){
+
 	getAmityActionBar()?.setLeftString(text)
 }
 

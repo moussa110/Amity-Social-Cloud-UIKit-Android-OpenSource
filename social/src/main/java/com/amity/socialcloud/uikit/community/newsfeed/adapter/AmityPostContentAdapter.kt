@@ -1,6 +1,7 @@
 package com.amity.socialcloud.uikit.community.newsfeed.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,11 +17,11 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 
 class AmityPostContentAdapter(
     private val postContentClickPublisher: PublishSubject<PostContentClickEvent>,
-    private val pollVoteClickPublisher: PublishSubject<PollVoteClickEvent>
+    private val pollVoteClickPublisher: PublishSubject<PollVoteClickEvent>,
+    var sharedViewListener: ((View) -> Unit)? = null
 ) : RecyclerView.Adapter<AmityPostContentViewHolder>() {
 
     private val postList = ArrayList<AmityBasePostContentItem>()
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -34,6 +35,7 @@ class AmityPostContentAdapter(
     }
 
     override fun onBindViewHolder(holder: AmityPostContentViewHolder, position: Int) {
+        sharedViewListener?.invoke(holder.itemView)
         val item = postList[position]
         holder.showFullContent = item.showFullContent
         holder.bind(item.post)

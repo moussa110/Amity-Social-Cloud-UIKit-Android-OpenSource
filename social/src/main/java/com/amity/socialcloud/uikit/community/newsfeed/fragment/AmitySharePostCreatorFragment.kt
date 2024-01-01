@@ -9,15 +9,15 @@ import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.common.utils.AmityAlertDialogUtil
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
 import com.amity.socialcloud.uikit.community.R
-import com.amity.socialcloud.uikit.community.newsfeed.model.AmityPostAttachmentOptionItem
+import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPostData
 import com.amity.socialcloud.uikit.community.newsfeed.util.AmityNewsFeedEvents
 import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_COMMUNITY_ID
-import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_POST_ATTACHMENT_OPTIONS
 import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_POST_ID
+import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_SHARED_POST_DATA
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class AmityPostCreatorFragment : AmityBaseCreatePostFragment() {
+class AmitySharePostCreatorFragment : AmityBaseCreatePostFragment() {
 
     override fun handlePostMenuItemClick() {
         view?.let(AmityAndroidUtil::hideKeyboard)
@@ -25,18 +25,18 @@ class AmityPostCreatorFragment : AmityBaseCreatePostFragment() {
     }
 
     override fun setToolBarText() {
-        (activity as? AppCompatActivity)?.supportActionBar?.title = getToolbarTitleForCreatePost()
+        (activity as? AppCompatActivity)?.supportActionBar?.title = getToolbarTitleForSharePost()
     }
 
     override fun getPostMenuText(): String {
-        return getString(R.string.amity_post_caps)
+        return getString(R.string.amity_share_caps)
     }
 
     override fun onClickNegativeButton() {
 
     }
 
-    private fun getToolbarTitleForCreatePost(): String {
+    private fun getToolbarTitleForSharePost(): String {
         if (viewModel.community != null)
             return viewModel.community!!.getDisplayName()
         return getString(R.string.amity_my_timeline)
@@ -53,8 +53,8 @@ class AmityPostCreatorFragment : AmityBaseCreatePostFragment() {
         }
         isLoading = true
         updatePostMenu(false)
-        val ekoPostSingle = viewModel.createPost(binding.etPost.getTextCompose(),
-            binding.etPost.getUserMentions())
+        val ekoPostSingle = viewModel.sharePost(binding.etPost.getTextCompose(),
+            binding.etPost.getUserMentions(),viewModel.sharedPostData!!.postId)
 
         val disposable = ekoPostSingle
             .subscribeOn(Schedulers.io())
@@ -105,44 +105,36 @@ class AmityPostCreatorFragment : AmityBaseCreatePostFragment() {
     }
 
     class Builder internal constructor() {
-        private var communityId: String? = null
-        private var postCreationOptions: ArrayList<AmityPostAttachmentOptionItem>? = null
+        private var sharedPostData: SharedPostData? = null
 
-        fun build(): AmityPostCreatorFragment {
-            return AmityPostCreatorFragment().apply {
+        fun build(): AmitySharePostCreatorFragment {
+            return AmitySharePostCreatorFragment().apply {
                 arguments = Bundle().apply {
-                    putString(EXTRA_PARAM_COMMUNITY_ID, this@Builder.communityId)
-                    putParcelableArrayList(
-                        EXTRA_PARAM_POST_ATTACHMENT_OPTIONS,
-                        this@Builder.postCreationOptions
-                    )
+                    putParcelable(EXTRA_PARAM_SHARED_POST_DATA, this@Builder.sharedPostData)
                 }
             }
         }
 
-        internal fun onMyFeed(): Builder {
+        internal fun onMyFeed(postId:String): Builder {
+            //this.sharedPostId = postId
             return this
         }
 
-        internal fun onCommunityFeed(communityId: String): Builder {
-            this.communityId = communityId
+        internal fun onCommunityFeed(sharedPostData: SharedPostData): Builder {
+            this.sharedPostData = sharedPostData
             return this
         }
 
-        fun allowPostAttachments(postAttachments: List<AmityPostAttachmentOptionItem>): Builder {
-            this.postCreationOptions = ArrayList(postAttachments)
-            return this
-        }
     }
 
     class PostTargetPicker internal constructor() {
 
-        fun onMyFeed(): Builder {
-            return Builder().onMyFeed()
+        fun onMyFeed(postId: String): Builder {
+            return Builder().onMyFeed(postId)
         }
 
-        fun onCommunityFeed(communityId: String): Builder {
-            return Builder().onCommunityFeed(communityId)
+        fun onCommunityFeed(sharedPostData: SharedPostData): Builder {
+            return Builder().onCommunityFeed(sharedPostData)
         }
 
 

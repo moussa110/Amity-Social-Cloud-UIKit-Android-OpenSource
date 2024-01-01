@@ -14,27 +14,27 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AmityGlobalFeedViewModel : AmityFeedViewModel() {
 
-    @ExperimentalPagingApi
-    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable {
-        val feedRepository = AmitySocialClient.newFeedRepository()
-        return feedRepository.getGlobalFeed()
-            .build()
-            .query()
-            .map { it.map { post -> createPostItem(post) } }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { onPageLoaded.invoke(it) }
-            .ignoreElements()
-    }
+	@ExperimentalPagingApi
+	override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable {
+		val feedRepository = AmitySocialClient.newFeedRepository()
+		return feedRepository.getGlobalFeed().build().query()
+			.map { data -> data.map { createPostItem(it) } }
+			.subscribeOn(Schedulers.io())
+			.observeOn(AndroidSchedulers.mainThread())
+			.doOnNext {
+				onPageLoaded.invoke(it)
+			}.ignoreElements()
+	}
 
-    override fun createPostHeaderItems(post: AmityPost): List<AmityBasePostHeaderItem> {
-        val showHeader = AmitySocialUISettings.getViewHolder(getDataType(post)).enableHeader()
-        return if (showHeader) {
-            listOf(AmityBasePostHeaderItem(post = post, showTarget = true))
-        } else {
-            emptyList()
-        }
-    }
+
+	override fun createPostHeaderItems(post: AmityPost): List<AmityBasePostHeaderItem> {
+		val showHeader = AmitySocialUISettings.getViewHolder(getDataType(post)).enableHeader()
+		return if (showHeader) {
+			listOf(AmityBasePostHeaderItem(post = post, showTarget = true))
+		} else {
+			emptyList()
+		}
+	}
 
 
 }

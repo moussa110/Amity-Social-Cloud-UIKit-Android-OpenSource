@@ -1,4 +1,4 @@
-package com.amity.socialcloud.uikit.community.newsfeed.adapter
+package com.amity.socialcloud.uikit.community.newsfeed.adapter.sharedposts
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,33 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.uikit.community.R
-import com.amity.socialcloud.uikit.community.newsfeed.events.PostOptionClickEvent
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostHeaderItem
 import io.reactivex.rxjava3.subjects.PublishSubject
 
-class AmityPostHeaderAdapter(private val userClickPublisher: PublishSubject<AmityUser>,
-                             private val communityClickPublisher: PublishSubject<AmityCommunity>,
-                             private val postOptionClickPublisher: PublishSubject<PostOptionClickEvent>,
-                             var sharedViewListener: ((View) -> Unit)? = null) :
-	RecyclerView.Adapter<AmityPostHeaderViewHolder>() {
+class AmityPostSharedHeaderAdapter(private val userClickPublisher: PublishSubject<AmityUser>,
+                                   private val communityClickPublisher: PublishSubject<AmityCommunity>,
+                                   var sharedViewListener: ((View) -> Unit)? = null) :
+	RecyclerView.Adapter<AmityPostSharedHeaderViewHolder>() {
 
 	val list: ArrayList<AmityBasePostHeaderItem> = arrayListOf()
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AmityPostHeaderViewHolder {
-		val view = LayoutInflater.from(parent.context)
-			.inflate(R.layout.amity_item_base_post_header, parent, false)
-		return AmityPostHeaderViewHolder(view,
-			userClickPublisher,
-			communityClickPublisher,
-			postOptionClickPublisher)
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AmityPostSharedHeaderViewHolder {
+		val view = LayoutInflater.from(parent.context).inflate(R.layout.amity_item_base_shared_post_header, parent, false)
+		return AmityPostSharedHeaderViewHolder(view, userClickPublisher, communityClickPublisher)
 	}
 
-	override fun onBindViewHolder(holder: AmityPostHeaderViewHolder, position: Int) {
+	override fun onBindViewHolder(holder: AmityPostSharedHeaderViewHolder, position: Int) {
 		holder.sharedViewListener = sharedViewListener
 		holder.bind(list[position])
 	}
 
 	override fun getItemViewType(position: Int): Int {
-		return R.layout.amity_item_base_post_header
+		return R.layout.amity_item_base_shared_post_header
 	}
 
 	override fun getItemCount(): Int {
