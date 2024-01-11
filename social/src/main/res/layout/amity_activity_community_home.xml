@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/amity_eighty_four"
             android:background="@color/fb_darker_gray_bg"
-            android:paddingTop="@dimen/amity_twenty_five"
+            android:paddingTop="@dimen/amity_twenty_eight"
             android:focusableInTouchMode="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

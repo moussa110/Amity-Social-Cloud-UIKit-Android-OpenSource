@@ -21,8 +21,9 @@ import io.reactivex.rxjava3.core.Flowable
 
 class AmityUserFeedFragment : AmityFeedFragment() {
 
+    lateinit var mViewModel:AmityUserFeedViewModel
     override fun getViewModel(): AmityUserFeedViewModel {
-        return ViewModelProvider(requireActivity()).get(AmityUserFeedViewModel::class.java)
+        return mViewModel
     }
 
     override fun getEmptyView(inflater: LayoutInflater): View {
@@ -63,8 +64,8 @@ class AmityUserFeedFragment : AmityFeedFragment() {
 
         fun build(activity: AppCompatActivity): AmityUserFeedFragment {
             val fragment = AmityUserFeedFragment()
-            val viewModel = ViewModelProvider(activity).get(AmityUserFeedViewModel::class.java)
-            viewModel.userId = userId
+            fragment.mViewModel = ViewModelProvider(activity).get(AmityUserFeedViewModel::class.java)
+            fragment.mViewModel.userId = userId
             if (userClickListener == null) {
                 userClickListener = object : AmityUserClickListener {
                     override fun onClickUser(user: AmityUser) {
@@ -72,7 +73,7 @@ class AmityUserFeedFragment : AmityFeedFragment() {
                     }
                 }
             }
-            viewModel.userClickListener = userClickListener!!
+            fragment.mViewModel.userClickListener = userClickListener!!
 
             if (communityClickListener == null) {
                 communityClickListener = object : AmityCommunityClickListener {
@@ -84,9 +85,9 @@ class AmityUserFeedFragment : AmityFeedFragment() {
                     }
                 }
             }
-            viewModel.communityClickListener = communityClickListener!!
-            viewModel.postShareClickListener = postShareClickListener
-            viewModel.feedRefreshEvents = feedRefreshEvents
+            fragment.mViewModel.communityClickListener = communityClickListener!!
+            fragment.mViewModel.postShareClickListener = postShareClickListener
+            fragment.mViewModel.feedRefreshEvents = feedRefreshEvents
             return fragment
         }
 

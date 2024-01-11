@@ -34,8 +34,6 @@ object AmityConstants {
     const val COMMUNITY_MODERATOR_ROLE = "community-moderator"
     const val CHANNEL_MODERATOR_ROLE = "channel-moderator"
     const val MEMBER_ROLE = "member"
-
     const val POST_REACTION = "like"
-
     const val NO_PERMISSION_ERROR_CODE = 400301
 }

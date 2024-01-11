@@ -14,9 +14,9 @@ import com.amity.socialcloud.uikit.social.AmitySocialUISettings
 import io.reactivex.rxjava3.core.Flowable
 
 class AmityCustomPostRankingFeedFragment : AmityFeedFragment() {
-
-    override fun getViewModel(): AmityCustomPostRankingFeedViewModel {
-        return ViewModelProvider(requireActivity()).get(AmityCustomPostRankingFeedViewModel::class.java)
+ lateinit var mViewModel:AmityCustomPostRankingFeedViewModel
+ override fun getViewModel(): AmityCustomPostRankingFeedViewModel {
+        return mViewModel
     }
 
     override fun getEmptyView(inflater: LayoutInflater): View {
@@ -34,10 +34,11 @@ class AmityCustomPostRankingFeedFragment : AmityFeedFragment() {
         private var feedRefreshEvents = Flowable.never<AmityFeedRefreshEvent>()
 
         fun build(activity: AppCompatActivity): AmityCustomPostRankingFeedFragment {
+
             val fragment = AmityCustomPostRankingFeedFragment()
-            val viewModel = ViewModelProvider(activity).get(AmityGlobalFeedViewModel::class.java)
-            viewModel.postShareClickListener = postShareClickListener
-            viewModel.feedRefreshEvents = feedRefreshEvents
+            fragment.mViewModel = ViewModelProvider(activity).get(AmityCustomPostRankingFeedViewModel::class.java)
+            fragment.mViewModel.postShareClickListener = postShareClickListener
+            fragment.mViewModel.feedRefreshEvents = feedRefreshEvents
             return fragment
         }
 

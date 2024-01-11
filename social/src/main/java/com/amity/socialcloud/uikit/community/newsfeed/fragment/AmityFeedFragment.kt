@@ -37,6 +37,7 @@ import com.amity.socialcloud.uikit.community.databinding.AmityFragmentFeedBindin
 import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomeViewModel
 import com.amity.socialcloud.uikit.community.newsfeed.activity.*
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityPostListAdapter
+import com.amity.socialcloud.uikit.community.newsfeed.adapter.PostLoadStateAdapter
 import com.amity.socialcloud.uikit.community.newsfeed.events.*
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
 import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPostData
@@ -54,10 +55,10 @@ import java.util.concurrent.TimeUnit
 
 
 abstract class AmityFeedFragment : AmityBaseFragment() {
+	internal var isFromHome = false
 	val communityHomeViewModel: AmityCommunityHomeViewModel by activityViewModels()
 	private lateinit var adapter: AmityPostListAdapter
 	private lateinit var binding: AmityFragmentFeedBinding
-
 	private var isRefreshing = false
 	private var isFirstLoad = true
 	private var isObservingClickEvent = false
@@ -113,11 +114,14 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 		setupFeedRecyclerview()
 		setupFeedHeaderView()
 		observeClickEvents()
-		getFeed { onPageLoaded(it) }
+			getFeed {
+				onPageLoaded(it)
+			}
 	}
 
 	private fun setupFeedRecyclerview() {
 		adapter = getViewModel().createFeedAdapter()
+
 		adapter.addLoadStateListener { loadStates ->
 			when (val refreshState = loadStates.mediator?.refresh) {
 				is LoadState.NotLoading -> {
@@ -137,7 +141,8 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 				else -> {}
 			}
 		}
-		binding.recyclerViewFeed.adapter = adapter
+		binding.recyclerViewFeed.adapter = adapter.withLoadStateFooter(footer = PostLoadStateAdapter())
+		binding.recyclerViewFeed.setItemViewCacheSize(70)
 		binding.recyclerViewFeed.layoutManager = LinearLayoutManager(context)
 		getItemDecorations().forEach { binding.recyclerViewFeed.addItemDecoration(it) }
 		binding.recyclerViewFeed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -163,18 +168,8 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 			.observeOn(AndroidSchedulers.mainThread()).untilLifecycleEnd(this)
 			.doOnNext { shouldShowEmptyState ->
 				if (shouldShowEmptyState) {
-					communityHomeViewModel.showExplore().also {
-						if (it) {
-							Handler(Looper.getMainLooper()).postDelayed({
-								handleEmptyState(getEmptyView(getInflater()))
-							}, 100)
-						} else {
-							handleEmptyState(getEmptyView(getInflater()))
-						}
-					}
-
-				} else communityHomeViewModel.showNewsFeed()
-
+					handleEmptyState(getEmptyView(getInflater()))
+				}
 			}.subscribe()
 	}
 
@@ -220,8 +215,6 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 			}
 		}
 		getViewModel().feedLoadStatePublisher.onNext(AmityFeedLoadStateEvent.LOADED(itemCount))
-
-
 	}
 
 	private fun getInflater(): LayoutInflater {
@@ -247,18 +240,22 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 		binding.emptyViewContainer.visibility = View.VISIBLE
 		binding.recyclerViewFeed.visibility = View.GONE
 		binding.progressBar.visibility = View.GONE
+		if (isFromHome)
+		communityHomeViewModel.showExplore()
 	}
 
 	abstract fun getEmptyView(inflater: LayoutInflater): View
 
 	internal fun refresh() {
 		isRefreshing = true
-		getFeed { onPageLoaded(it) }
+		getFeed {
+			onPageLoaded(it)
+		}
 	}
 
 	private fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit) {
-		getViewModel().getFeed(onPageLoaded).untilLifecycleEnd(this, getViewModel().feedDisposable)
-			.subscribe()
+		getViewModel().getFeed(onPageLoaded)?.untilLifecycleEnd(this, getViewModel().feedDisposable)
+			?.subscribe()
 	}
 
 	private fun onPageLoaded(items: PagingData<AmityBasePostItem>) {

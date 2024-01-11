@@ -43,6 +43,10 @@
     <string name="amity_comment">Comment</string>
     <string name="amity_like">Like</string>
     <string name="amity_liked">Liked</string>
+    <string name="amity_loved">Loved</string>
+    <string name="amity_wow">Wow</string>
+    <string name="amity_sad">Sad</string>
+    <string name="amity_angry">Angry</string>
     <string name="amity_image_count">+%d</string>
     <string name="amity_view_all_files">View all files</string>
     <string name="amity_delete">Delete</string>

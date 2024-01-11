@@ -48,6 +48,11 @@
         <item name="cornerFamily">rounded</item>
     </style>
 
+    <style name="AmityRoundedCornerImage12">
+        <item name="cornerSize">12dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
     <style name="AmitySearchEditTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -67,6 +72,7 @@
         <item name="android:scaleType">centerInside</item>
         <item name="shapeAppearanceOverlay">@style/AmityCircleImage</item>
     </style>
+
 
     <style name="AmityCreatePostImageStyle">
         <item name="android:scaleType">centerCrop</item>

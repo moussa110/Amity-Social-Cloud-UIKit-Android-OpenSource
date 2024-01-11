@@ -9,8 +9,8 @@ import com.amity.socialcloud.sdk.model.core.permission.AmityPermission
 import com.amity.socialcloud.sdk.model.social.comment.AmityComment
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.BottomSheetMenuItem
-import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.community.R
+import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.Reactions
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -71,14 +71,14 @@ interface CommentViewModel {
             }
     }
 
-    fun addCommentReaction(comment: AmityComment): Completable {
-        return comment.react().addReaction(AmityConstants.POST_REACTION)
+    fun addCommentReaction(comment: AmityComment,reaction: Reactions): Completable {
+        return comment.react().addReaction(reaction.reactName)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun removeCommentReaction(comment: AmityComment): Completable {
-        return comment.react().removeReaction(AmityConstants.POST_REACTION)
+    fun removeCommentReaction(comment: AmityComment,reaction: Reactions): Completable {
+        return comment.react().removeReaction(reaction.reactName)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

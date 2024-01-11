@@ -58,14 +58,18 @@ class AmityPostListAdapter(private val userClickPublisher: PublishSubject<AmityU
 		holder.sharedViewListener = {
 			putSharedViewInMap(item?.post?.getPostId() ?: "", it)
 		}
-		item?.sharedPost.let { sharedPostItem ->
-			if (sharedPostItem == null){
-				item?.sharedUpdatedListener = {
-					item?.sharedPost = it
-					holder.bind(item,position)
-				}
-			}else{
+		item?.post?.getSharedPostId().let { sharedPostId ->
+			if (sharedPostId == null) {
 				item?.sharedUpdatedListener = null
+			} else {
+				if (item?.sharedPost != null) {
+					item.sharedUpdatedListener = null
+				}else{
+					item?.sharedUpdatedListener = {
+						holder.bind(item, position)
+						item?.sharedUpdatedListener = null
+					}
+				}
 			}
 		}
 		holder.bind(item, position)
@@ -91,8 +95,8 @@ class AmityPostListAdapter(private val userClickPublisher: PublishSubject<AmityU
 			override fun areContentsTheSame(oldItem: AmityBasePostItem,
 			                                newItem: AmityBasePostItem): Boolean {
 				// TODO: 1/8/23 need to add more fields check
-				return (oldItem.post.getPostId() == newItem.post.getPostId() && oldItem.post.getEditedAt() == newItem.post.getEditedAt() && oldItem.post.isDeleted() == newItem.post.isDeleted() && oldItem.post.getSharedPostId() == newItem.post.getSharedPostId() && oldItem.sharedPost == newItem.sharedPost &&
-						(oldItem.sharedPost?.post?.getPostId() ?: "-1") == (newItem.sharedPost?.post?.getPostId() ?: "-1"))
+				return (oldItem.post.getPostId() == newItem.post.getPostId() && oldItem.post.getEditedAt() == newItem.post.getEditedAt() && oldItem.post.isDeleted() == newItem.post.isDeleted() && oldItem.post.getSharedPostId() == newItem.post.getSharedPostId() && oldItem.sharedPost == newItem.sharedPost && (oldItem.sharedPost?.post?.getPostId()
+					?: "-1") == (newItem.sharedPost?.post?.getPostId() ?: "-1"))
 			}
 
 		}

@@ -6,4 +6,5 @@
     <color name="dark_green">#3A4C33</color>
     <color name="gray_yellow">#4C4A33</color>
     <color name="post_transparent_100">#00000000</color>
+    <color name="shimmer_color">#898E9E</color>
 </resources>

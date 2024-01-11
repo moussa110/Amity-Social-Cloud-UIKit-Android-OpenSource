@@ -35,18 +35,6 @@
     <string name="amity_try_again">Please try again</string>
     <string name="amity_image_preview_title">%1$d/%2$d</string>
     <string name="amity_release_to_send">Release to send</string>
-    <plurals name="amity_number_of_days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
-    <plurals name="amity_number_of_hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
-    </plurals>
-    <plurals name="amity_number_of_mins">
-        <item quantity="one">%d min</item>
-        <item quantity="other">%d mins</item>
-    </plurals>
     <string name="amity_time">0:%1s</string>
     <string name="amity_ok">OK</string>
     <string name="amity_remove_from_community">Remove from community</string>
@@ -64,4 +52,16 @@
     <string name="amity_no_user_found">No user found</string>
     <string name="amity_preview_not_available_title">Preview not available</string>
     <string name="amity_preview_not_available_message">Please make sure the URL is correct and try again.</string>
+    <plurals name="amity_number_of_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="amity_number_of_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="amity_number_of_mins">
+        <item quantity="one">%d min</item>
+        <item quantity="other">%d mins</item>
+    </plurals>
 </resources>

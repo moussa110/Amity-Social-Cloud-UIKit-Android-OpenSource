@@ -35,7 +35,7 @@ class AmitySinglePostViewModel(private val savedState: SavedStateHandle) : Amity
     }
 
     @ExperimentalPagingApi
-    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable {
+    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable? {
         return AmitySocialClient.newPostRepository()
             .getPost(postId)
             .subscribeOn(Schedulers.io())

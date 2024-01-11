@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.amity.socialcloud.uikit.common.base.AmityBaseViewModel
 
 class AmityCommunityHomeViewModel : AmityBaseViewModel() {
-	private var isTanHandled=false
+
 
 	var isSearchMode = ObservableBoolean(false)
 	val emptySearchString = ObservableBoolean(true)
@@ -15,18 +15,12 @@ class AmityCommunityHomeViewModel : AmityBaseViewModel() {
 	private  var _searchQueryLiveData = MutableLiveData("")
 	val searchQueryLiveData:LiveData<String> get() = _searchQueryLiveData
 
-	fun showExplore(): Boolean {
-		if (isTanHandled) return false
-		isTanHandled = true
+	fun showExplore() {
 		showExploreLiveData.value = Pair(1, true)
-	return true
 	}
 
-	fun showNewsFeed(): Boolean {
-		if (isTanHandled) return false
+	fun showNewsFeed() {
 		showExploreLiveData.value = Pair(1, false)
-		isTanHandled = true
-		return true
 	}
 
 	enum class ActionBarAction{

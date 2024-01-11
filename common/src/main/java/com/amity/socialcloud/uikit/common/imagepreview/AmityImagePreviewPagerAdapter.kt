@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.base.AmityBaseRecyclerViewAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.github.chrisbanes.photoview.PhotoView
 
 class AmityImagePreviewPagerAdapter : AmityBaseRecyclerViewAdapter<AmityPreviewImage>() {

@@ -5,7 +5,6 @@ import androidx.paging.PagingData
 import com.amity.socialcloud.sdk.api.core.AmityCoreClient
 import com.amity.socialcloud.sdk.api.core.user.search.AmityUserSortOption
 import com.amity.socialcloud.sdk.api.social.AmitySocialClient
-import com.amity.socialcloud.sdk.api.social.post.AmityPostRepository
 import com.amity.socialcloud.sdk.model.core.error.AmityError
 import com.amity.socialcloud.sdk.model.core.permission.AmityPermission
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
@@ -15,8 +14,8 @@ import com.amity.socialcloud.sdk.model.social.member.AmityCommunityMembership
 import com.amity.socialcloud.sdk.model.social.poll.AmityPoll
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.BottomSheetMenuItem
-import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.community.R
+import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.Reactions
 import com.amity.socialcloud.uikit.feed.settings.AmityPostSharingTarget
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -56,16 +55,16 @@ interface PostViewModel {
             }
     }
 
-    fun addPostReaction(post: AmityPost): Completable {
+    fun addPostReaction(post: AmityPost, reaction: Reactions): Completable {
         return post.react()
-            .addReaction(AmityConstants.POST_REACTION)
+            .addReaction(reaction.reactName)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun removePostReaction(post: AmityPost): Completable {
+    fun removePostReaction(post: AmityPost, reaction: Reactions): Completable {
         return post.react()
-            .removeReaction(AmityConstants.POST_REACTION)
+            .removeReaction(reaction.reactName)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

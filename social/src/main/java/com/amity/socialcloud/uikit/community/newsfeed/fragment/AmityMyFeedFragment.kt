@@ -18,9 +18,9 @@ import io.reactivex.rxjava3.core.Flowable
 
 class AmityMyFeedFragment : AmityFeedFragment() {
 
-
+private lateinit var mViewModel:AmityMyTimelineViewModel
     override fun getViewModel(): AmityMyTimelineViewModel {
-        return ViewModelProvider(requireActivity()).get(AmityMyTimelineViewModel::class.java)
+        return mViewModel
     }
 
     override fun getEmptyView(inflater: LayoutInflater): View {
@@ -37,7 +37,7 @@ class AmityMyFeedFragment : AmityFeedFragment() {
 
         fun build(activity: AppCompatActivity): AmityMyFeedFragment {
             val fragment = AmityMyFeedFragment()
-            val viewModel = ViewModelProvider(activity).get(AmityMyTimelineViewModel::class.java)
+            fragment.mViewModel = ViewModelProvider(activity).get(AmityMyTimelineViewModel::class.java)
             if(userClickListener == null) {
                 userClickListener = object : AmityUserClickListener {
                     override fun onClickUser(user: AmityUser) {
@@ -45,7 +45,7 @@ class AmityMyFeedFragment : AmityFeedFragment() {
                     }
                 }
             }
-            viewModel.userClickListener = userClickListener!!
+            fragment.mViewModel.userClickListener = userClickListener!!
 
             if(communityClickListener == null) {
                 communityClickListener = object : AmityCommunityClickListener {
@@ -54,9 +54,9 @@ class AmityMyFeedFragment : AmityFeedFragment() {
                     }
                 }
             }
-            viewModel.communityClickListener = communityClickListener!!
-            viewModel.postShareClickListener = postShareClickListener
-            viewModel.feedRefreshEvents = feedRefreshEvents
+            fragment.mViewModel.communityClickListener = communityClickListener!!
+            fragment.mViewModel.postShareClickListener = postShareClickListener
+            fragment.mViewModel.feedRefreshEvents = feedRefreshEvents
             return fragment
         }
 

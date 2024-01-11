@@ -143,24 +143,24 @@
 
         </RelativeLayout>
 
-
-        <com.google.android.material.checkbox.MaterialCheckBox
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/cbLike"
             style="@style/AmityTextStyleBodyBold"
             android:layout_width="wrap_content"
             android:maxHeight="@dimen/amity_twenty_four"
             android:layout_height="@dimen/amity_twenty_four"
-            android:button="@drawable/amity_ic_like_selector"
             android:enabled="@{readOnly ? false : true}"
-            android:gravity="center_vertical"
             android:paddingStart="@dimen/amity_padding_xxs"
             android:paddingEnd="0dp"
+            android:drawablePadding="@dimen/amity_padding_xs"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/amity_padding_xs"
             android:text="@string/amity_like"
-            android:textColor="@color/fb_text_gray"
-            app:checkBoxCheckedColor="@{@color/amityColorPrimary}"
-            app:checkBoxDefaultColor="@{@color/darkYellowColor}"
             app:layout_constraintStart_toStartOf="@id/tvUserName"
-            app:layout_constraintTop_toBottomOf="@id/comment_layout" />
+            app:layout_constraintTop_toBottomOf="@id/comment_layout"
+            android:textColor="@color/fb_text_gray"
+            app:drawableStartCompat="@drawable/amity_btn_like_normal" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/reactionCountLayout"
@@ -184,20 +184,67 @@
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
-            <TextView
-                android:id="@+id/tvNumberOfReactions"
-                style="@style/AmityTextStyleCaption"
+            <LinearLayout
+                android:id="@+id/tvNumberOfReactionsView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/amity_padding_xs"
-                android:drawablePadding="@dimen/amity_padding_xxs"
-                android:gravity="center_vertical"
-                android:textColor="@color/fb_text_gray"
-                app:drawableStartCompat="@drawable/amity_ic_reaction_count"
+                android:layout_marginStart="@dimen/amity_padding_xxs"
+                android:orientation="horizontal"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tvReactionSeparator"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="1.8k likes" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/firstReactionIv"
+                    android:layout_width="@dimen/amity_eighteen"
+                    android:layout_height="@dimen/amity_eighteen"
+                    app:strokeWidth="1dp"
+                    android:padding="1dp"
+                    android:elevation="2dp"
+                    android:visibility="gone"
+                    app:strokeColor="@color/fb_darker_gray_post_bg"
+                    style="@style/AmityCircularAvatarStyle"
+                    android:outlineProvider="none"
+                    android:importantForAccessibility="no"
+                    tools:src="@drawable/love_20" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/secondReactionIv"
+                    style="@style/AmityCircularAvatarStyle"
+                    android:layout_width="@dimen/amity_eighteen"
+                    android:layout_height="@dimen/amity_eighteen"
+                    app:strokeWidth="1dp"
+                    android:padding="1dp"
+                    android:visibility="gone"
+                    android:layout_marginStart="-4dp"
+                    android:importantForAccessibility="no"
+                    android:outlineProvider="none"
+                    android:elevation="1dp"
+                    tools:src="@drawable/wow_20" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/thirdReactionIv"
+                    style="@style/AmityCircularAvatarStyle"
+                    android:layout_width="@dimen/amity_eighteen"
+                    android:layout_height="@dimen/amity_eighteen"
+                    app:strokeWidth="1dp"
+                    android:padding="1dp"
+                    android:visibility="gone"
+                    android:importantForAccessibility="no"
+                    android:layout_marginStart="-4dp"
+                    tools:src="@drawable/angry_20" />
+
+                <TextView
+                    android:id="@+id/tvNumberOfReactions"
+                    style="@style/AmityTextStyleCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/amity_padding_xxs"
+                    android:textColor="@color/fb_text_gray"
+                    tools:text="1.8k" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -16,13 +16,16 @@ import com.amity.socialcloud.sdk.model.social.comment.AmityComment
 import com.amity.socialcloud.uikit.common.common.showSnackBar
 import com.amity.socialcloud.uikit.common.common.views.dialog.AmityAlertDialogFragment
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.AmityBottomSheetDialog
-import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentCommentListBinding
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityEditCommentActivity
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityReactionListActivity
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityFullCommentAdapter
-import com.amity.socialcloud.uikit.community.newsfeed.events.*
+import com.amity.socialcloud.uikit.community.newsfeed.events.AmityCommentRefreshEvent
+import com.amity.socialcloud.uikit.community.newsfeed.events.CommentContentClickEvent
+import com.amity.socialcloud.uikit.community.newsfeed.events.CommentEngagementClickEvent
+import com.amity.socialcloud.uikit.community.newsfeed.events.CommentOptionClickEvent
+import com.amity.socialcloud.uikit.community.newsfeed.events.ReactionCountClickEvent
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityCommentItemListener
 import com.amity.socialcloud.uikit.community.newsfeed.viewmodel.AmityCommentListViewModel
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
@@ -36,7 +39,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 
 class AmityCommentListFragment : RxFragment() {
 
@@ -293,20 +296,24 @@ class AmityCommentListFragment : RxFragment() {
         val reactionEvents = viewModel.commentReactionEventMap.values
         reactionEvents.forEach {
             val isAdding = it.isAdding
-            val isReactedByMe = it.comment.getMyReactions().contains(AmityConstants.POST_REACTION)
+            val isReactedByMe = it.comment.getMyReactions().contains(it.reactions.reactName)
             if (isAdding && !isReactedByMe) {
-                viewModel.addCommentReaction(comment = it.comment)
+                it.comment.getMyReactions().forEach {react->
+                    viewModel.removeCommentReaction(comment = it.comment,it.reactions)
+                        .untilLifecycleEnd(this)
+                        .subscribe()
+                }
+                viewModel.addCommentReaction(comment = it.comment,it.reactions)
                     .untilLifecycleEnd(this)
                     .subscribe()
             } else if (!isAdding && isReactedByMe) {
-                viewModel.removeCommentReaction(comment = it.comment)
+                viewModel.removeCommentReaction(comment = it.comment,it.reactions)
                     .untilLifecycleEnd(this)
                     .subscribe()
             }
         }
         viewModel.commentReactionEventMap.clear()
     }
-
 
     class Builder internal constructor(private val postId: String) {
 

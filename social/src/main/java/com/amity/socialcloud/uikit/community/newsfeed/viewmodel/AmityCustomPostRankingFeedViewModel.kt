@@ -15,7 +15,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class AmityCustomPostRankingFeedViewModel : AmityFeedViewModel() {
 
     @ExperimentalPagingApi
-    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable {
+    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable? {
         val feedRepository = AmitySocialClient.newFeedRepository()
         return feedRepository.getCustomRankingGlobalFeed()
             .build()

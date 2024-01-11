@@ -112,8 +112,8 @@ fun View.animateScaleClick(endListener: (() -> Unit)? = null) {
 }
 
 fun View.animateScaleOut(
-	value: Float = 0.7f,
-	duration: Long = 100,
+	value: Float = 0.5f,
+	duration: Long = 150,
 	endListener: (() -> Unit)? = null
 ) {
 	animate().scaleX(value).scaleY(value)
@@ -125,7 +125,7 @@ fun View.animateScaleOut(
 
 fun View.animateScaleIn(
 	value: Float = 1f,
-	duration: Long = 100,
+	duration: Long = 150,
 	endListener: (() -> Unit)? = null
 ) {
 	animate().scaleX(value).scaleY(value)

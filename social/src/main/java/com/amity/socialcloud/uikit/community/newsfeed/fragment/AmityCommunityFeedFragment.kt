@@ -23,9 +23,9 @@ import io.reactivex.rxjava3.core.Flowable
 
 class AmityCommunityFeedFragment : AmityFeedFragment() {
 
-
+    lateinit var mViewModel: AmityCommunityFeedViewModel
     override fun getViewModel(): AmityCommunityFeedViewModel {
-        return ViewModelProvider(requireActivity()).get(AmityCommunityFeedViewModel::class.java)
+        return mViewModel
     }
 
     override fun setupFeed() {
@@ -34,6 +34,7 @@ class AmityCommunityFeedFragment : AmityFeedFragment() {
                 super.setupFeed()
             },
             onRefreshNeeded = {
+                AmityGlobalFeedFragment.isNeedToRefreshing = true
                 refresh()
             })
             .untilLifecycleEnd(this)
@@ -103,8 +104,8 @@ class AmityCommunityFeedFragment : AmityFeedFragment() {
 
         fun build(activity: AppCompatActivity): AmityCommunityFeedFragment {
             val fragment = AmityCommunityFeedFragment()
-            val viewModel = ViewModelProvider(activity).get(AmityCommunityFeedViewModel::class.java)
-            viewModel.communityId = communityId
+            fragment.mViewModel = ViewModelProvider(activity).get(AmityCommunityFeedViewModel::class.java)
+            fragment.mViewModel.communityId = communityId
             if (userClickListener == null) {
                 userClickListener = object : AmityUserClickListener {
                     override fun onClickUser(user: AmityUser) {
@@ -112,7 +113,7 @@ class AmityCommunityFeedFragment : AmityFeedFragment() {
                     }
                 }
             }
-            viewModel.userClickListener = userClickListener!!
+            fragment.mViewModel.userClickListener = userClickListener!!
 
             if (communityClickListener == null) {
                 communityClickListener = object : AmityCommunityClickListener {
@@ -124,10 +125,10 @@ class AmityCommunityFeedFragment : AmityFeedFragment() {
                     }
                 }
             }
-            viewModel.communityClickListener = communityClickListener!!
-            viewModel.postShareClickListener = postShareClickListener
-            viewModel.feedRefreshEvents = feedRefreshEvents
-            viewModel.feedType = feedType
+            fragment.mViewModel.communityClickListener = communityClickListener!!
+            fragment.mViewModel.postShareClickListener = postShareClickListener
+            fragment.mViewModel.feedRefreshEvents = feedRefreshEvents
+            fragment.mViewModel.feedType = feedType
             return fragment
         }
 

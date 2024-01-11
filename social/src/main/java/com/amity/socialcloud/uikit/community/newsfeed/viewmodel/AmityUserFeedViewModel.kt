@@ -25,7 +25,7 @@ class AmityUserFeedViewModel(private val savedState: SavedStateHandle) : AmityFe
         }
 
     @ExperimentalPagingApi
-    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable {
+    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable? {
         return AmitySocialClient
             .newPostRepository()
             .getPosts()

@@ -25,10 +25,10 @@ import java.util.concurrent.TimeUnit
 
 
 class AmityCommunityHomePageFragment : Fragment() {
-
 	private lateinit var fragmentStateAdapter: AmityFragmentStateAdapter
 	private lateinit var globalSearchStateAdapter: AmityFragmentStateAdapter
 	private lateinit var binding: AmityFragmentCommunityHomePageBinding
+	private var isNavigatedToExplore = false
 	private val viewModel: AmityCommunityHomeViewModel by activityViewModels()
 	private var textChangeDisposable: Disposable? = null
 	private val textChangeSubject: PublishSubject<String> = PublishSubject.create()
@@ -44,7 +44,7 @@ class AmityCommunityHomePageFragment : Fragment() {
 		binding.viewModel = viewModel
 		binding.tabLayout.apply {
 			disableSwipe()
-			setOffscreenPageLimit(2)
+			setOffscreenPageLimit(1)
 		}
 		return binding.root
 	}
@@ -57,7 +57,6 @@ class AmityCommunityHomePageFragment : Fragment() {
 		addViewModelListeners()
 		subscribeTextChangeEvents()
 	}
-
 
 	override fun onDestroyView() {
 		super.onDestroyView()
@@ -80,6 +79,7 @@ class AmityCommunityHomePageFragment : Fragment() {
 				getMyProfileFragment())))
 		binding.tabLayout.apply {
 			setAdapter(fragmentStateAdapter)
+
 		}
 	}
 
@@ -96,10 +96,13 @@ class AmityCommunityHomePageFragment : Fragment() {
 		return AmityNewsFeedFragment.newInstance().build()
 	}
 
-	private fun addViewModelListeners() {
-		viewModel.showExploreLiveData.observe(viewLifecycleOwner) {
+	private fun addViewModelListeners() {		viewModel.showExploreLiveData.observe(viewLifecycleOwner) {
+			if (isNavigatedToExplore) return@observe
 			if (it.first != 0) {
-				if (it.second) binding.tabLayout.switchTab(1)
+				if (it.second) {
+					isNavigatedToExplore = true
+					binding.tabLayout.switchTab(1)
+				}
 				else binding.tabLayout.switchTab(0)
 			}
 		}
@@ -117,7 +120,6 @@ class AmityCommunityHomePageFragment : Fragment() {
 			}
 		}
 	}
-
 
 	private fun setUpSearchTabLayout() {
 		globalSearchStateAdapter.setFragmentList(arrayListOf(AmityFragmentStateAdapter.AmityPagerModel(
@@ -141,7 +143,6 @@ class AmityCommunityHomePageFragment : Fragment() {
 			viewModel.emptySearchString.set(it.isEmpty())
 		}.subscribe()
 	}
-
 
 	class Builder internal constructor() {
 		fun build(): AmityCommunityHomePageFragment {

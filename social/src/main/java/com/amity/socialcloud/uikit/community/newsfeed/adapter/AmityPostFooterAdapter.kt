@@ -162,7 +162,7 @@ class AmityPostFooterAdapter(
                 is AmityBasePostFooterItem.POST_ENGAGEMENT -> {
                     val castedNewItem = newItem as AmityBasePostFooterItem.POST_ENGAGEMENT
                     oldItem.post.getCommentCount() == castedNewItem.post.getCommentCount()
-                            && oldItem.post.getMyReactions().contains(AmityConstants.POST_REACTION) == castedNewItem.post.getMyReactions().contains(AmityConstants.POST_REACTION)
+                            && oldItem.post.getMyReactions().size == castedNewItem.post.getMyReactions().size
                             && oldItem.isReadOnly == castedNewItem.isReadOnly
                 }
                 is AmityBasePostFooterItem.COMMENT_PREVIEW -> {

@@ -23,7 +23,8 @@ class AmityGlobalFeedViewModel : AmityFeedViewModel() {
 			.observeOn(AndroidSchedulers.mainThread())
 			.doOnNext {
 				onPageLoaded.invoke(it)
-			}.ignoreElements()
+			}.ignoreElements().cache()
+
 	}
 
 

@@ -1,5 +1,7 @@
 package com.amity.socialcloud.uikit.community.newsfeed.viewmodel
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
@@ -20,97 +22,80 @@ private const val SAVED_FEED_TYPE = "SAVED_FEED_TYPE"
 
 class AmityCommunityFeedViewModel(private val savedState: SavedStateHandle) : AmityFeedViewModel() {
 
-    init {
-        savedState.get<String>(SAVED_COMMUNITY_ID)?.let { communityId = it }
-        savedState.get<AmityFeedType>(SAVED_FEED_TYPE)?.let { feedType = it }
-    }
+	init {
+		savedState.get<String>(SAVED_COMMUNITY_ID)?.let { communityId = it }
+		savedState.get<AmityFeedType>(SAVED_FEED_TYPE)?.let { feedType = it }
+	}
 
-    var communityId: String = ""
-        set(value) {
-            savedState.set(SAVED_COMMUNITY_ID, value)
-            field = value
-        }
-    var feedType: AmityFeedType = AmityFeedType.PUBLISHED
-        set(value) {
-            savedState.set(SAVED_FEED_TYPE, value)
-            field = value
-        }
-    var latestReviewPermissionState: Boolean? = null
+	var communityId: String = ""
+		set(value) {
+			savedState.set(SAVED_COMMUNITY_ID, value)
+			field = value
+		}
+	var feedType: AmityFeedType = AmityFeedType.PUBLISHED
+		set(value) {
+			savedState.set(SAVED_FEED_TYPE, value)
+			field = value
+		}
+	var latestReviewPermissionState: Boolean? = null
 
-    @ExperimentalPagingApi
-    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable {
-        return AmitySocialClient.newPostRepository()
-            .getPosts()
-            .targetCommunity(communityId)
-            .apply {
-                includeDeleted(false)
-                feedType(feedType)
-            }
-            .build()
-            .query()
-            .map { it.map { post -> createPostItem(post) } }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { onPageLoaded.invoke(it) }
-            .ignoreElements()
-    }
 
-    fun observeCommunityStatus(
-        onReadyToRender: () -> Unit,
-        onRefreshNeeded: () -> Unit
-    ): Completable {
-        val communitySource = AmitySocialClient.newCommunityRepository().getCommunity(communityId)
-        val reviewPermissionSource = hasCommunityPermission(
-            communitySource,
-            getCommunityPermissionSource(communityId, AmityPermission.REVIEW_COMMUNITY_POST)
-        )
-        var isReadyToRender = false
-        var isRefreshNeeded = false
-        var lastJoinedState: Boolean? = null
-        return Flowable.zip(
-            communitySource,
-            reviewPermissionSource
-        ) { community, hasReviewPermission ->
-            lastJoinedState?.let {
-                if (lastJoinedState != community.isJoined()) {
-                    isRefreshNeeded = true
-                }
-            }
-            lastJoinedState = community.isJoined()
+	@ExperimentalPagingApi
+	override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable? {
+		return AmitySocialClient.newPostRepository().getPosts().targetCommunity(communityId).apply {
+				includeDeleted(false)
+				feedType(feedType)
+			}.build().query().map { it.map { post -> createPostItem(post) } }
+			.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+			.doOnNext { onPageLoaded.invoke(it) }.ignoreElements()
+	}
 
-            this.latestReviewPermissionState?.let {
-                if (this.latestReviewPermissionState != hasReviewPermission) {
-                    if (feedType == AmityFeedType.REVIEWING) {
-                        isRefreshNeeded = true
-                    }
-                }
-            }
-            this.latestReviewPermissionState = hasReviewPermission
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext {
-                if (!isReadyToRender) {
-                    isReadyToRender = true
-                    onReadyToRender.invoke()
-                } else if (isRefreshNeeded) {
-                    isRefreshNeeded = false
-                    onRefreshNeeded.invoke()
-                }
-            }
-            .ignoreElements()
-    }
+	fun observeCommunityStatus(onReadyToRender: () -> Unit,
+	                           onRefreshNeeded: () -> Unit): Completable {
+		val communitySource = AmitySocialClient.newCommunityRepository().getCommunity(communityId)
+		val reviewPermissionSource = hasCommunityPermission(communitySource,
+			getCommunityPermissionSource(communityId, AmityPermission.REVIEW_COMMUNITY_POST))
+		var isReadyToRender = false
+		var isRefreshNeeded = false
+		var lastJoinedState: Boolean? = null
+		return Flowable.zip(communitySource,
+			reviewPermissionSource) { community, hasReviewPermission ->
+			lastJoinedState?.let {
+				if (lastJoinedState != community.isJoined()) {
+					isRefreshNeeded = true
+				}
+			}
+			lastJoinedState = community.isJoined()
 
-    override fun createPostFooterItems(post: AmityPost): List<AmityBasePostFooterItem> {
-        val footerItems = mutableListOf<AmityBasePostFooterItem>()
-        if (feedType == AmityFeedType.REVIEWING) {
-            if (latestReviewPermissionState == true) {
-                footerItems.add(AmityBasePostFooterItem.POST_REVIEW(post))
-            }
-        } else {
-            footerItems.addAll(super.createPostFooterItems(post))
-        }
-        return footerItems
-    }
+			this.latestReviewPermissionState?.let {
+				if (this.latestReviewPermissionState != hasReviewPermission) {
+					if (feedType == AmityFeedType.REVIEWING) {
+						isRefreshNeeded = true
+					}
+				}
+			}
+			this.latestReviewPermissionState = hasReviewPermission
+		}.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext {
+				if (!isReadyToRender) {
+					isReadyToRender = true
+					onReadyToRender.invoke()
+				} else if (isRefreshNeeded) {
+					isRefreshNeeded = false
+					onRefreshNeeded.invoke()
+				}
+			}.ignoreElements()
+	}
+
+	override fun createPostFooterItems(post: AmityPost): List<AmityBasePostFooterItem> {
+		val footerItems = mutableListOf<AmityBasePostFooterItem>()
+		if (feedType == AmityFeedType.REVIEWING) {
+			if (latestReviewPermissionState == true) {
+				footerItems.add(AmityBasePostFooterItem.POST_REVIEW(post))
+			}
+		} else {
+			footerItems.addAll(super.createPostFooterItems(post))
+		}
+		return footerItems
+	}
 
 }

@@ -1,15 +1,16 @@
 package com.amity.socialcloud.uikit.community.newsfeed.viewmodel
 
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.amity.socialcloud.sdk.api.social.AmitySocialClient
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityPostListAdapter
-import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityPostListPageDummyAdapter
 import com.amity.socialcloud.uikit.community.newsfeed.events.*
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityCommunityClickListener
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityUserClickListener
@@ -17,8 +18,8 @@ import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostContent
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostFooterItem
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostHeaderItem
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
+import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.getReactionByName
 import com.amity.socialcloud.uikit.community.utils.getSharedPostId
-import com.amity.socialcloud.uikit.community.utils.toList
 import com.amity.socialcloud.uikit.feed.settings.AmityDefaultPostViewHolders
 import com.amity.socialcloud.uikit.feed.settings.AmityPostShareClickListener
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
@@ -26,16 +27,12 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, CommentViewModel,
 	PermissionViewModel {
-
 	lateinit var userClickListener: AmityUserClickListener
 	lateinit var communityClickListener: AmityCommunityClickListener
 	lateinit var postShareClickListener: AmityPostShareClickListener
@@ -60,7 +57,7 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 	val postReactionEventMap = hashMapOf<String, PostEngagementClickEvent.Reaction>()
 	val commentReactionEventMap: HashMap<String, CommentEngagementClickEvent.Reaction> = hashMapOf()
 
-	abstract fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable
+	abstract fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable?
 
 	fun createFeedAdapter(): AmityPostListAdapter {
 		return AmityPostListAdapter(userClickPublisher,
@@ -76,21 +73,30 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 			reactionCountClickPublisher)
 	}
 
+	private val sharedPostsMap = mutableMapOf<String,AmityBasePostItem>()
+
 	internal fun createPostItem(post: AmityPost): AmityBasePostItem {
 		val basePost = AmityBasePostItem(post,
 			createPostHeaderItems(post),
 			createPostContentItems(post),
 			createPostFooterItems(post))
-		post.getSharedPostId()?.let {
-			getSharedPostData(basePost)
+		post.getSharedPostId()?.let { sharedPostId ->
+			if (sharedPostsMap.contains(sharedPostId)) {
+			    sharedPostsMap[sharedPostId].let {
+					 basePost.sharedPost = it
+				}
+			} else getSharedPostData(basePost)
 		}
 		return basePost
 	}
 
 	private fun getSharedPostData(basePost: AmityBasePostItem) {
+		if (sharedPostsMap.contains(basePost.post.getSharedPostId())) return
 		AmitySocialClient.newPostRepository().getPost(basePost.post.getSharedPostId()!!)
 			.map { createPostItem(it) }.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread()).doOnNext { sharedPost ->
+				if (sharedPostsMap.contains(basePost.post.getSharedPostId())) return@doOnNext
+				sharedPostsMap[basePost.post.getSharedPostId()!!] = sharedPost
 				basePost.sharedPost = sharedPost
 				basePost.sharedUpdatedListener?.invoke(sharedPost)
 			}.subscribe()
@@ -284,11 +290,15 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 		val reactionEvents = postReactionEventMap.values
 		reactionEvents.forEach {
 			val isAdding = it.isAdding
-			val isReactedByMe = it.post.getMyReactions().contains(AmityConstants.POST_REACTION)
+			val isReactedByMe = it.post.getMyReactions().contains(it.reaction.reactName)
 			if (isAdding && !isReactedByMe) {
-				addPostReaction(post = it.post).subscribe()
+				it.post.getMyReactions().forEach {react->
+					removePostReaction(post = it.post, getReactionByName(react)!!).subscribe()
+				}
+				addPostReaction(post = it.post,it.reaction).subscribe()
+
 			} else if (!isAdding && isReactedByMe) {
-				removePostReaction(post = it.post).subscribe()
+				removePostReaction(post = it.post,it.reaction).subscribe()
 			}
 		}
 		postReactionEventMap.clear()
@@ -298,11 +308,14 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 		val reactionEvents = commentReactionEventMap.values
 		reactionEvents.forEach {
 			val isAdding = it.isAdding
-			val isReactedByMe = it.comment.getMyReactions().contains(AmityConstants.POST_REACTION)
+			val isReactedByMe = it.comment.getMyReactions().contains(it.reactions.reactName)
 			if (isAdding && !isReactedByMe) {
-				addCommentReaction(comment = it.comment).subscribe()
+				it.comment.getMyReactions().forEach {react->
+					removeCommentReaction(comment = it.comment, getReactionByName(react)!!).subscribe()
+				}
+				addCommentReaction(comment = it.comment,it.reactions).subscribe()
 			} else if (!isAdding && isReactedByMe) {
-				removeCommentReaction(comment = it.comment).subscribe()
+				removeCommentReaction(comment = it.comment,it.reactions).subscribe()
 			}
 		}
 		commentReactionEventMap.clear()

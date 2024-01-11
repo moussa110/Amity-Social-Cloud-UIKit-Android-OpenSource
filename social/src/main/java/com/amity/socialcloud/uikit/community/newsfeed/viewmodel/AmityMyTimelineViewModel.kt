@@ -12,8 +12,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class AmityMyTimelineViewModel : AmityFeedViewModel() {
 
     @ExperimentalPagingApi
-    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable {
-
+    override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable? {
         return AmitySocialClient
             .newPostRepository()
             .getPosts()
@@ -27,5 +26,4 @@ class AmityMyTimelineViewModel : AmityFeedViewModel() {
             .doOnNext { onPageLoaded.invoke(it) }
             .ignoreElements()
     }
-
 }

@@ -20,6 +20,7 @@ import com.amity.socialcloud.uikit.common.utils.AmityListDataSource
 import com.amity.socialcloud.uikit.common.utils.AmitySafeClickListener
 import com.amity.socialcloud.uikit.common.utils.AmityScaleErrorImageViewTarget
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel

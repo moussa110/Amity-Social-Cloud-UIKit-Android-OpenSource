@@ -21,8 +21,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/fb_darker_gray_post_bg"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/fb_darker_gray_post_bg">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/reactionStatusLayout"
@@ -30,20 +30,67 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tvNumberOfReactions"
-                style="@style/AmityTextStyleCaption"
+            <LinearLayout
+                android:id="@+id/tvNumberOfReactionsView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/amity_padding_m1"
-                android:drawablePadding="@dimen/amity_padding_xs"
-                android:gravity="center_vertical"
-                android:textColor="@color/fb_text_gray"
-                app:drawableStartCompat="@drawable/amity_ic_reaction_count"
+                android:orientation="horizontal"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="1.8k likes" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/firstReactionIv"
+                    android:layout_width="@dimen/amity_eighteen"
+                    android:layout_height="@dimen/amity_eighteen"
+                    app:strokeWidth="1dp"
+                    android:padding="1dp"
+                    android:elevation="2dp"
+                    android:visibility="gone"
+                    app:strokeColor="@color/fb_darker_gray_post_bg"
+                    style="@style/AmityCircularAvatarStyle"
+                    android:outlineProvider="none"
+                    android:importantForAccessibility="no"
+                    tools:src="@drawable/love_20" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/secondReactionIv"
+                    style="@style/AmityCircularAvatarStyle"
+                    android:layout_width="@dimen/amity_eighteen"
+                    android:layout_height="@dimen/amity_eighteen"
+                    app:strokeWidth="1dp"
+                    android:padding="1dp"
+                    android:visibility="gone"
+                    android:layout_marginStart="-4dp"
+                    android:importantForAccessibility="no"
+                    android:outlineProvider="none"
+                    android:elevation="1dp"
+                    tools:src="@drawable/wow_20" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/thirdReactionIv"
+                    style="@style/AmityCircularAvatarStyle"
+                    android:layout_width="@dimen/amity_eighteen"
+                    android:layout_height="@dimen/amity_eighteen"
+                    app:strokeWidth="1dp"
+                    android:padding="1dp"
+                    android:visibility="gone"
+                    android:importantForAccessibility="no"
+                    android:layout_marginStart="-4dp"
+                    tools:src="@drawable/angry_20" />
+
+                <TextView
+                    android:id="@+id/tvNumberOfReactions"
+                    style="@style/AmityTextStyleCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/amity_padding_xxs"
+                    android:gravity="center"
+                    android:textColor="@color/fb_text_gray"
+                    tools:text="1.8k" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvNumberOfComments"
@@ -51,10 +98,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/amity_padding_m1"
+                android:textColor="@color/fb_text_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textColor="@color/fb_text_gray"
                 tools:text="18 comments" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -78,21 +125,22 @@
             android:layout_marginEnd="@dimen/amity_padding_m1"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingTop="@dimen/amity_padding_xs"
+            android:paddingBottom="@dimen/amity_padding_s"
             android:visibility="@{readOnly ? View.GONE : View.VISIBLE}"
             app:layout_constraintTop_toBottomOf="@id/separator">
 
-            <com.google.android.material.checkbox.MaterialCheckBox
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/cbLike"
                 style="@style/AmityTextStyleBodyBold"
-                android:textColor="@color/fb_text_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/amity_ic_like_selector"
+                android:drawablePadding="@dimen/amity_padding_xs"
+                android:gravity="center_vertical"
                 android:paddingHorizontal="@dimen/amity_padding_xs"
                 android:text="@string/amity_like"
-                app:checkBoxCheckedColor="@{@color/amityColorPrimary}"
-                app:checkBoxDefaultColor="@{@color/darkYellowColor}"
-                />
+                android:textColor="@color/fb_text_gray"
+                app:drawableStartCompat="@drawable/amity_btn_like_normal" />
 
             <TextView
                 android:id="@+id/cbComment"
@@ -104,8 +152,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/amity_comment"
                 android:textColor="@color/fb_text_gray"
-                app:drawableStartCompat="@drawable/amity_ic_comment"
-                />
+                app:drawableStartCompat="@drawable/amity_ic_comment" />
 
             <TextView
                 android:id="@+id/cbShare"
@@ -118,8 +165,7 @@
                 android:text="@string/amity_share"
                 android:textColor="@color/fb_text_gray"
                 android:visibility="@{showShareButton? View.VISIBLE: View.GONE}"
-                app:drawableStartCompat="@drawable/amity_ic_share"
-                />
+                app:drawableStartCompat="@drawable/amity_ic_share" />
         </LinearLayout>
 
         <LinearLayout
@@ -139,8 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/amity_join_community_message"
-                android:textColor="@color/fb_text_light_gray"
-                />
+                android:textColor="@color/fb_text_light_gray" />
 
         </LinearLayout>
 

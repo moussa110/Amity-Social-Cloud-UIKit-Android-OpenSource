@@ -16,7 +16,7 @@ class PostCommentDiffUtil : DiffUtil.ItemCallback<AmityComment>() {
                 && oldItem.getCreator()?.getDisplayName() == newItem.getCreator()?.getDisplayName()
                 && oldItem.getCreator()?.getAvatar()?.getUrl() == newItem.getCreator()?.getAvatar()?.getUrl()
                 && oldItem.getReactionCount() == newItem.getReactionCount()
-                && (oldItem.getMyReactions().contains(AmityConstants.POST_REACTION) == oldItem.getMyReactions().contains(AmityConstants.POST_REACTION))
+                && (oldItem.getMyReactions().size == oldItem.getMyReactions().size)
                 && oldItem.getEditedAt() == newItem.getEditedAt()
                 && areChildrenTheSame(oldItem.getLatestReplies(), newItem.getLatestReplies())
     }

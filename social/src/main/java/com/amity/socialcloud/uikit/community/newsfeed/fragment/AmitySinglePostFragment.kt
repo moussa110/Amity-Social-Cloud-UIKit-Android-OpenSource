@@ -25,9 +25,9 @@ import io.reactivex.rxjava3.core.Flowable
 class AmitySinglePostFragment : AmityFeedFragment() {
 
     override val showProgressBarOnLaunched = false
-
+    lateinit var mViewModel:AmitySinglePostViewModel
     override fun getViewModel(): AmitySinglePostViewModel {
-        return ViewModelProvider(requireActivity()).get(AmitySinglePostViewModel::class.java)
+        return mViewModel
     }
 
     override fun getEmptyView(inflater: LayoutInflater): View {
@@ -119,9 +119,9 @@ class AmitySinglePostFragment : AmityFeedFragment() {
 
         fun build(activity: AppCompatActivity): AmitySinglePostFragment {
             val fragment = AmitySinglePostFragment()
-            val viewModel = ViewModelProvider(activity).get(AmitySinglePostViewModel::class.java)
+            fragment.mViewModel = ViewModelProvider(activity).get(AmitySinglePostViewModel::class.java)
             if (postId.isNotEmpty()) {
-                viewModel.postId = postId
+                fragment.mViewModel.postId = postId
             }
             if (userClickListener == null) {
                 userClickListener = object : AmityUserClickListener {
@@ -130,7 +130,7 @@ class AmitySinglePostFragment : AmityFeedFragment() {
                     }
                 }
             }
-            viewModel.userClickListener = userClickListener!!
+            fragment.mViewModel.userClickListener = userClickListener!!
 
             if (communityClickListener == null) {
                 communityClickListener = object : AmityCommunityClickListener {
@@ -142,10 +142,10 @@ class AmitySinglePostFragment : AmityFeedFragment() {
                     }
                 }
             }
-            viewModel.communityClickListener = communityClickListener!!
-            viewModel.postShareClickListener = postShareClickListener
-            viewModel.postItemListener = postItemListener
-            viewModel.feedRefreshEvents = feedRefreshEvents
+            fragment.mViewModel.communityClickListener = communityClickListener!!
+            fragment.mViewModel.postShareClickListener = postShareClickListener
+            fragment.mViewModel.postItemListener = postItemListener
+            fragment.mViewModel.feedRefreshEvents = feedRefreshEvents
             return fragment
         }
 
