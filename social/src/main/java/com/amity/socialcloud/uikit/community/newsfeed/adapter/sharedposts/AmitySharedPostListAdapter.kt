@@ -20,10 +20,11 @@ import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
 import com.amity.socialcloud.uikit.community.utils.getSharedPostId
 import io.reactivex.rxjava3.subjects.PublishSubject
 
-class AmitySharedPostListAdapter(private val userClickPublisher: PublishSubject<AmityUser>,
-                                 private val communityClickPublisher: PublishSubject<AmityCommunity>,
-                                 private val postContentClickPublisher: PublishSubject<PostContentClickEvent>,
-                                 private val pollVoteClickPublisher: PublishSubject<PollVoteClickEvent>,
+class AmitySharedPostListAdapter(
+	private val userClickPublisher: PublishSubject<AmityUser>,
+	private val communityClickPublisher: PublishSubject<AmityCommunity>,
+	private val postContentClickPublisher: PublishSubject<PostContentClickEvent>,
+	private val pollVoteClickPublisher: PublishSubject<PollVoteClickEvent>,
 ) : RecyclerView.Adapter<AmitySharedPostViewHolder>() {
 	private val list: ArrayList<AmityBasePostItem?> = arrayListOf()
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AmitySharedPostViewHolder {
@@ -45,7 +46,7 @@ class AmitySharedPostListAdapter(private val userClickPublisher: PublishSubject<
 		val item = list[position]
 		val binding = AmityItemBaseSharedPostBinding.bind(holder.itemView)
 		binding.apply {
-			if (item == null){
+			if (item == null) {
 				parentView.updateLayoutParams {
 					height = 300.toPx()
 				}
@@ -53,19 +54,19 @@ class AmitySharedPostListAdapter(private val userClickPublisher: PublishSubject<
 					root.isVisible = true
 					shimmerLayout.startShimmer()
 				}
-			}else{
+			} else {
+				holder.bind(item, position)
 				parentView.updateLayoutParams {
 					height = WRAP_CONTENT
 				}
+				sharedMultiableTimeCard.let {
+					it.visibility =
+						if (item.post.getSharedPostId() != null) View.VISIBLE else View.INVISIBLE
+				}
 				shimmerView.apply {
-					root.isVisible = false
+					root.visibility = View.INVISIBLE
 					shimmerLayout.stopShimmer()
 				}
-
-				sharedMultiableTimeCard.let {
-					it.visibility = if (item.post.getSharedPostId() != null) View.VISIBLE else View.INVISIBLE
-				}
-				holder.bind(item, position)
 			}
 		}
 
@@ -82,10 +83,8 @@ class AmitySharedPostListAdapter(private val userClickPublisher: PublishSubject<
 		diffResult.dispatchUpdatesTo(this)
 	}
 
-	class DiffCallback(
-		private val oldList: List<AmityBasePostItem?>,
-		private val newList: List<AmityBasePostItem?>
-	) : DiffUtil.Callback() {
+	class DiffCallback(private val oldList: List<AmityBasePostItem?>,
+	                   private val newList: List<AmityBasePostItem?>) : DiffUtil.Callback() {
 
 		override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
 			val oldItem = oldList[oldItemPosition]
@@ -101,9 +100,7 @@ class AmitySharedPostListAdapter(private val userClickPublisher: PublishSubject<
 		override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
 			val oldItem = oldList[oldItemPosition]
 			val newItem = newList[newItemPosition]
-			return oldItem?.post?.getPostId() == newItem?.post?.getPostId() &&
-					oldItem?.post?.getEditedAt() == newItem?.post?.getEditedAt() &&
-					oldItem?.post?.isDeleted() == newItem?.post?.isDeleted()
+			return oldItem?.post?.getPostId() == newItem?.post?.getPostId() && oldItem?.post?.getEditedAt() == newItem?.post?.getEditedAt() && oldItem?.post?.isDeleted() == newItem?.post?.isDeleted()
 		}
 	}
 }

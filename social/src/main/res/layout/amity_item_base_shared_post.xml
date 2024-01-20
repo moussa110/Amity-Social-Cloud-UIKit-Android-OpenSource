@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/fb_darker_gray_post_bg"
+    android:animateLayoutChanges="true"
     android:paddingBottom="@dimen/amity_padding_xxs">
 
 
