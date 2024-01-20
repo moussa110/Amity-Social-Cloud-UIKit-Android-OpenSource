@@ -8,19 +8,20 @@
         android:layout_height="wrap_content"
         android:background="@color/fb_darker_gray_post_bg"
         android:orientation="vertical">
+
         <View
             style="@style/AmityDivider"
-            android:layout_marginBottom="@dimen/amity_padding_xxs"
             android:layout_marginLeft="@dimen/amity_padding_m1"
             android:layout_marginRight="@dimen/amity_padding_m1"
-            />
+            android:layout_marginBottom="@dimen/amity_padding_xxs" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCommentFooter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="true"
+            android:paddingBottom="@dimen/amity_padding_xs"
             android:background="@color/fb_darker_gray_post_bg"
+            android:nestedScrollingEnabled="true"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -37,7 +38,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/amity_padding_m1"
+                android:paddingLeft="@dimen/amity_padding_m1"
+                android:paddingTop="@dimen/amity_padding_xs"
+                android:paddingRight="@dimen/amity_padding_m1"
+                android:paddingBottom="@dimen/amity_padding_m1"
                 android:text="@string/amity_view_all_comments"
                 android:textColor="@color/fb_text_light_gray" />
 

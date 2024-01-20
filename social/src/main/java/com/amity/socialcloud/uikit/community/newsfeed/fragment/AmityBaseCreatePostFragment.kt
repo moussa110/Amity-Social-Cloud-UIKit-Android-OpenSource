@@ -13,6 +13,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import androidx.annotation.StringRes
+import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveDataReactiveStreams
@@ -165,11 +166,18 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 			recyclerViewPostAttachmentsOptions.isVisible = false
 			rvAttachment.isVisible = false
 			sharedPostView.isVisible = true
-			sharedMultiableTimeCard.visibility = if (viewModel.sharedPostData!!.isTargetPostHasSharedPost) View.VISIBLE else View.INVISIBLE
-			sharedPostIv.setImageBitmap(viewModel.sharedPostData!!.getBitmap(requireContext()))
+			sharedMultiableTimeCard.visibility =
+				if (viewModel.sharedPostData!!.isTargetPostHasSharedPost) View.VISIBLE else View.INVISIBLE
+			setupSharedPostImage()
+
 		}
 	}
 
+	private fun setupSharedPostImage() {
+		binding.sharedPostIv.apply {
+			setImageBitmap(viewModel.sharedPostData!!.getBitmap(requireContext()))
+		}
+	}
 
 	private fun setupActionBarRightText() {
 		setActionBarRightText(getPostMenuText()) {
@@ -177,7 +185,6 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 		}
 		updatePostMenu(isRightButtonActive())
 	}
-
 
 	abstract fun handlePostMenuItemClick()
 
@@ -673,9 +680,9 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 	private fun showExitConfirmationDialog() {
 		val exitConfirmationDialogFragment =
 			AmityAlertDialogFragment.newInstance(R.string.amity_discard_post_title,
-					R.string.amity_discard_post_message,
-					R.string.amity_discard,
-					R.string.amity_cancel)
+				R.string.amity_discard_post_message,
+				R.string.amity_discard,
+				R.string.amity_cancel)
 		exitConfirmationDialogFragment.show(childFragmentManager, AmityAlertDialogFragment.TAG);
 		exitConfirmationDialogFragment.listener = this
 	}
@@ -816,9 +823,9 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 
 	private fun showImageUploadFailedDialog() {
 		val dialogFragment = AmityAlertDialogFragment.newInstance(R.string.amity_upload_incomplete,
-				R.string.amity_image_upload_failed_message,
-				null,
-				R.string.amity_ok)
+			R.string.amity_image_upload_failed_message,
+			null,
+			R.string.amity_ok)
 		dialogFragment.show(childFragmentManager, AmityAlertDialogFragment.TAG);
 		dialogFragment.setAlertDialogActionListener(object :
 			AmityAlertDialogFragment.IAlertDialogActionListener {
@@ -835,9 +842,9 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 
 	private fun showAttachmentUploadFailedDialog() {
 		val dialogFragment = AmityAlertDialogFragment.newInstance(R.string.amity_upload_incomplete,
-				R.string.amity_attachment_upload_failed_message,
-				null,
-				R.string.amity_ok)
+			R.string.amity_attachment_upload_failed_message,
+			null,
+			R.string.amity_ok)
 		dialogFragment.show(childFragmentManager, AmityAlertDialogFragment.TAG);
 		dialogFragment.setAlertDialogActionListener(object :
 			AmityAlertDialogFragment.IAlertDialogActionListener {
@@ -908,9 +915,9 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 	private fun showMaxLimitExceedError(addedFiles: MutableList<AmityFileAttachment>) {
 		val dialogFragment =
 			AmityAlertDialogFragment.newInstance(R.string.amity_file_max_limit_exceed_title,
-					R.string.amity_file_max_limit_exceed_message,
-					null,
-					R.string.amity_ok)
+				R.string.amity_file_max_limit_exceed_message,
+				null,
+				R.string.amity_ok)
 		dialogFragment.setAlertDialogActionListener(object :
 			AmityAlertDialogFragment.IAlertDialogActionListener {
 			override fun onClickPositiveButton() {
@@ -975,10 +982,9 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 					Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
 						// Ensure that there's a camera activity to handle the intent
 						takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
-								takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-								startActivityForResult(takePictureIntent,
-									AmityConstants.CAPTURE_IMAGE)
-							}
+							takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+							startActivityForResult(takePictureIntent, AmityConstants.CAPTURE_IMAGE)
+						}
 					}
 				}
 			}

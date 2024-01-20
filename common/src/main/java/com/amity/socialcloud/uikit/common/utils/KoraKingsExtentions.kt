@@ -1,6 +1,7 @@
 package com.amity.socialcloud.uikit.common.utils
 
-import android.app.Activity
+import android.content.Context
+import android.util.DisplayMetrics
 import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,8 @@ import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.base.AmityBaseToolbarFragmentContainerActivity
 import com.amity.socialcloud.uikit.common.components.AmityToolBar
 import com.amity.socialcloud.uikit.common.components.AmityToolBarClickListener
+import kotlin.math.roundToInt
+
 
 fun Fragment.setActionBarRightDrawable(imageResource: Int, listener: () -> Unit) {
 	try {
@@ -132,4 +135,9 @@ fun View.animateScaleIn(
 		.setDuration(duration).withEndAction {
 			endListener?.invoke()
 		}
+}
+
+fun Int.pxToDp(context: Context): Int {
+	val displayMetrics: DisplayMetrics = context.resources.displayMetrics
+	return (this / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
 }

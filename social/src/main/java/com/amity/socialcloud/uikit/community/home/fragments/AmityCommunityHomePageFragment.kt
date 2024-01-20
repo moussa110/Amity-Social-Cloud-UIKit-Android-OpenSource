@@ -96,7 +96,7 @@ class AmityCommunityHomePageFragment : Fragment() {
 		return AmityNewsFeedFragment.newInstance().build()
 	}
 
-	private fun addViewModelListeners() {		viewModel.showExploreLiveData.observe(viewLifecycleOwner) {
+	private fun addViewModelListeners() {viewModel.showExploreLiveData.observe(viewLifecycleOwner) {
 			if (isNavigatedToExplore) return@observe
 			if (it.first != 0) {
 				if (it.second) {

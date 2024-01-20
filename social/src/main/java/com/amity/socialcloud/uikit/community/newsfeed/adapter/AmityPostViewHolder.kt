@@ -20,6 +20,7 @@ import com.amity.socialcloud.uikit.community.newsfeed.events.PostReviewClickEven
 import com.amity.socialcloud.uikit.community.newsfeed.events.ReactionCountClickEvent
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
 import com.amity.socialcloud.uikit.community.newsfeed.view.AmityBasePostView
+import com.amity.socialcloud.uikit.community.utils.getSharedPostId
 import io.reactivex.rxjava3.subjects.PublishSubject
 
 class AmityPostViewHolder(itemView: View,
@@ -68,6 +69,9 @@ class AmityPostViewHolder(itemView: View,
 		pollVoteClickPublisher)
 	//private val sharedContentAdapter = AmityShared(postContentClickPublisher, pollVoteClickPublisher)
 
+	fun bindSharedPost(sharedPost:AmityBasePostItem){
+		sharedPostAdapter.submitList(listOf(sharedPost))
+	}
 
 	override fun bind(data: AmityBasePostItem?, position: Int) {
 		if (data == null) {
@@ -97,12 +101,9 @@ class AmityPostViewHolder(itemView: View,
 		}
 		dummyAdapter.setItems(listOf())
 		footerAdapter.submitList(data.footerItems, data.sharedPost != null)
-
-		data.sharedPost.let {
-			if (it == null) {
-				sharedPostAdapter.submitList(listOf())
-			} else {
-				sharedPostAdapter.submitList(listOf(it))
+		data.post.getSharedPostId()?.let {
+			data.sharedPost.let {
+					sharedPostAdapter.submitList(listOf(it))
 			}
 		}
 	}
@@ -114,7 +115,7 @@ class AmityPostViewHolder(itemView: View,
 //                this.setIsolateViewTypes(false)
 //            }.build()
 
-		concatAdapter = if (data.sharedPost == null) ConcatAdapter(headerAdapter, contentAdapter, dummyAdapter, footerAdapter)
+		concatAdapter = if (data.post.getSharedPostId() == null) ConcatAdapter(headerAdapter, contentAdapter, dummyAdapter, footerAdapter)
 		else ConcatAdapter(headerAdapter, contentAdapter, sharedPostAdapter, footerAdapter)
 		basePostView.layoutManager = LinearLayoutManager(this.itemView.context)
 		basePostView.adapter = concatAdapter

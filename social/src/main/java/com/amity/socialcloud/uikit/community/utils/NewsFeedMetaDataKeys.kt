@@ -1,10 +1,11 @@
 package com.amity.socialcloud.uikit.community.utils
 
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
+import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPost
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 
 import com.google.gson.JsonObject
-import java.util.function.Consumer
 
 
 enum class NewsFeedMetaDataKeys(val key: String) {
@@ -19,6 +20,23 @@ fun AmityPost.getSharedPostId():String?{
 	return null
 }
 
+
+/*fun AmityPost.getSharedPost(): SharedPost? {
+	getMetadata()?.let {
+		 it.getAsJsonObject(NewsFeedMetaDataKeys.SHARED_POST_KEY.key)?.let {sharedPost->
+			 try {
+				 return Gson().fromJson(sharedPost, SharedPost::class.java)
+			 }
+			 catch (e:Exception){
+				 e.printStackTrace()
+				 return null
+			 }
+		}
+	}
+	return null
+}*/
+
+
 fun mergeJsonObjects(jsonObjects: List<JsonObject>): JsonObject {
 	val mergedJson = JsonObject()
 	jsonObjects.forEach{ jsonObj: JsonObject ->
@@ -29,3 +47,4 @@ fun mergeJsonObjects(jsonObjects: List<JsonObject>): JsonObject {
 	}
 	return mergedJson
 }
+

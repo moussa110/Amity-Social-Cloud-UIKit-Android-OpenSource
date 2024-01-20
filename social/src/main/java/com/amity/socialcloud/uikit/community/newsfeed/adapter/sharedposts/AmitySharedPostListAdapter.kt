@@ -3,17 +3,21 @@ package com.amity.socialcloud.uikit.community.newsfeed.adapter.sharedposts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
+import com.amity.socialcloud.uikit.common.common.toDp
+import com.amity.socialcloud.uikit.common.common.toPx
 import com.amity.socialcloud.uikit.community.R
+import com.amity.socialcloud.uikit.community.databinding.AmityItemBaseSharedPostBinding
 import com.amity.socialcloud.uikit.community.newsfeed.events.PollVoteClickEvent
 import com.amity.socialcloud.uikit.community.newsfeed.events.PostContentClickEvent
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
 import com.amity.socialcloud.uikit.community.utils.getSharedPostId
-import com.google.android.material.card.MaterialCardView
 import io.reactivex.rxjava3.subjects.PublishSubject
 
 class AmitySharedPostListAdapter(private val userClickPublisher: PublishSubject<AmityUser>,
@@ -39,18 +43,39 @@ class AmitySharedPostListAdapter(private val userClickPublisher: PublishSubject<
 
 	override fun onBindViewHolder(holder: AmitySharedPostViewHolder, position: Int) {
 		val item = list[position]
-		holder.bind(item, position)
-		holder.itemView.findViewById<MaterialCardView>(R.id.sharedMultiableTimeCard).let {
-			it.visibility = if (item?.post?.getSharedPostId() != null) View.VISIBLE else View.INVISIBLE
+		val binding = AmityItemBaseSharedPostBinding.bind(holder.itemView)
+		binding.apply {
+			if (item == null){
+				parentView.updateLayoutParams {
+					height = 300.toPx()
+				}
+				shimmerView.apply {
+					root.isVisible = true
+					shimmerLayout.startShimmer()
+				}
+			}else{
+				parentView.updateLayoutParams {
+					height = WRAP_CONTENT
+				}
+				shimmerView.apply {
+					root.isVisible = false
+					shimmerLayout.stopShimmer()
+				}
 
+				sharedMultiableTimeCard.let {
+					it.visibility = if (item.post.getSharedPostId() != null) View.VISIBLE else View.INVISIBLE
+				}
+				holder.bind(item, position)
+			}
 		}
+
 	}
 
-	fun submitList(newList: List<AmityBasePostItem>) {
+	fun submitList(newList: List<AmityBasePostItem?>) {
 		setItems(newList, DiffCallback(list, newList))
 	}
 
-	fun setItems(listItems: List<AmityBasePostItem>, diffCallBack: DiffUtil.Callback) {
+	fun setItems(listItems: List<AmityBasePostItem?>, diffCallBack: DiffUtil.Callback) {
 		val diffResult = DiffUtil.calculateDiff(diffCallBack)
 		list.clear()
 		list.addAll(listItems)

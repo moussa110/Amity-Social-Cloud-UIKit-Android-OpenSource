@@ -25,7 +25,7 @@ class PostLoadStateAdapter() : LoadStateAdapter<PostLoadStateAdapter.LoadStateVi
 		val binding:PoastLoadStateViewBinding = PoastLoadStateViewBinding.bind(view)
 		fun bindItem(loadState: LoadState) {
 			binding.apply {
-				shimmerLayout.startShimmer()
+				shimmerView.shimmerLayout.startShimmer()
 				/*loadStateRetry.isVisible = loadState !is LoadState.Loading
 				loadStateErrorMessage.isVisible = loadState !is LoadState.Loading
 				loadStateProgress.isVisible = loadState is LoadState.Loading

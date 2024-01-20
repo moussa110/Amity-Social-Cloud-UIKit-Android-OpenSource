@@ -2,14 +2,12 @@ package com.amity.socialcloud.uikit.community.newsfeed.viewmodel
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import com.amity.socialcloud.sdk.api.social.AmitySocialClient
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
-import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityPostListAdapter
 import com.amity.socialcloud.uikit.community.newsfeed.events.*
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityCommunityClickListener
@@ -27,6 +25,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import java.util.*
@@ -38,7 +37,6 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 	lateinit var postShareClickListener: AmityPostShareClickListener
 	internal var feedLoadStatePublisher = PublishSubject.create<AmityFeedLoadStateEvent>()
 	internal var feedRefreshEvents = Flowable.never<AmityFeedRefreshEvent>()
-
 	private val userClickPublisher = PublishSubject.create<AmityUser>()
 	private val communityClickPublisher = PublishSubject.create<AmityCommunity>()
 	private val postEngagementClickPublisher = PublishSubject.create<PostEngagementClickEvent>()
@@ -73,19 +71,22 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 			reactionCountClickPublisher)
 	}
 
-	private val sharedPostsMap = mutableMapOf<String,AmityBasePostItem>()
+	private val sharedPostsMap = mutableMapOf<String, AmityBasePostItem>()
 
-	internal fun createPostItem(post: AmityPost): AmityBasePostItem {
+	internal fun createPostItem(post: AmityPost,
+	                            isFromSharedPost: Boolean = false): AmityBasePostItem {
 		val basePost = AmityBasePostItem(post,
 			createPostHeaderItems(post),
 			createPostContentItems(post),
 			createPostFooterItems(post))
-		post.getSharedPostId()?.let { sharedPostId ->
-			if (sharedPostsMap.contains(sharedPostId)) {
-			    sharedPostsMap[sharedPostId].let {
-					 basePost.sharedPost = it
-				}
-			} else getSharedPostData(basePost)
+		if (!isFromSharedPost) {
+			post.getSharedPostId()?.let { sharedPostId ->
+				if (sharedPostsMap.contains(sharedPostId)) {
+					sharedPostsMap[sharedPostId].let {
+						basePost.sharedPost = it
+					}
+				} else getSharedPostData(basePost)
+			}
 		}
 		return basePost
 	}
@@ -93,7 +94,7 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 	private fun getSharedPostData(basePost: AmityBasePostItem) {
 		if (sharedPostsMap.contains(basePost.post.getSharedPostId())) return
 		AmitySocialClient.newPostRepository().getPost(basePost.post.getSharedPostId()!!)
-			.map { createPostItem(it) }.subscribeOn(Schedulers.io())
+			.map { createPostItem(it, true) }.subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread()).doOnNext { sharedPost ->
 				if (sharedPostsMap.contains(basePost.post.getSharedPostId())) return@doOnNext
 				sharedPostsMap[basePost.post.getSharedPostId()!!] = sharedPost
@@ -292,13 +293,13 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 			val isAdding = it.isAdding
 			val isReactedByMe = it.post.getMyReactions().contains(it.reaction.reactName)
 			if (isAdding && !isReactedByMe) {
-				it.post.getMyReactions().forEach {react->
+				it.post.getMyReactions().forEach { react ->
 					removePostReaction(post = it.post, getReactionByName(react)!!).subscribe()
 				}
-				addPostReaction(post = it.post,it.reaction).subscribe()
+				addPostReaction(post = it.post, it.reaction).subscribe()
 
 			} else if (!isAdding && isReactedByMe) {
-				removePostReaction(post = it.post,it.reaction).subscribe()
+				removePostReaction(post = it.post, it.reaction).subscribe()
 			}
 		}
 		postReactionEventMap.clear()
@@ -310,12 +311,13 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 			val isAdding = it.isAdding
 			val isReactedByMe = it.comment.getMyReactions().contains(it.reactions.reactName)
 			if (isAdding && !isReactedByMe) {
-				it.comment.getMyReactions().forEach {react->
-					removeCommentReaction(comment = it.comment, getReactionByName(react)!!).subscribe()
+				it.comment.getMyReactions().forEach { react ->
+					removeCommentReaction(comment = it.comment,
+						getReactionByName(react)!!).subscribe()
 				}
-				addCommentReaction(comment = it.comment,it.reactions).subscribe()
+				addCommentReaction(comment = it.comment, it.reactions).subscribe()
 			} else if (!isAdding && isReactedByMe) {
-				removeCommentReaction(comment = it.comment,it.reactions).subscribe()
+				removeCommentReaction(comment = it.comment, it.reactions).subscribe()
 			}
 		}
 		commentReactionEventMap.clear()
