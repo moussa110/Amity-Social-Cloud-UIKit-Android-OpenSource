@@ -348,7 +348,7 @@
             <ImageView
                 android:id="@+id/iv_lock"
                 amityFillShade="@{AmityColorShade.SHADE1}"
-                amityFillColor="@{@color/white}"
+                amityFillColor="@{@color/amityColorBase}"
                 android:tint="@color/yellowColor"
                 android:layout_width="@dimen/amity_forty"
                 android:layout_height="@dimen/amity_forty"

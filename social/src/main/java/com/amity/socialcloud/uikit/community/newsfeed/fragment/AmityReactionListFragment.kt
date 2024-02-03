@@ -16,100 +16,81 @@ import com.amity.socialcloud.uikit.community.newsfeed.viewmodel.AmityReactionLis
 
 class AmityReactionListFragment : AmityBaseFragment() {
 
-    private lateinit var binding: AmityFragmentReactionListBinding
-    private lateinit var viewModel: AmityReactionListViewModel
-    private lateinit var fragmentStateAdapter: AmityFragmentStateAdapter
+	private lateinit var binding: AmityFragmentReactionListBinding
+	private lateinit var viewModel: AmityReactionListViewModel
+	private lateinit var fragmentStateAdapter: AmityFragmentStateAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = AmityFragmentReactionListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+	override fun onCreateView(inflater: LayoutInflater,
+	                          container: ViewGroup?,
+	                          savedInstanceState: Bundle?): View {
+		binding = AmityFragmentReactionListBinding.inflate(inflater, container, false)
+		return binding.root
+	}
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity()).get(AmityReactionListViewModel::class.java)
+		viewModel = ViewModelProvider(requireActivity()).get(AmityReactionListViewModel::class.java)
 
-        setupTabs()
-    }
+		setupTabs()
+	}
 
-    private fun setupTabs() {
-        fragmentStateAdapter = AmityFragmentStateAdapter(childFragmentManager, this.lifecycle)
-        fragmentStateAdapter.setFragmentList(
-            arrayListOf(
-                AmityFragmentStateAdapter.AmityPagerModel(
-                    "All ${formattedReactionCount()}",
-                    getSingleReactionFragment(null)
-                ),
-                /*
-                 * To show extra tab for each reaction type
-                 *
-                AmityFragmentStateAdapter.AmityPagerModel(
-                    "Like ${formattedReactionCount("like")}",
-                    getSingleReactionFragment("like")
-                ),
-                AmityFragmentStateAdapter.AmityPagerModel(
-                    "Love ${formattedReactionCount("love")}",
-                    getSingleReactionFragment("love")
-                )
-                 */
-            )
-        )
+	private fun getReactionsStatePages() {
+		viewModel.getReactionsSorted().forEach {
+			list.add(AmityFragmentStateAdapter.AmityPagerModel("${it.first}$${it.second.readableNumber()}",
+				getSingleReactionFragment(it.first)))
+		}
+	}
 
-        binding.reactionsTabLayout.setAdapter(fragmentStateAdapter)
-    }
-
-    private fun formattedReactionCount(reactionName: String? = null): String {
-        return viewModel.getReactionCount(reactionName).readableNumber()
-    }
-
-    private fun getSingleReactionFragment(reactionName: String?): Fragment {
-        return AmitySingleReactionFragment.newInstance(
-            viewModel.referenceType,
-            viewModel.referenceId,
-            reactionName
-        ).build(activity as AppCompatActivity)
-    }
+	private lateinit var list: ArrayList<AmityFragmentStateAdapter.AmityPagerModel>
+	private fun setupTabs() {
+		fragmentStateAdapter = AmityFragmentStateAdapter(childFragmentManager, this.lifecycle)
+		viewModel.getPostDetails()
+		list = arrayListOf(AmityFragmentStateAdapter.AmityPagerModel("All ${viewModel.allReactionsCount.readableNumber()}", getSingleReactionFragment(null)))
+		if (viewModel.allReactionsCount != 0) {
+			getReactionsStatePages()
+		}
+		fragmentStateAdapter.setFragmentList(list)
+		binding.reactionsTabLayout.setAdapter(fragmentStateAdapter,true)
+	}
 
 
-    class Builder internal constructor() {
+	private fun getSingleReactionFragment(reactionName: String?): Fragment {
+		return AmitySingleReactionFragment.newInstance(viewModel.referenceType,
+			viewModel.referenceId,
+			reactionName).build(activity as AppCompatActivity)
+	}
 
-        private lateinit var referenceType: AmityReactionReferenceType
-        private var referenceId: String = ""
 
-        fun build(activity: AppCompatActivity): AmityReactionListFragment {
-            val fragment = AmityReactionListFragment()
-            val viewModel = ViewModelProvider(activity).get(AmityReactionListViewModel::class.java)
+	class Builder internal constructor() {
 
-            viewModel.referenceType = referenceType
-            viewModel.referenceId = referenceId
+		private lateinit var referenceType: AmityReactionReferenceType
+		private var referenceId: String = ""
 
-            return fragment
-        }
+		fun build(activity: AppCompatActivity): AmityReactionListFragment {
+			val fragment = AmityReactionListFragment()
+			val viewModel = ViewModelProvider(activity).get(AmityReactionListViewModel::class.java)
 
-        internal fun referenceType(referenceType: AmityReactionReferenceType): Builder {
-            this.referenceType = referenceType
-            return this
-        }
+			viewModel.referenceType = referenceType
+			viewModel.referenceId = referenceId
 
-        internal fun referenceId(referenceId: String): Builder {
-            this.referenceId = referenceId
-            return this
-        }
-    }
+			return fragment
+		}
 
-    companion object {
-        fun newInstance(
-            referenceType: AmityReactionReferenceType,
-            referenceId: String
-        ): Builder {
-            return Builder()
-                .referenceType(referenceType)
-                .referenceId(referenceId)
-        }
-    }
+		internal fun referenceType(referenceType: AmityReactionReferenceType): Builder {
+			this.referenceType = referenceType
+			return this
+		}
+
+		internal fun referenceId(referenceId: String): Builder {
+			this.referenceId = referenceId
+			return this
+		}
+	}
+
+	companion object {
+		fun newInstance(referenceType: AmityReactionReferenceType, referenceId: String): Builder {
+			return Builder().referenceType(referenceType).referenceId(referenceId)
+		}
+	}
 }

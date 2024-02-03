@@ -8,14 +8,14 @@ class AmityPostSharingSettings {
         AmityPostSharingTarget.MyFeed,
         AmityPostSharingTarget.PublicCommunity,
         AmityPostSharingTarget.PrivateCommunity,
-        AmityPostSharingTarget.External
+        //AmityPostSharingTarget.External
     )
     var myFeedPostSharingTarget = listOf(
         AmityPostSharingTarget.OriginFeed,
         AmityPostSharingTarget.MyFeed,
         AmityPostSharingTarget.PublicCommunity,
         AmityPostSharingTarget.PrivateCommunity,
-        AmityPostSharingTarget.External
+        //AmityPostSharingTarget.External
     )
     var userFeedPostSharingTarget = listOf(
         AmityPostSharingTarget.OriginFeed,

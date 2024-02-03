@@ -13,10 +13,11 @@ import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostFooterI
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
 import io.reactivex.rxjava3.subjects.PublishSubject
 import com.amity.socialcloud.uikit.community.newsfeed.popup.showReactionPopup
-import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.ReactionViewController
-import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.Reactions
-import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.getDrawable20
-import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.getReactionByName
+import com.amity.socialcloud.uikit.common.utils.ReactionViewController
+import com.amity.socialcloud.uikit.common.utils.Reactions
+import com.amity.socialcloud.uikit.common.utils.getDrawable20
+
+import com.amity.socialcloud.uikit.common.utils.getReactionByName
 
 class AmityPostFooterPostEngagementViewHolder(
 	private val binding: AmityItemPostFooterPostEngagementBinding,
@@ -59,7 +60,7 @@ class AmityPostFooterPostEngagementViewHolder(
 	}
 
 	private fun setReactionCountListener(post: AmityPost) {
-		binding.tvNumberOfReactions.setOnClickListener {
+		binding.tvNumberOfReactionsView.setOnClickListener {
 			reactionCountClickPublisher.onNext(ReactionCountClickEvent.Post(post))
 		}
 	}

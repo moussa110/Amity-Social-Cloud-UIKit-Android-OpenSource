@@ -14,6 +14,7 @@ class AmityCommunityPageActivity :
     companion object {
         private const val COMMUNITY = "COMMUNITY"
         private const val IS_CREATE_COMMUNITY = "IS_CREATE_COMMUNITY"
+        private const val COMMUNITY_ID = "COMMUNITY_ID"
 
         fun newIntent(context: Context, community: AmityCommunity, isCreateCommunity: Boolean = false): Intent {
             return Intent(context, AmityCommunityPageActivity::class.java).apply {
@@ -21,22 +22,37 @@ class AmityCommunityPageActivity :
                 putExtra(IS_CREATE_COMMUNITY, isCreateCommunity)
             }
         }
+
+        fun newIntent(context: Context, communityId:String): Intent {
+            return Intent(context, AmityCommunityPageActivity::class.java).apply {
+                putExtra(COMMUNITY_ID, communityId)
+            }
+        }
     }
 
     override fun initToolbar() {
+        val isFromContest = intent?.extras?.getString(COMMUNITY_ID) != null
+
         getToolBar()?.setLeftDrawable(
             ContextCompat.getDrawable(
                 this,
-                R.drawable.amity_ic_arrow_back
-            )
+                  R.drawable.amity_ic_arrow_back
+            ),if (isFromContest) R.color.yellowColor else null
         )
     }
 
     override fun getContentFragment(): Fragment {
-        val amityCommunity: AmityCommunity = intent?.extras?.getParcelable(COMMUNITY)!!
-        return AmityCommunityPageFragment
-            .newInstance(amityCommunity)
-            .createCommunitySuccess(intent?.extras?.getBoolean(IS_CREATE_COMMUNITY) ?: false)
-            .build(this)
+        intent?.extras?.getString(COMMUNITY_ID)?.let {
+            return AmityCommunityPageFragment
+                .newInstance(it)
+                .createCommunitySuccess(intent?.extras?.getBoolean(IS_CREATE_COMMUNITY) ?: false)
+                .build(this)
+        } ?: run {
+            val amityCommunity: AmityCommunity = intent?.extras?.getParcelable(COMMUNITY)!!
+            return AmityCommunityPageFragment
+                .newInstance(amityCommunity)
+                .createCommunitySuccess(intent?.extras?.getBoolean(IS_CREATE_COMMUNITY) ?: false)
+                .build(this)
+        }
     }
 }

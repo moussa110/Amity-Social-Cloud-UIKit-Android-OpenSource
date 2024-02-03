@@ -10,7 +10,7 @@ import com.amity.socialcloud.sdk.model.social.comment.AmityComment
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.BottomSheetMenuItem
 import com.amity.socialcloud.uikit.community.R
-import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.Reactions
+import com.amity.socialcloud.uikit.common.utils.Reactions
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.schedulers.Schedulers

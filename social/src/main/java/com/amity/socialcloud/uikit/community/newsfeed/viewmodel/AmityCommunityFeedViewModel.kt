@@ -1,7 +1,5 @@
 package com.amity.socialcloud.uikit.community.newsfeed.viewmodel
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData

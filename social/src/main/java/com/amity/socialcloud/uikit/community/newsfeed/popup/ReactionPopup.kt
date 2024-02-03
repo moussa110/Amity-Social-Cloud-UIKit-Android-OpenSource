@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import com.amity.socialcloud.uikit.common.utils.animateScaleClick
 import com.amity.socialcloud.uikit.community.databinding.AmityPopupReactionsBinding
-import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.Reactions
+import com.amity.socialcloud.uikit.common.utils.Reactions
 
 
 fun showReactionPopup(view: View,isFromComment:Boolean=false,listener:(Reactions)->Unit) {

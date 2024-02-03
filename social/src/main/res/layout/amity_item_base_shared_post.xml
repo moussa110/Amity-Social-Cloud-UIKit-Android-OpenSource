@@ -5,8 +5,8 @@
     android:id="@+id/parentView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/fb_darker_gray_post_bg"
     android:animateLayoutChanges="true"
+    android:background="@color/fb_darker_gray_post_bg"
     android:paddingBottom="@dimen/amity_padding_xxs">
 
 
@@ -28,6 +28,7 @@
             android:id="@+id/basePostView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/fb_darker_gray_post_bg"
             android:nestedScrollingEnabled="false"
             app:layoutManager="LinearLayoutManager" />
 
@@ -35,9 +36,20 @@
             android:id="@+id/shimmerView"
             layout="@layout/post_shimmer_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="180dp"
             android:layout_marginTop="@dimen/amity_padding_s"
             android:layout_marginBottom="@dimen/amity_padding_s" />
+
+        <include
+            android:id="@+id/errorView"
+            layout="@layout/amity_post_deleted_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/amity_padding_s"
+            android:layout_marginEnd="@dimen/amity_padding_s"
+            android:layout_marginTop="@dimen/amity_padding_m1"
+            android:layout_marginBottom="@dimen/amity_padding_m1" />
+
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView

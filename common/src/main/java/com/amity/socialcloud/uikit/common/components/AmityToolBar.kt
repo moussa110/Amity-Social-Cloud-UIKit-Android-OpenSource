@@ -1,13 +1,16 @@
 package com.amity.socialcloud.uikit.common.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.common.expandViewHitArea
@@ -18,96 +21,111 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class AmityToolBar : MaterialToolbar {
 
-    private lateinit var binding: AmityToolbarBinding
+	private lateinit var binding: AmityToolbarBinding
 
-    constructor(context: Context) : super(context) {
-        init()
-    }
+	constructor(context: Context) : super(context) {
+		init()
+	}
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
-    }
+	constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+		init()
+	}
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-        init()
-    }
+	constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context,
+		attrs,
+		defStyleAttr) {
+		init()
+	}
 
-    private fun init() {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        binding = DataBindingUtil.inflate(inflater, R.layout.amity_toolbar, this, true)
-        binding.rightStringActive = true
-        toggleRightTextColor(false)
-        setContentInsetsRelative(0, 0)
-        setUpImageViewLeft()
-        setUpImageViewRight()
-    }
+	private fun init() {
+		val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+		binding = DataBindingUtil.inflate(inflater, R.layout.amity_toolbar, this, true)
+		binding.rightStringActive = true
+		toggleRightTextColor(false)
+		setContentInsetsRelative(0, 0)
+		setUpImageViewLeft()
+		setUpImageViewRight()
+		binding.parentView.setPadding(0,getStatusBarHeight(),0,0)
+	}
 
-    private fun setUpImageViewLeft() {
-        binding.ivLeft.expandViewHitArea()
-    }
+	private fun setUpImageViewLeft() {
+		binding.ivLeft.expandViewHitArea()
+	}
 
-    private fun setUpImageViewRight() {
-        binding.tvRight.expandViewHitArea()
-    }
+	private fun setUpImageViewRight() {
+		binding.tvRight.expandViewHitArea()
+	}
 
-    fun setLeftString(value: String) {
-        binding.logoIv.isVisible = false
-        binding.leftString = value
-    }
+	@SuppressLint("DiscouragedApi", "InternalInsetResource")
+	private fun getStatusBarHeight(): Int {
+		val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+		return if (resourceId > 0) {
+			resources.getDimensionPixelSize(resourceId)
+		} else {
+			resources.getDimensionPixelSize(R.dimen.amity_twenty_eight)
+		}
+	}
 
-    fun setLeftDrawable(value: Drawable?, color: Int? = null) {
-        binding.leftDrawable = value
-        if (color != null && binding.leftDrawable != null) {
-            binding.leftDrawable!!.colorFilter =
-                PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
-        }
+	fun setLeftString(value: String) {
+		binding.logoIv.isVisible = false
+		binding.leftString = value
+	}
 
-    }
+	fun setLeftDrawable(value: Drawable?, color: Int? = null) {
+		binding.leftDrawable = value
+		if (binding.leftDrawable != null) {
+			if (color == null) {
+				binding.leftDrawable!!.colorFilter = PorterDuffColorFilter(ContextCompat.getColor(
+					context,
+					R.color.fb_icon_light_gray), PorterDuff.Mode.SRC_IN)
+			} else {
+				binding.leftDrawable!!.colorFilter =
+					PorterDuffColorFilter(ContextCompat.getColor(context, color),
+						PorterDuff.Mode.SRC_IN)
+			}
+		}
+	}
 
-    fun getLeftTextView() = binding.tvLeft
 
-    fun setRightString(value: String) {
-        binding.rightString = value
-    }
+	fun getLeftTextView() = binding.tvLeft
 
-    fun setRightStringActive(value: Boolean) {
-        binding.rightStringActive = value
-        toggleRightTextColor(value)
-    }
+	fun setRightString(value: String) {
+		binding.rightString = value
+	}
 
-    private fun toggleRightTextColor(value: Boolean) {
-        binding.tvRight.apply {
-            if (value) {
-                isEnabled=true
-                setTextColor(AmityColorPaletteUtil.getColor(ContextCompat.getColor(context,
-                    R.color.yellowColor), AmityColorShade.DEFAULT))
-            } else {
-                isEnabled = false
-                setTextColor(AmityColorPaletteUtil.getColor(ContextCompat.getColor(
-                    context,
-                    R.color.fb_gray_placeholder), AmityColorShade.DEFAULT))
-            }
-        }
-    }
+	fun setRightStringActive(value: Boolean) {
+		binding.rightStringActive = value
+		toggleRightTextColor(value)
+	}
 
-    fun setRightDrawable(value: Drawable?, color: Int? = null) {
-        binding.rightDrawable = value
-        if (color != null && binding.rightDrawable != null) {
-            binding.rightDrawable!!.colorFilter =
-                PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
-        }
-    }
+	private fun toggleRightTextColor(value: Boolean) {
+		binding.tvRight.apply {
+			if (value) {
+				isEnabled = true
+				setTextColor(AmityColorPaletteUtil.getColor(ContextCompat.getColor(context,
+					R.color.yellowColor), AmityColorShade.DEFAULT))
+			} else {
+				isEnabled = false
+				setTextColor(AmityColorPaletteUtil.getColor(ContextCompat.getColor(context,
+					R.color.fb_gray_placeholder), AmityColorShade.DEFAULT))
+			}
+		}
+	}
 
-    fun showLogoImage(){
-        binding.logoIv.isVisible = true
-        binding.tvLeft.isVisible = false
-    }
+	fun setRightDrawable(value: Drawable?, color: Int? = null) {
+		binding.rightDrawable = value
+		if (color != null && binding.rightDrawable != null) {
+			binding.rightDrawable!!.colorFilter =
+				PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+		}
+	}
 
-    fun setClickListener(listener: AmityToolBarClickListener) {
-        binding.clickListener = listener
-    }
+	fun showLogoImage() {
+		binding.logoIv.isVisible = true
+		binding.tvLeft.isVisible = false
+	}
+
+	fun setClickListener(listener: AmityToolBarClickListener) {
+		binding.clickListener = listener
+	}
 }

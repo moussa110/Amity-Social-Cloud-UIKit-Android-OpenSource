@@ -26,7 +26,7 @@ object AmityAlertDialogUtil {
         val dialog = builder.create()
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                    .setTextColor(ContextCompat.getColor(context, R.color.yellowInActiveColor))
+                    .setTextColor(ContextCompat.getColor(context, R.color.amityColorPrimary))
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(ContextCompat.getColor(context, R.color.amityColorPrimary))
         }
@@ -52,7 +52,7 @@ object AmityAlertDialogUtil {
         val dialog = builder.create()
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(context, R.color.yellowInActiveColor))
+                .setTextColor(ContextCompat.getColor(context, R.color.amityColorPrimary))
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setTextColor(ContextCompat.getColor(context, R.color.amityColorPrimary))
         }

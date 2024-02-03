@@ -13,7 +13,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import androidx.annotation.StringRes
-import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveDataReactiveStreams

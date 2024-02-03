@@ -58,6 +58,8 @@ class AmityCommunityHomePageFragment : Fragment() {
 		subscribeTextChangeEvents()
 	}
 
+
+
 	override fun onDestroyView() {
 		super.onDestroyView()
 		if (textChangeDisposable?.isDisposed == false) {
@@ -65,7 +67,7 @@ class AmityCommunityHomePageFragment : Fragment() {
 		}
 	}
 
-	private fun initTabLayout() {
+	fun initTabLayout() {
 		fragmentStateAdapter =
 			AmityFragmentStateAdapter(childFragmentManager, requireActivity().lifecycle)
 		globalSearchStateAdapter =

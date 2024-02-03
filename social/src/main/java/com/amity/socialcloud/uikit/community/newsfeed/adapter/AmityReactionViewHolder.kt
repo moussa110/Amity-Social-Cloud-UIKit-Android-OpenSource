@@ -6,6 +6,8 @@ import com.amity.socialcloud.sdk.model.core.reaction.AmityReaction
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityItemReactionBinding
+import com.amity.socialcloud.uikit.common.utils.getDrawable20
+import com.amity.socialcloud.uikit.common.utils.getReactionByName
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.subjects.PublishSubject
 
@@ -19,6 +21,11 @@ class AmityReactionViewHolder constructor(
             setUserClickListener(creator)
 
             binding.tvDisplayName.text = creator.getDisplayName()
+            binding.reactIv.apply {
+                getReactionByName(data.getReactionName())?.getDrawable20(context).also {
+                    setImageDrawable(it)
+                }
+            }
 
             Glide.with(itemView.context)
                 .load(creator.getAvatar()?.getUrl(AmityImage.Size.MEDIUM))

@@ -52,6 +52,12 @@
     <string name="amity_no_user_found">No user found</string>
     <string name="amity_preview_not_available_title">Preview not available</string>
     <string name="amity_preview_not_available_message">Please make sure the URL is correct and try again.</string>
+    <string name="amity_like">Like</string>
+    <string name="amity_liked">Liked</string>
+    <string name="amity_loved">Loved</string>
+    <string name="amity_wow">Wow</string>
+    <string name="amity_sad">Sad</string>
+    <string name="amity_angry">Angry</string>
     <plurals name="amity_number_of_days">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

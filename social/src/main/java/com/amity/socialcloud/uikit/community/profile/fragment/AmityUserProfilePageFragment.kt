@@ -165,14 +165,14 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
                         bottomSheet.dismiss()
                     }
                 ),
-                BottomSheetMenuItem(
+                /*BottomSheetMenuItem(
                     iconResId = R.drawable.ic_amity_ic_live_stream_create,
                     titleResId = R.string.amity_video_stream_title,
                     action = {
                         createLiveStreamPost.launch(null)
                         bottomSheet.dismiss()
                     }
-                ),
+                ),*/
                 BottomSheetMenuItem(
                     iconResId = R.drawable.ic_amity_ic_poll_create,
                     titleResId = R.string.amity_general_poll,

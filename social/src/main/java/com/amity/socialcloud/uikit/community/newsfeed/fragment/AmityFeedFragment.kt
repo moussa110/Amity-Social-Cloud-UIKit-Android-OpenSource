@@ -316,7 +316,6 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 	}
 
 	internal open fun observeReactionCountClickEvents() {
-		//  do nothing on feed screen
 	}
 
 	private fun observePostContentClickEvents() {

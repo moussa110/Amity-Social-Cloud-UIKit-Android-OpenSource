@@ -1,16 +1,15 @@
-package com.amity.socialcloud.uikit.community.newsfeed.viewcontroller
+package com.amity.socialcloud.uikit.common.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import com.amity.socialcloud.uikit.community.R
-
+import com.amity.socialcloud.uikit.common.R
 class ReactionViewController {
 	fun refreshReactView(isReactedByMe: Boolean,
-	                             myReactions: List<String>,
-	                             react: Reactions? = null,
-	                             cbLike: AppCompatTextView) {
+	                     myReactions: List<String>,
+	                     react: Reactions? = null,
+	                     cbLike: AppCompatTextView) {
 		when (react
 			?: if (isReactedByMe && myReactions.isNotEmpty()) getReactionByName(myReactions[myReactions.lastIndex]) else Reactions.LIKE) {
 			Reactions.LOVE -> handleLoveReaction(isReactedByMe,cbLike)
@@ -83,9 +82,19 @@ enum class Reactions(val reactName: String) {
 
 fun getReactionByName(name: String) = Reactions.values().find { it.reactName == name }
 
-fun Reactions.getDrawable20(context: Context): Drawable? {
+fun Reactions.getDrawableForTab20(context: Context): Drawable? {
 	return when(this){
-		Reactions.LIKE -> ContextCompat.getDrawable(context, R.drawable.amity_ic_circle_like)
+		Reactions.LIKE -> ContextCompat.getDrawable(context, R.drawable.amity_btn_liked_pressed)
+		Reactions.LOVE -> ContextCompat.getDrawable(context, R.drawable.love_20)
+		Reactions.WOW -> ContextCompat.getDrawable(context, R.drawable.wow_20)
+		Reactions.ANGRY -> ContextCompat.getDrawable(context, R.drawable.angry_20)
+		Reactions.SAD -> ContextCompat.getDrawable(context, R.drawable.sad_20)
+	}
+}
+
+fun Reactions.getDrawable20(context: Context): Drawable? {
+	return when(this) {
+		Reactions.LIKE -> ContextCompat.getDrawable(context, R.drawable.amity_ic_circle_like_20)
 		Reactions.LOVE -> ContextCompat.getDrawable(context, R.drawable.love_20)
 		Reactions.WOW -> ContextCompat.getDrawable(context, R.drawable.wow_20)
 		Reactions.ANGRY -> ContextCompat.getDrawable(context, R.drawable.angry_20)

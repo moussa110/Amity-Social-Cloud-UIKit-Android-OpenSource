@@ -32,74 +32,78 @@
             type="android.graphics.drawable.Drawable" />
     </data>
 
-    <com.google.android.material.appbar.MaterialToolbar
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentInsetStart="0dp">
+        android:background="@color/fb_darker_gray_bg">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/toolbar_layout"
+        <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
-            android:layout_height="@dimen/amity_eighty_four"
-            android:paddingTop="@dimen/amity_twenty_eight"
-            android:background="@color/fb_darker_gray_bg">
+            android:layout_height="wrap_content"
+            app:contentInsetStart="0dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ivLeft"
-                style="?attr/amityLeftDrawableStyle"
-                android:onClick="@{() ->  clickListener.leftIconClick()}"
-                android:src="@{leftDrawable}"
-                android:tint="@color/fb_icon_light_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_left"
-                style="@style/ToolBarLeftTextStyle"
-                android:gravity="center_vertical"
-                android:text="@{leftString}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/ivLeft"
-                app:layout_constraintRight_toLeftOf="@id/tv_right"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/logoIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/sing_logo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/tv_right"
-                style="@style/ToolBarRightTextStyle"
-                android:layout_marginEnd="@dimen/amity_padding_m1"
-                android:drawableStart="@{rightDrawable}"
-                android:enabled="@{rightStringActive}"
-                android:gravity="end"
-                android:onClick="@{() -> clickListener.rightIconClick()}"
-                android:text="@{rightString}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/tv_left"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/divider"
-                style="@style/AmityDivider"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                android:layout_height="?actionBarSize">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/ivLeft"
+                    style="?attr/amityLeftDrawableStyle"
+                    android:onClick="@{() ->  clickListener.leftIconClick()}"
+                    android:src="@{leftDrawable}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    </com.google.android.material.appbar.MaterialToolbar>
+                <TextView
+                    android:id="@+id/tv_left"
+                    style="@style/ToolBarLeftTextStyle"
+                    android:gravity="center_vertical"
+                    android:text="@{leftString}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/ivLeft"
+                    app:layout_constraintRight_toLeftOf="@id/tv_right"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/logoIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/sing_logo"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_right"
+                    style="@style/ToolBarRightTextStyle"
+                    android:layout_marginEnd="@dimen/amity_padding_m1"
+                    android:drawableStart="@{rightDrawable}"
+                    android:enabled="@{rightStringActive}"
+                    android:gravity="end"
+                    android:onClick="@{() -> clickListener.rightIconClick()}"
+                    android:text="@{rightString}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/tv_left"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/divider"
+                    style="@style/AmityDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

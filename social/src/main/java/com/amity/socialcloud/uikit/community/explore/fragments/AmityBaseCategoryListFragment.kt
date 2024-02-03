@@ -6,10 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.filter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amity.socialcloud.sdk.model.social.category.AmityCommunityCategory
 import com.amity.socialcloud.uikit.common.base.AmityBaseFragment
 import com.amity.socialcloud.uikit.common.common.showSnackBar
+import com.amity.socialcloud.uikit.common.utils.AmityConstants.APP_FANTASY_CATEGORY_ID
+import com.amity.socialcloud.uikit.common.utils.AmityConstants.APP_PREDICTION_CATEGORY_ID
+import com.amity.socialcloud.uikit.common.utils.AmityConstants.FANTASY_CATEGORY_ID
+import com.amity.socialcloud.uikit.common.utils.AmityConstants.PREDICTION_CATEGORY_ID
 import com.amity.socialcloud.uikit.common.utils.AmityRecyclerViewItemDecoration
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentCategoryListBinding
@@ -47,6 +52,8 @@ abstract class AmityBaseCategoryListFragment internal constructor() : AmityBaseF
         return binding.root
     }
 
+    private val adminCategories = listOf(APP_FANTASY_CATEGORY_ID,FANTASY_CATEGORY_ID,APP_PREDICTION_CATEGORY_ID,PREDICTION_CATEGORY_ID)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = getCategoryListAdapter()
@@ -62,11 +69,17 @@ abstract class AmityBaseCategoryListFragment internal constructor() : AmityBaseF
         binding.rvCategory.adapter = adapter
         binding.rvCategory.addItemDecoration(itemDecorSpace)
     }
-
     private fun getCategories() {
         disposable.add(viewModel.getCategories()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .map { pagingData ->
+                // Apply your filtering logic here
+                // For example, let's filter by a certain condition
+                pagingData.filter { category ->
+                    !adminCategories.contains(category.getCategoryId())
+                }
+            }
             .doOnNext {
                 adapter.submitData(lifecycle, it)
             }

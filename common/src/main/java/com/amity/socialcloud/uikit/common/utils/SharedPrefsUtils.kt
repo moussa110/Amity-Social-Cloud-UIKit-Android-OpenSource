@@ -11,6 +11,7 @@ import android.content.SharedPreferences
 class SharedPrefsUtils (context: Context){
 	object Keys{
 		const val openNewsFeed="openNewsFeed"
+		const val IS_AMITY_USER_LOGGED_IN = "isAmityUserLogging"
 	}
 
 	private var sharedPreferences: SharedPreferences = context.getSharedPreferences("AMITY_PREFS", MODE_PRIVATE)

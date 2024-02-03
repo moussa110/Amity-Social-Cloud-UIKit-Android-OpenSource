@@ -26,7 +26,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/yellowColor"
-        app:tabIndicatorFullWidth="false"
+        app:tabIconTint="@null"
+        app:tabInlineLabel="true"
         app:tabMode="auto" />
 
     <View

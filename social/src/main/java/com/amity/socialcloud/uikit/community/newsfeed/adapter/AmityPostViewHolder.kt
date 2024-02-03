@@ -39,8 +39,11 @@ class AmityPostViewHolder(itemView: View,
 	RecyclerView.ViewHolder(itemView), AmityBaseRecyclerViewAdapter.IBinder<AmityBasePostItem> {
 
 
-	private val headerAdapter = AmityPostHeaderAdapter(userClickPublisher, communityClickPublisher, postOptionClickPublisher)
-	private val contentAdapter = AmityPostContentAdapter(postContentClickPublisher, pollVoteClickPublisher)
+	private val headerAdapter = AmityPostHeaderAdapter(userClickPublisher,
+		communityClickPublisher,
+		postOptionClickPublisher)
+	private val contentAdapter =
+		AmityPostContentAdapter(postContentClickPublisher, pollVoteClickPublisher)
 
 	/*
 	ConcatAdapter with headerAdapter contentAdapter and footerAdapter
@@ -62,16 +65,13 @@ class AmityPostViewHolder(itemView: View,
 
 
 	private var concatAdapter: ConcatAdapter? = null
-	private var sharedPostAdapter = AmitySharedPostListAdapter(
-		userClickPublisher,
-		communityClickPublisher,
-		postContentClickPublisher,
-		pollVoteClickPublisher)
+	private var sharedPostAdapter: AmitySharedPostListAdapter? = null
+
 	//private val sharedContentAdapter = AmityShared(postContentClickPublisher, pollVoteClickPublisher)
 
-	fun bindSharedPost(sharedPost:AmityBasePostItem){
-		sharedPostAdapter.submitList(listOf(sharedPost))
-	}
+	/*	fun bindSharedPost(sharedPost:AmityBasePostItem){
+			sharedPostAdapter.submitList(listOf(sharedPost))
+		}*/
 
 	override fun bind(data: AmityBasePostItem?, position: Int) {
 		if (data == null) {
@@ -100,11 +100,9 @@ class AmityPostViewHolder(itemView: View,
 			}
 		}
 		dummyAdapter.setItems(listOf())
-		footerAdapter.submitList(data.footerItems, data.sharedPost != null)
+		footerAdapter.submitList(data.footerItems, data.post.getSharedPostId() != null)
 		data.post.getSharedPostId()?.let {
-			data.sharedPost.let {
-					sharedPostAdapter.submitList(listOf(it))
-			}
+				sharedPostAdapter?.submitList(listOf(null))
 		}
 	}
 
@@ -115,7 +113,17 @@ class AmityPostViewHolder(itemView: View,
 //                this.setIsolateViewTypes(false)
 //            }.build()
 
-		concatAdapter = if (data.post.getSharedPostId() == null) ConcatAdapter(headerAdapter, contentAdapter, dummyAdapter, footerAdapter)
+		data.post.getSharedPostId()?.let {
+			sharedPostAdapter = AmitySharedPostListAdapter(userClickPublisher,
+				communityClickPublisher,
+				postContentClickPublisher,
+				pollVoteClickPublisher,it)
+		}
+
+		concatAdapter = if (data.post.getSharedPostId() == null) ConcatAdapter(headerAdapter,
+			contentAdapter,
+			dummyAdapter,
+			footerAdapter)
 		else ConcatAdapter(headerAdapter, contentAdapter, sharedPostAdapter, footerAdapter)
 		basePostView.layoutManager = LinearLayoutManager(this.itemView.context)
 		basePostView.adapter = concatAdapter

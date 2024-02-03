@@ -48,9 +48,7 @@ class AmitySingleReactionFragment : AmityBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel =
-            ViewModelProvider(requireActivity()).get(AmitySingleReactionViewModel::class.java)
-
+        viewModel = ViewModelProvider(requireActivity()).get(AmitySingleReactionViewModel::class.java)
         setupRecyclerView()
         observeClickEvents()
         getReactions {

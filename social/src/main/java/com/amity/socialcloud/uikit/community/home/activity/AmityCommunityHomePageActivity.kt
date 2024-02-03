@@ -1,47 +1,66 @@
 package com.amity.socialcloud.uikit.community.home.activity
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import com.amity.socialcloud.sdk.api.core.AmityCoreClient
+import com.amity.socialcloud.sdk.core.session.AccessTokenRenewal
+import com.amity.socialcloud.sdk.model.core.session.SessionHandler
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
-import com.amity.socialcloud.uikit.common.utils.FirebaseConstants
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityActivityCommunityHomeBinding
 import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomePageFragment
 import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomeViewModel
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostDetailsActivity
 import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_POST_ID
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 
 class AmityCommunityHomePageActivity : AppCompatActivity() {
-
+	@SuppressLint("DiscouragedApi", "InternalInsetResource")
+	private fun getStatusBarHeight(): Int {
+		val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+		return if (resourceId > 0) {
+			resources.getDimensionPixelSize(resourceId)
+		} else {
+			resources.getDimensionPixelSize(com.amity.socialcloud.uikit.common.R.dimen.amity_twenty_eight)
+		}
+	}
 
 	private val binding: AmityActivityCommunityHomeBinding by lazy {
 		AmityActivityCommunityHomeBinding.inflate(layoutInflater)
 	}
 
 	companion object {
+		private const val USER_ID = "userId"
+		private const val FULL_NAME = "fullName"
 		fun createIntentToOpenPostDetails(context: Context, postId: String) =
 			Intent(context, AmityCommunityHomePageActivity::class.java).apply {
 				putExtra(EXTRA_PARAM_POST_ID, postId)
 			}
+
+		fun createIntentFromKoraKings(id: String, fullName: String, context: Context): Intent {
+			Intent(context, AmityCommunityHomePageActivity::class.java).also {
+				it.putExtra(USER_ID, id)
+				it.putExtra(FULL_NAME, fullName)
+				return it
+			}
+		}
 	}
 
 	private val viewModel: AmityCommunityHomeViewModel by viewModels()
@@ -50,16 +69,50 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(binding.root)
-		checkIfIsToOpenPostDetails()
 		initToolbar()
-		loadFragment()
-		initActions()
 		handleSearchView()
+		initActions()
+		intent.getStringExtra(USER_ID)?.let { userId ->
+			binding.progressBar.isVisible = true
+			val name = intent.getStringExtra(FULL_NAME)
+			loginUserInAmity(userId, name!!)
+		}?: kotlin.run {
+			loadFragment()
+		}
+	}
+
+	private fun loginUserInAmity(userId: String, name: String) {
+		try {
+			AmityCoreClient.login(userId, object : SessionHandler {
+				override fun sessionWillRenewAccessToken(renewal: AccessTokenRenewal) {
+
+				}
+			}).displayName(displayName = name) // optional
+				.build().submit().subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread()).doOnComplete {
+					setupViews()
+				}.doOnError {
+					setupViews()
+				}.subscribe()
+		} catch (ex: Exception) {
+			setupViews()
+			ex.printStackTrace()
+		}
+	}
+
+	private fun setupViews() {
+		Handler(Looper.getMainLooper()).postDelayed({
+			try {
+				binding.fragmentContainer.background = null
+			}catch (_:Exception){ }
+		},1000)
+		loadFragment()
+		binding.progressBar.isVisible = false
 	}
 
 	private fun checkIfIsToOpenPostDetails() {
 		intent?.getStringExtra(EXTRA_PARAM_POST_ID)?.let {
-			AmityPostDetailsActivity.newIntent(this,it).also {
+			AmityPostDetailsActivity.newIntent(this, it).also {
 				startActivity(it)
 				finish()
 			}
@@ -125,14 +178,15 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 
 	private fun initToolbar() {
 		setSupportActionBar(binding.toolbar)
+		binding.toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
 		// binding.communityHomeToolbar.setLeftString(getString(R.string.amity_community))
 	}
-
+	private var fragmentHome:AmityCommunityHomePageFragment?=null
 	private fun loadFragment() {
 		val fragmentManager = supportFragmentManager
 		val fragmentTransaction = fragmentManager.beginTransaction()
-		val fragment = AmityCommunityHomePageFragment.newInstance().build()
-		fragmentTransaction.replace(R.id.fragmentContainer, fragment)
+		fragmentHome = AmityCommunityHomePageFragment.newInstance().build()
+		fragmentTransaction.replace(R.id.fragmentContainer, fragmentHome!!)
 		fragmentTransaction.commit()
 	}
 

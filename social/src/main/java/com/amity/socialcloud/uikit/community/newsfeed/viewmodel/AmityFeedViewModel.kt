@@ -1,10 +1,7 @@
 package com.amity.socialcloud.uikit.community.newsfeed.viewmodel
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
-import com.amity.socialcloud.sdk.api.social.AmitySocialClient
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
@@ -16,8 +13,7 @@ import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostContent
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostFooterItem
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostHeaderItem
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
-import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.getReactionByName
-import com.amity.socialcloud.uikit.community.utils.getSharedPostId
+import com.amity.socialcloud.uikit.common.utils.getReactionByName
 import com.amity.socialcloud.uikit.feed.settings.AmityDefaultPostViewHolders
 import com.amity.socialcloud.uikit.feed.settings.AmityPostShareClickListener
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
@@ -25,7 +21,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import java.util.*
@@ -71,36 +66,12 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 			reactionCountClickPublisher)
 	}
 
-	private val sharedPostsMap = mutableMapOf<String, AmityBasePostItem>()
 
-	internal fun createPostItem(post: AmityPost,
-	                            isFromSharedPost: Boolean = false): AmityBasePostItem {
-		val basePost = AmityBasePostItem(post,
+	internal fun createPostItem(post: AmityPost): AmityBasePostItem {
+		return AmityBasePostItem(post,
 			createPostHeaderItems(post),
 			createPostContentItems(post),
 			createPostFooterItems(post))
-		if (!isFromSharedPost) {
-			post.getSharedPostId()?.let { sharedPostId ->
-				if (sharedPostsMap.contains(sharedPostId)) {
-					sharedPostsMap[sharedPostId].let {
-						basePost.sharedPost = it
-					}
-				} else getSharedPostData(basePost)
-			}
-		}
-		return basePost
-	}
-
-	private fun getSharedPostData(basePost: AmityBasePostItem) {
-		if (sharedPostsMap.contains(basePost.post.getSharedPostId())) return
-		AmitySocialClient.newPostRepository().getPost(basePost.post.getSharedPostId()!!)
-			.map { createPostItem(it, true) }.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread()).doOnNext { sharedPost ->
-				if (sharedPostsMap.contains(basePost.post.getSharedPostId())) return@doOnNext
-				sharedPostsMap[basePost.post.getSharedPostId()!!] = sharedPost
-				basePost.sharedPost = sharedPost
-				basePost.sharedUpdatedListener?.invoke(sharedPost)
-			}.subscribe()
 	}
 
 	open fun createPostHeaderItems(post: AmityPost): List<AmityBasePostHeaderItem> {

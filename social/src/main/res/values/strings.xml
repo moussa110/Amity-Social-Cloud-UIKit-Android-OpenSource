@@ -350,4 +350,6 @@
     <string name="amity_reaction_separator">•</string>
     <string name="amity_share_to">Share to</string>
     <string name="amity_profile">Profile</string>
+    <string name="amity_deleted_post_msg">This content isn\'t available at the moment When this happens, it\'s usually because the post has been deleted.</string>
+
 </resources>

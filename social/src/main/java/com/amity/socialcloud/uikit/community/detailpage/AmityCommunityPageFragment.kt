@@ -209,12 +209,12 @@ class AmityCommunityPageFragment : RxFragment(), AppBarLayout.OnOffsetChangedLis
 					createGenericPost.launch(viewModel.communityId)
 					bottomSheet.dismiss()
 				}),
-				BottomSheetMenuItem(iconResId = R.drawable.ic_amity_ic_live_stream_create,
+				/*BottomSheetMenuItem(iconResId = R.drawable.ic_amity_ic_live_stream_create,
 					titleResId = R.string.amity_video_stream_title,
 					action = {
 						createLiveStreamPost.launch(viewModel.communityId)
 						bottomSheet.dismiss()
-					}),
+					}),*/
 				BottomSheetMenuItem(iconResId = R.drawable.ic_amity_ic_poll_create,
 					titleResId = R.string.amity_general_poll,
 					action = {

@@ -18,8 +18,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivAvatar"
             style="@style/AmityCircularAvatarStyle"
-            amityBackgroundColor="@{@color/amityColorPrimary}"
-            backgroundColorShade="@{AmityColorShade.SHADE3}"
+            amityBackgroundColor="@{@color/white}"
             android:layout_width="@dimen/amity_forty"
             android:layout_height="@dimen/amity_forty"
             android:layout_marginVertical="@dimen/amity_padding_xs"
@@ -28,14 +27,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/react_iv"
+            android:layout_width="@dimen/amity_twenty"
+            android:layout_height="@dimen/amity_twenty"
+            android:layout_marginStart="@dimen/amity_thirty_two"
+            android:layout_marginTop="@dimen/amity_twenty_four"
+            app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
+            app:layout_constraintEnd_toEndOf="@id/ivAvatar"
+            app:layout_constraintStart_toStartOf="@id/ivAvatar"
+            app:layout_constraintTop_toTopOf="@id/ivAvatar"
+            tools:srcCompat="@drawable/love_20" />
+
         <TextView
             android:id="@+id/tvDisplayName"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/amity_padding_s"
+            android:layout_marginStart="@dimen/amity_padding_m1"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_text_light_gray"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

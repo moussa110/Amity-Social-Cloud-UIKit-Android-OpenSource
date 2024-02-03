@@ -1,6 +1,11 @@
 package com.amity.socialcloud.uikit.common.utils
 
 object AmityConstants {
+
+    const val APP_FANTASY_CATEGORY_ID = "7990289f88d02a06727a65b3011f825c"
+    const val FANTASY_CATEGORY_ID = "80429a68156e096b4c9016d65e194bfd"
+    const val APP_PREDICTION_CATEGORY_ID = "c10e21611947f613193f1030e64e232d"
+    const val PREDICTION_CATEGORY_ID = "40de85f0b5676dd42763fecc6868daa3"
     const val PREF_NAME = "AMITY_UI_KIT_SHARED_PREFERENCE"
     const val USER_ROLE = "USER_ROLE"
     const val EMPTY_STRING = ""

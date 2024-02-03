@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
+import com.amity.socialcloud.uikit.common.utils.getDrawableForTab20
+import com.amity.socialcloud.uikit.common.utils.getReactionByName
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -44,7 +46,7 @@ class AmityTabLayout : ConstraintLayout {
         )
     }
 
-    fun setAdapter(adapter: AmityFragmentStateAdapter) {
+    fun setAdapter(adapter: AmityFragmentStateAdapter,isToShowReaction:Boolean = false) {
         mAdapter = adapter
         viewPager2.adapter = mAdapter
 
@@ -56,7 +58,14 @@ class AmityTabLayout : ConstraintLayout {
             )
         )
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-            tab.text = mAdapter.getTitle(position)
+            if (isToShowReaction){
+                getReactionByName(mAdapter.getTitle(position).substringBefore("$"))?.getDrawableForTab20(context)?.let {
+                    tab.setIcon(it)
+                }
+                tab.text = mAdapter.getTitle(position).substringAfter("$")
+            }else{
+                tab.text = mAdapter.getTitle(position)
+            }
         }.attach()
 
     }

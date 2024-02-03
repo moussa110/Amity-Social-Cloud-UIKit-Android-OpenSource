@@ -1,7 +1,7 @@
 package com.amity.socialcloud.uikit.community.newsfeed.events
 
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
-import com.amity.socialcloud.uikit.community.newsfeed.viewcontroller.Reactions
+import com.amity.socialcloud.uikit.common.utils.Reactions
 
 sealed class PostEngagementClickEvent {
 

@@ -24,7 +24,6 @@
     <style name="ToolBarLeftDrawableStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:tint">@color/fb_icon_light_gray</item>
         <item name="android:layout_marginStart">@dimen/amity_padding_m2</item>
     </style>
 

@@ -60,21 +60,6 @@ class AmityPostListAdapter(private val userClickPublisher: PublishSubject<AmityU
 		}
 		holder.bind(item, position)
 
-		item?.post?.getSharedPostId().let { sharedPostId ->
-			if (sharedPostId == null) {
-				item?.sharedUpdatedListener = null
-			} else {
-				if (item?.sharedPost != null) {
-					item.sharedUpdatedListener = null
-				}else{
-					item?.sharedUpdatedListener = {
-						holder.bindSharedPost(item!!.sharedPost!!)
-						item.sharedUpdatedListener = null
-					}
-				}
-			}
-		}
-
 	}
 
 	private fun putSharedViewInMap(postId: String, pair: Pair<View, View>) {
