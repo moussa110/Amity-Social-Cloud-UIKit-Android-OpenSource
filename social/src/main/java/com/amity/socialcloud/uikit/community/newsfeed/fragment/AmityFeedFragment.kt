@@ -6,8 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +53,6 @@ import java.util.concurrent.TimeUnit
 
 
 abstract class AmityFeedFragment : AmityBaseFragment() {
-	internal var isFromHome = false
 	val communityHomeViewModel: AmityCommunityHomeViewModel by activityViewModels()
 	private lateinit var adapter: AmityPostListAdapter
 	private lateinit var binding: AmityFragmentFeedBinding
@@ -87,6 +84,9 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 
 		}
 
+	open fun loadFeedAfterGetPinnedPost(pinnedPostListener: (AmityPost?) -> Unit) {
+		pinnedPostListener(null)
+	}
 
 	override fun onCreateView(inflater: LayoutInflater,
 	                          container: ViewGroup?,
@@ -114,9 +114,19 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 		setupFeedRecyclerview()
 		setupFeedHeaderView()
 		observeClickEvents()
+		loadFeedAfterGetPinnedPost { pinnedPost ->
+			pinnedPost?.let { setupPinnedPostView(pinnedPost) }
 			getFeed {
 				onPageLoaded(it)
 			}
+		}
+	}
+
+	private fun setupPinnedPostView(pinnedPost: AmityPost) {
+		getViewModel().pinnedPostId = pinnedPost.getPostId()
+		val pinnedAdapter = getViewModel().createFeedAdapter()
+		pinnedAdapter.submitData(lifecycle, getViewModel().createPagingListFromPost(pinnedPost))
+		adapter.pinnedPostListAdapter = pinnedAdapter
 	}
 
 	private fun setupFeedRecyclerview() {
@@ -141,8 +151,9 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 				else -> {}
 			}
 		}
-		binding.recyclerViewFeed.adapter = adapter.withLoadStateFooter(footer = PostLoadStateAdapter())
-		binding.recyclerViewFeed.setItemViewCacheSize(70)
+		binding.recyclerViewFeed.adapter =
+			adapter.withLoadStateFooter(footer = PostLoadStateAdapter())
+		binding.recyclerViewFeed.setItemViewCacheSize(50)
 		binding.recyclerViewFeed.layoutManager = LinearLayoutManager(context)
 		getItemDecorations().forEach { binding.recyclerViewFeed.addItemDecoration(it) }
 		binding.recyclerViewFeed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -240,8 +251,7 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 		binding.emptyViewContainer.visibility = View.VISIBLE
 		binding.recyclerViewFeed.visibility = View.GONE
 		binding.progressBar.visibility = View.GONE
-		if (isFromHome)
-		communityHomeViewModel.showExplore()
+		if ((this is AmityGlobalFeedFragment || this is AmitySearchQueryFeedFragment)) communityHomeViewModel.showExplore()
 	}
 
 	abstract fun getEmptyView(inflater: LayoutInflater): View
@@ -500,25 +510,40 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 
 	private fun showPostOptions(post: AmityPost) {
 		val bottomSheet = AmityBottomSheetDialog(requireContext())
-		bottomSheet.show(getViewModel().getPostOptionMenuItems(post = post, editPost = {
-			bottomSheet.dismiss()
-			editPost(post)
-		}, deletePost = {
-			bottomSheet.dismiss()
-			showDeletePostWarning(post)
-		}, reportPost = {
-			bottomSheet.dismiss()
-			reportPost(post)
-		}, unReportPost = {
-			bottomSheet.dismiss()
-			unReportPost(post)
-		}, closePoll = {
-			bottomSheet.dismiss()
-			showClosePollWarning(post)
-		}, deletePoll = {
-			bottomSheet.dismiss()
-			showDeletePollWarning(post)
-		}))
+		bottomSheet.show(getViewModel().getPostOptionMenuItems(post = post,
+			isPinned = post.getPostId() == getViewModel().pinnedPostId,
+			editPost = {
+				bottomSheet.dismiss()
+				editPost(post)
+			},
+			deletePost = {
+				bottomSheet.dismiss()
+				showDeletePostWarning(post)
+			},
+			reportPost = {
+				bottomSheet.dismiss()
+				reportPost(post)
+			},
+			unReportPost = {
+				bottomSheet.dismiss()
+				unReportPost(post)
+			},
+			closePoll = {
+				bottomSheet.dismiss()
+				showClosePollWarning(post)
+			},
+			deletePoll = {
+				bottomSheet.dismiss()
+				showDeletePollWarning(post)
+			},
+			pinPost = {
+				bottomSheet.dismiss()
+				pinPost(post)
+			},
+			unpinPost = {
+				bottomSheet.dismiss()
+				unpinPost(post)
+			}))
 
 	}
 
@@ -576,6 +601,35 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 				}
 			}
 	}
+
+	private fun pinPost(post: AmityPost) {
+		getViewModel().pinPost(post) {
+			if (it) refreshAfterPin(post)
+			view?.showSnackBar(msg = getString(if (it) R.string.pinned_successfully else R.string.pinned_failed))
+		}
+	}
+
+	private fun unpinPost(post: AmityPost) {
+		getViewModel().unpinPost(post) {
+			if (it) refreshAfterUnpin()
+			view?.showSnackBar(msg = getString(if (it) R.string.unpinned_successfully else R.string.unpinned_failed))
+		}
+	}
+
+	private fun refreshAfterPin(post: AmityPost){
+		setupPinnedPostView(post)
+		adapter.notifyItemChanged(0)
+		refresh()
+	}
+
+	private fun refreshAfterUnpin() {
+		getViewModel().pinnedPostId = null
+		adapter.pinnedPostListAdapter = null
+		adapter.notifyItemChanged(0)
+		refresh()
+
+	}
+
 
 	private fun showDeletePollWarning(post: AmityPost) {
 		val deleteConfirmationDialogFragment =

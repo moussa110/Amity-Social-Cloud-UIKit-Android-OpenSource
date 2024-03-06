@@ -2,8 +2,6 @@ package com.amity.socialcloud.uikit.community.newsfeed.viewmodel
 
 
 import android.net.Uri
-import android.text.Spannable
-import android.text.SpannableString
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.ExperimentalPagingApi
@@ -14,8 +12,6 @@ import com.amity.socialcloud.sdk.api.core.user.search.AmityUserSortOption
 import com.amity.socialcloud.sdk.api.social.AmitySocialClient
 import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadata
 import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadataCreator
-import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadataGetter
-import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionee
 import com.amity.socialcloud.sdk.model.core.content.AmityContentFeedType
 import com.amity.socialcloud.sdk.model.core.file.AmityFile
 import com.amity.socialcloud.sdk.model.core.file.AmityFileInfo
@@ -32,16 +28,11 @@ import com.amity.socialcloud.uikit.common.base.AmityBaseViewModel
 import com.amity.socialcloud.uikit.common.common.AmityFileUtils
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
 import com.amity.socialcloud.uikit.community.domain.model.AmityFileAttachment
-import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityMentionClickableSpan
 import com.amity.socialcloud.uikit.community.newsfeed.model.FileUploadState
 import com.amity.socialcloud.uikit.community.newsfeed.model.PostMedia
-import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPost
 import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPostData
-import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPostsType
 import com.amity.socialcloud.uikit.community.utils.NewsFeedMetaDataKeys
 import com.amity.socialcloud.uikit.community.utils.mergeJsonObjects
-import com.amity.socialcloud.uikit.feed.settings.AmityDefaultPostViewHolders
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -49,8 +40,7 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
-import timber.log.Timber
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 class AmityCreatePostViewModel : AmityBaseViewModel() {
@@ -135,7 +125,7 @@ class AmityCreatePostViewModel : AmityBaseViewModel() {
 	@OptIn(ExperimentalPagingApi::class)
 	fun searchUsersMention(keyword: String,
 	                       onResult: (users: PagingData<AmityUser>) -> Unit): Completable {
-		return userRepository.searchUserByDisplayName(keyword)
+		return userRepository.searchUsers(keyword)
 			.sortBy(AmityUserSortOption.DISPLAYNAME).build().query()
 			.throttleLatest(1, TimeUnit.SECONDS, true).subscribeOn(Schedulers.io())
 			.observeOn(AndroidSchedulers.mainThread()).doOnNext {
@@ -273,15 +263,6 @@ class AmityCreatePostViewModel : AmityBaseViewModel() {
 		}).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnComplete {
 				onUpdateSuccess.invoke(getPost())
 			}.doOnError { onUpdateFailed.invoke(it) }
-	}
-
-	fun pinPost(post: AmityPost): Completable {
-		post.getMetadata().let {
-			val jsonObject = it ?: JsonObject()
-			jsonObject.addProperty(NewsFeedMetaDataKeys.IS_POST_PINNED.key, true)
-			return postRepository.editPost(post.getPostId()).metadata(jsonObject).build().apply()
-				.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-		}
 	}
 
 	private fun updateParentPost(postText: String,

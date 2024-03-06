@@ -3,6 +3,7 @@ package com.amity.socialcloud.uikit.community.newsfeed.viewmodel
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.amity.socialcloud.sdk.api.core.AmityCoreClient
 import com.amity.socialcloud.sdk.api.social.AmitySocialClient
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -26,4 +27,5 @@ class AmityMyTimelineViewModel : AmityFeedViewModel() {
             .doOnNext { onPageLoaded.invoke(it) }
             .ignoreElements()
     }
+
 }

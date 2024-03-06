@@ -28,8 +28,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/amity_padding_m1"
-                    android:textColor="@color/yellowColor"
-                    android:textColorHint="@color/fb_text_light_gray" />
+                    android:textColor="@color/fb_text_light_gray"
+                    android:textColorHint="@color/fb_text_gray" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

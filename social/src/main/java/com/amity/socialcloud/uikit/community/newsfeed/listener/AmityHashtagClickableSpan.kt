@@ -3,14 +3,15 @@ package com.amity.socialcloud.uikit.community.newsfeed.listener
 import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.Toast
 import com.amity.socialcloud.uikit.community.utils.AmityCommunityNavigation
 
-class AmityMentionClickableSpan(private val userId: String,private val listener:(()->Unit)?=null) : ClickableSpan() {
+open class AmityHashtagClickableSpan(private val hashtag: String,private val listener:()->Unit) : ClickableSpan() {
+
 
     override fun onClick(widget: View) {
-        listener?.invoke()
-        AmityCommunityNavigation
-            .navigateToUserProfile(widget.context, userId)
+        listener()
+        AmityCommunityNavigation.navigateToHashtagSearch(widget.context, hashtag)
     }
 
     override fun updateDrawState(ds: TextPaint) {

@@ -2,9 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
+    <data />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
@@ -26,6 +24,8 @@
                     android:id="@+id/collapsingToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:minHeight="0dp"
                     app:contentScrim="@color/fb_darker_gray_bg"
                     android:background="@color/fb_darker_gray_bg"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"

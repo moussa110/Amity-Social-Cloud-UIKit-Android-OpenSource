@@ -31,7 +31,6 @@ class AmityMyCommunityPreviewFragment : AmityBaseFragment(),
     private lateinit var adapter: AmityMyCommunityPreviewAdapter
     private lateinit var binding: AmityFragmentMyCommunityListBinding
 
-
     companion object {
         fun newInstance(): Builder {
             return Builder()
@@ -68,8 +67,7 @@ class AmityMyCommunityPreviewFragment : AmityBaseFragment(),
 
     private fun initRecyclerView() {
         adapter = AmityMyCommunityPreviewAdapter(this)
-        binding.rvMyCommunity.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvMyCommunity.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvMyCommunity.adapter = adapter
         binding.rvMyCommunity.itemAnimator = null
         binding.rvMyCommunity.addItemDecoration(

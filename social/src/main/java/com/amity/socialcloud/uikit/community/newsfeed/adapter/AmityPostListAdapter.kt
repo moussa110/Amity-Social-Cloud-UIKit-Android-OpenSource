@@ -3,11 +3,15 @@ package com.amity.socialcloud.uikit.community.newsfeed.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.uikit.community.R
+import com.amity.socialcloud.uikit.community.databinding.AmityItemBasePostBinding
 import com.amity.socialcloud.uikit.community.newsfeed.events.CommentContentClickEvent
 import com.amity.socialcloud.uikit.community.newsfeed.events.CommentEngagementClickEvent
 import com.amity.socialcloud.uikit.community.newsfeed.events.CommentOptionClickEvent
@@ -34,7 +38,7 @@ class AmityPostListAdapter(private val userClickPublisher: PublishSubject<AmityU
                            private val reactionCountClickPublisher: PublishSubject<ReactionCountClickEvent>) :
 	PagingDataAdapter<AmityBasePostItem, AmityPostViewHolder>(POST_COMPARATOR) {
 	private var mutableMapOfSharedViews = mutableMapOf<String, Pair<View, View>>()
-
+	var pinnedPostListAdapter: AmityPostListAdapter? = null
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AmityPostViewHolder {
 		val view = LayoutInflater.from(parent.context)
 			.inflate(R.layout.amity_item_base_post, parent, false)
@@ -55,6 +59,14 @@ class AmityPostListAdapter(private val userClickPublisher: PublishSubject<AmityU
 
 	override fun onBindViewHolder(holder: AmityPostViewHolder, position: Int) {
 		val item = getItem(position)
+		val binding = AmityItemBasePostBinding.bind(holder.itemView)
+		if (pinnedPostListAdapter != null && position == 0) {
+			binding.pinnedView.isVisible = true
+			binding.pinnedPostRv.adapter = pinnedPostListAdapter
+		} else {
+			binding.pinnedView.isVisible = false
+		}
+
 		holder.sharedViewListener = {
 			putSharedViewInMap(item?.post?.getPostId() ?: "", it)
 		}
@@ -82,7 +94,7 @@ class AmityPostListAdapter(private val userClickPublisher: PublishSubject<AmityU
 			override fun areContentsTheSame(oldItem: AmityBasePostItem,
 			                                newItem: AmityBasePostItem): Boolean {
 				// TODO: 1/8/23 need to add more fields check
-				return (oldItem.post.getPostId() == newItem.post.getPostId() && oldItem.post.getEditedAt() == newItem.post.getEditedAt() && oldItem.post.isDeleted() == newItem.post.isDeleted() )
+				return (oldItem.post.getPostId() == newItem.post.getPostId() && oldItem.post.getEditedAt() == newItem.post.getEditedAt() && oldItem.post.isDeleted() == newItem.post.isDeleted())
 			}
 
 		}

@@ -41,9 +41,9 @@ class AmityCommunityFeedViewModel(private val savedState: SavedStateHandle) : Am
 	@ExperimentalPagingApi
 	override fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable? {
 		return AmitySocialClient.newPostRepository().getPosts().targetCommunity(communityId).apply {
-				includeDeleted(false)
-				feedType(feedType)
-			}.build().query().map { it.map { post -> createPostItem(post) } }
+			includeDeleted(false)
+			feedType(feedType)
+		}.build().query().map { it.map { post -> createPostItem(post) } }
 			.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 			.doOnNext { onPageLoaded.invoke(it) }.ignoreElements()
 	}
@@ -74,14 +74,14 @@ class AmityCommunityFeedViewModel(private val savedState: SavedStateHandle) : Am
 			}
 			this.latestReviewPermissionState = hasReviewPermission
 		}.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext {
-				if (!isReadyToRender) {
-					isReadyToRender = true
-					onReadyToRender.invoke()
-				} else if (isRefreshNeeded) {
-					isRefreshNeeded = false
-					onRefreshNeeded.invoke()
-				}
-			}.ignoreElements()
+			if (!isReadyToRender) {
+				isReadyToRender = true
+				onReadyToRender.invoke()
+			} else if (isRefreshNeeded) {
+				isRefreshNeeded = false
+				onRefreshNeeded.invoke()
+			}
+		}.ignoreElements()
 	}
 
 	override fun createPostFooterItems(post: AmityPost): List<AmityBasePostFooterItem> {

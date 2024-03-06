@@ -2,6 +2,10 @@ package com.amity.socialcloud.uikit.community.newsfeed.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
+import com.amity.socialcloud.sdk.api.core.AmityCoreClient
+import com.amity.socialcloud.sdk.api.social.AmitySocialClient
+import com.amity.socialcloud.sdk.api.social.community.AmityCommunityRepository
+import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadataCreator
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
@@ -14,9 +18,12 @@ import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostFooterI
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostHeaderItem
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
 import com.amity.socialcloud.uikit.common.utils.getReactionByName
+import com.amity.socialcloud.uikit.community.utils.NewsFeedMetaDataKeys
+import com.amity.socialcloud.uikit.community.utils.mergeJsonObjects
 import com.amity.socialcloud.uikit.feed.settings.AmityDefaultPostViewHolders
 import com.amity.socialcloud.uikit.feed.settings.AmityPostShareClickListener
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
+import com.google.gson.JsonObject
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
@@ -44,13 +51,78 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 	private val commentContentClickPublisher = PublishSubject.create<CommentContentClickEvent>()
 	private val commentOptionClickPublisher = PublishSubject.create<CommentOptionClickEvent>()
 	private val reactionCountClickPublisher = PublishSubject.create<ReactionCountClickEvent>()
-
+	var pinnedPostId:String?=null
 	val feedDisposable = UUID.randomUUID().toString()
 
 	val postReactionEventMap = hashMapOf<String, PostEngagementClickEvent.Reaction>()
 	val commentReactionEventMap: HashMap<String, CommentEngagementClickEvent.Reaction> = hashMapOf()
 
 	abstract fun getFeed(onPageLoaded: (posts: PagingData<AmityBasePostItem>) -> Unit): Completable?
+
+
+	fun pinPost(post: AmityPost,isDone:(Boolean)->Unit) {
+		var updatedMetData = JsonObject()
+		updatedMetData.addProperty(NewsFeedMetaDataKeys.POST_PINNED.key, post.getPostId())
+		if (post.getTarget() is AmityPost.Target.COMMUNITY) {
+			(post.getTarget() as AmityPost.Target.COMMUNITY).getCommunity()?.let { community ->
+				community.getMetadata()?.let {
+					updatedMetData = mergeJsonObjects(listOf(it, updatedMetData))
+				}
+				AmitySocialClient.newCommunityRepository().editCommunity(community.getCommunityId())
+					.metadata(updatedMetData).build().apply().doOnSuccess {
+						isDone(true)
+					}.doOnError {
+						isDone(false)
+					}.subscribe()
+			}
+		} else {
+			if (post.getCreatorId() == AmityCoreClient.getUserId()) {
+				post.getCreator()?.let {
+					if (it.getMetadata() != null) updatedMetData = mergeJsonObjects(listOf(it.getMetadata()!!, updatedMetData))
+					AmityCoreClient.editUser().metadata(metadata = updatedMetData).build().apply()
+						.doOnSuccess {
+							isDone(true)
+						}.doOnError {
+							isDone(false)
+						}.subscribe()
+				}
+			}
+		}
+	}
+
+	fun unpinPost(post: AmityPost,isDone:(Boolean)->Unit) {
+		var updatedMetData = JsonObject()
+		if (post.getTarget() is AmityPost.Target.COMMUNITY) {
+			(post.getTarget() as AmityPost.Target.COMMUNITY).getCommunity()?.let { community ->
+				community.getMetadata()?.let {
+					it.remove(NewsFeedMetaDataKeys.POST_PINNED.key)
+					updatedMetData = it
+				}
+				AmitySocialClient.newCommunityRepository().editCommunity(community.getCommunityId())
+					.metadata(updatedMetData).build().apply().doOnSuccess {
+						isDone(true)
+					}.doOnError {
+						isDone(false)
+					}.subscribe()
+			}
+		} else {
+			if (post.getCreatorId() == AmityCoreClient.getUserId()) {
+				post.getCreator()?.let { user ->
+					user.getMetadata()?.let {
+						updatedMetData = it
+						updatedMetData.remove(NewsFeedMetaDataKeys.POST_PINNED.key)
+					}
+
+					AmityCoreClient.editUser().metadata(metadata = updatedMetData).build().apply()
+						.doOnSuccess {
+							isDone(true)
+						}.doOnError {
+							isDone(false)
+						}.subscribe()
+				}
+			}
+		}
+	}
 
 	fun createFeedAdapter(): AmityPostListAdapter {
 		return AmityPostListAdapter(userClickPublisher,
@@ -66,13 +138,14 @@ abstract class AmityFeedViewModel : ViewModel(), UserViewModel, PostViewModel, C
 			reactionCountClickPublisher)
 	}
 
-
 	internal fun createPostItem(post: AmityPost): AmityBasePostItem {
 		return AmityBasePostItem(post,
 			createPostHeaderItems(post),
 			createPostContentItems(post),
 			createPostFooterItems(post))
 	}
+
+	internal fun createPagingListFromPost(post: AmityPost) = PagingData.from(listOf(createPostItem(post)))
 
 	open fun createPostHeaderItems(post: AmityPost): List<AmityBasePostHeaderItem> {
 		val showHeader = AmitySocialUISettings.getViewHolder(getDataType(post)).enableHeader()

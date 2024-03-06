@@ -6,18 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.amity.socialcloud.sdk.api.core.AmityCoreClient
+import com.amity.socialcloud.sdk.api.social.AmitySocialClient
 import com.amity.socialcloud.sdk.model.core.error.AmityError
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
+import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.community.databinding.AmityViewOtherUserTimelineEmptyBinding
 import com.amity.socialcloud.uikit.community.databinding.AmityViewPrivateUserProfileBinding
 import com.amity.socialcloud.uikit.community.newsfeed.events.AmityFeedRefreshEvent
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityCommunityClickListener
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityUserClickListener
 import com.amity.socialcloud.uikit.community.newsfeed.viewmodel.AmityUserFeedViewModel
+import com.amity.socialcloud.uikit.community.utils.getPinnedPostId
 import com.amity.socialcloud.uikit.feed.settings.AmityPostShareClickListener
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
+import com.ekoapp.rxlifecycle.extension.untilLifecycleEnd
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AmityUserFeedFragment : AmityFeedFragment() {
 
@@ -33,6 +40,23 @@ class AmityUserFeedFragment : AmityFeedFragment() {
             false
         )
         return binding.root
+    }
+
+    override fun loadFeedAfterGetPinnedPost(pinnedPostListener: (AmityPost?) -> Unit) {
+        AmityCoreClient.newUserRepository().getUser(mViewModel.userId).take(1).doOnNext { user ->
+            if (user.getPinnedPostId() == null) pinnedPostListener(null)
+            else getViewModel().getPost(user.getPinnedPostId()!!,
+                { pinnedPostListener(it)},
+                { pinnedPostListener(null) }).take(1).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .untilLifecycleEnd(this)
+                .subscribe()
+        }.doOnError {
+            pinnedPostListener.invoke(null)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .untilLifecycleEnd(this)
+            .subscribe()
     }
 
     private fun getPrivateProfileView(inflater: LayoutInflater): View {

@@ -59,7 +59,6 @@ class AmityCommunityHomePageFragment : Fragment() {
 	}
 
 
-
 	override fun onDestroyView() {
 		super.onDestroyView()
 		if (textChangeDisposable?.isDisposed == false) {
@@ -98,14 +97,14 @@ class AmityCommunityHomePageFragment : Fragment() {
 		return AmityNewsFeedFragment.newInstance().build()
 	}
 
-	private fun addViewModelListeners() {viewModel.showExploreLiveData.observe(viewLifecycleOwner) {
+	private fun addViewModelListeners() {
+		viewModel.showExploreLiveData.observe(viewLifecycleOwner) {
 			if (isNavigatedToExplore) return@observe
 			if (it.first != 0) {
 				if (it.second) {
 					isNavigatedToExplore = true
 					binding.tabLayout.switchTab(1)
-				}
-				else binding.tabLayout.switchTab(0)
+				} else binding.tabLayout.switchTab(0)
 			}
 		}
 
@@ -124,8 +123,7 @@ class AmityCommunityHomePageFragment : Fragment() {
 	}
 
 	private fun setUpSearchTabLayout() {
-		globalSearchStateAdapter.setFragmentList(arrayListOf(AmityFragmentStateAdapter.AmityPagerModel(
-			getString(R.string.amity_communities),
+		globalSearchStateAdapter.setFragmentList(arrayListOf(AmityFragmentStateAdapter.AmityPagerModel(getString(R.string.amity_communities),
 			AmityCommunitySearchFragment.newInstance(searchString)
 				.build(requireActivity() as AppCompatActivity)),
 			AmityFragmentStateAdapter.AmityPagerModel(getString(R.string.amity_accounts),

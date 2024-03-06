@@ -5,14 +5,17 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.view.*
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveDataReactiveStreams
@@ -597,7 +600,10 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 			override fun afterTextChanged(s: Editable?) {
 				if (s.isNullOrEmpty()) {
 					binding.etPost.setDefaultPostHint()
+				}else{
+					applyColorToHashtags(s)
 				}
+
 			}
 
 			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -605,10 +611,24 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 
 			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 				handleButtonActiveInactiveBehavior()
+
 			}
 		})
 
 
+	}
+
+	private fun applyColorToHashtags(editable: Editable?) {
+		val text = editable.toString()
+		val hashtagColor = ContextCompat.getColor(requireContext(),R.color.amityColorHighlight) // Set your desired color here
+		val words = text.split("\\s+".toRegex()).toTypedArray()
+		for (word in words) {
+			if (word.startsWith("#")) {
+				val start = text.indexOf(word)
+				val end = start + word.length
+				editable?.setSpan(ForegroundColorSpan(hashtagColor), start, end, 0)
+			}
+		}
 	}
 
 	abstract fun setToolBarText()

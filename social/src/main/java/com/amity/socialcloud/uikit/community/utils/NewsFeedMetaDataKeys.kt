@@ -1,21 +1,35 @@
 package com.amity.socialcloud.uikit.community.utils
 
+import com.amity.socialcloud.sdk.model.core.user.AmityUser
+import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
-import com.amity.socialcloud.uikit.community.newsfeed.model.SharedPost
-import com.google.gson.Gson
 import com.google.gson.JsonElement
 
 import com.google.gson.JsonObject
 
 
 enum class NewsFeedMetaDataKeys(val key: String) {
-	IS_POST_PINNED("isPostPinned"),
+	POST_PINNED("postPinned"),
 	SHARED_POST_ID("sharedPostId")
 }
 
 fun AmityPost.getSharedPostId():String?{
 	getMetadata()?.let {
 		return it.get(NewsFeedMetaDataKeys.SHARED_POST_ID.key)?.asString
+	}
+	return null
+}
+
+fun AmityUser.getPinnedPostId():String?{
+	getMetadata()?.let {
+		return it.get(NewsFeedMetaDataKeys.POST_PINNED.key)?.asString
+	}
+	return null
+}
+
+fun AmityCommunity.getPinnedPostId():String?{
+	getMetadata()?.let {
+		return it.get(NewsFeedMetaDataKeys.POST_PINNED.key)?.asString
 	}
 	return null
 }

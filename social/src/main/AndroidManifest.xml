@@ -166,6 +166,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Amity.Base.Theme.AmityApp.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".contentsearch.ui.activity.AmityHashTagPostsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Amity.Base.Theme.AmityApp" />
     </application>
 
 </manifest>

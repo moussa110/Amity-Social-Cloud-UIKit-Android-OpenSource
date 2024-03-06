@@ -21,12 +21,14 @@ import com.amity.socialcloud.sdk.api.core.AmityCoreClient
 import com.amity.socialcloud.sdk.core.session.AccessTokenRenewal
 import com.amity.socialcloud.sdk.model.core.session.SessionHandler
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
+import com.amity.socialcloud.uikit.common.utils.SharedPrefsUtils
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityActivityCommunityHomeBinding
 import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomePageFragment
 import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomeViewModel
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostDetailsActivity
 import com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_POST_ID
+import com.amity.socialcloud.uikit.community.utils.loginUserInAmity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -49,6 +51,8 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 	companion object {
 		private const val USER_ID = "userId"
 		private const val FULL_NAME = "fullName"
+
+
 		fun createIntentToOpenPostDetails(context: Context, postId: String) =
 			Intent(context, AmityCommunityHomePageActivity::class.java).apply {
 				putExtra(EXTRA_PARAM_POST_ID, postId)
@@ -72,40 +76,25 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 		initToolbar()
 		handleSearchView()
 		initActions()
-		intent.getStringExtra(USER_ID)?.let { userId ->
-			binding.progressBar.isVisible = true
-			val name = intent.getStringExtra(FULL_NAME)
-			loginUserInAmity(userId, name!!)
-		}?: kotlin.run {
-			loadFragment()
-		}
-	}
-
-	private fun loginUserInAmity(userId: String, name: String) {
-		try {
-			AmityCoreClient.login(userId, object : SessionHandler {
-				override fun sessionWillRenewAccessToken(renewal: AccessTokenRenewal) {
-
+		intent.getStringExtra(USER_ID).let { userId ->
+			if (userId != null) {
+				binding.progressBar.isVisible = true
+				val name = intent.getStringExtra(FULL_NAME)
+				loginUserInAmity(this, userId, name!!) {
+					setupViews()
 				}
-			}).displayName(displayName = name) // optional
-				.build().submit().subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread()).doOnComplete {
-					setupViews()
-				}.doOnError {
-					setupViews()
-				}.subscribe()
-		} catch (ex: Exception) {
-			setupViews()
-			ex.printStackTrace()
+			} else loadFragment()
 		}
 	}
+
 
 	private fun setupViews() {
 		Handler(Looper.getMainLooper()).postDelayed({
 			try {
 				binding.fragmentContainer.background = null
-			}catch (_:Exception){ }
-		},1000)
+			} catch (_: Exception) {
+			}
+		}, 1000)
 		loadFragment()
 		binding.progressBar.isVisible = false
 	}
@@ -181,7 +170,8 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 		binding.toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
 		// binding.communityHomeToolbar.setLeftString(getString(R.string.amity_community))
 	}
-	private var fragmentHome:AmityCommunityHomePageFragment?=null
+
+	private var fragmentHome: AmityCommunityHomePageFragment? = null
 	private fun loadFragment() {
 		val fragmentManager = supportFragmentManager
 		val fragmentTransaction = fragmentManager.beginTransaction()

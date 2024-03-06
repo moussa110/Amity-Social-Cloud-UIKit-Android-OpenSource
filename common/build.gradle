@@ -2,10 +2,18 @@ apply from: "../buildsystem/activity.gradle"
 apply plugin: 'com.android.library'
 
 
+def apikeyPropertiesFile = rootProject.file("keys.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
+
 android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+    }
+    defaultConfig {
+       buildConfigField("String", "AMITY_API_KEY", apikeyProperties['AMITY_API_KEY'])
     }
 }
 

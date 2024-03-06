@@ -98,8 +98,7 @@ class AmityPostHeaderViewHolder(
 
     private fun renderTarget(post: AmityPost, showTarget: Boolean) {
         val target = post.getTarget()
-        val isTargetingOwnFeed = if (target is AmityPost.Target.USER) (target.getUser()
-            ?.getUserId() ?: "") == post.getCreatorId() else false
+        val isTargetingOwnFeed = if (target is AmityPost.Target.USER) (target.getUser()?.getUserId() ?: "") == post.getCreatorId() else false
         val shouldShowTarget = showTarget && !isTargetingOwnFeed
         var arrowIcon: Drawable? = null
         if (shouldShowTarget) {

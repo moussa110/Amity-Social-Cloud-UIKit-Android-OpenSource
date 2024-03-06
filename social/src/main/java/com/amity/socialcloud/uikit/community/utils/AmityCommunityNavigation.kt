@@ -8,6 +8,7 @@ import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.common.imagepreview.AmityImagePreviewActivity
 import com.amity.socialcloud.uikit.common.imagepreview.AmityPreviewImage
+import com.amity.socialcloud.uikit.community.contentsearch.ui.activity.AmityHashTagPostsActivity
 import com.amity.socialcloud.uikit.community.detailpage.AmityCommunityPageActivity
 import com.amity.socialcloud.uikit.community.explore.activity.EXTRA_PARAM_COMMUNITY
 import com.amity.socialcloud.uikit.community.newsfeed.activity.*
@@ -88,6 +89,12 @@ class AmityCommunityNavigation {
 
         fun navigateToUserProfile(context: Context, userId: String) {
             val intent = AmityUserProfileActivity.newIntent(context, userId)
+            context.startActivity(intent)
+        }
+
+        fun navigateToHashtagSearch(context: Context, hashtag: String) {
+            if (AmityHashTagPostsActivity.hashtag == hashtag) return
+            val intent = AmityHashTagPostsActivity.newIntent(context, hashtag)
             context.startActivity(intent)
         }
 

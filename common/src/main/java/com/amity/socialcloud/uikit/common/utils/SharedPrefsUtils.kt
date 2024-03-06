@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 
 import android.content.SharedPreferences
-
-
+import com.amity.socialcloud.uikit.common.utils.SharedPrefsUtils.Keys.IS_AMITY_USER_LOGGED_IN
 
 
 class SharedPrefsUtils (context: Context){
@@ -17,12 +16,21 @@ class SharedPrefsUtils (context: Context){
 	private var sharedPreferences: SharedPreferences = context.getSharedPreferences("AMITY_PREFS", MODE_PRIVATE)
 	private var editor: SharedPreferences.Editor = sharedPreferences.edit()
 
-	fun setBooleanValue(key: String?, value: Boolean) {
+	private fun setBooleanValue(key: String?, value: Boolean) {
 		editor.putBoolean(key, value)
 		editor.commit()
 	}
 
-	fun getBooleanValue(key: String?, defaultValue: Boolean): Boolean {
+	private fun getBooleanValue(key: String?, defaultValue: Boolean): Boolean {
 		return sharedPreferences.getBoolean(key, defaultValue)
 	}
+
+	fun isUserLoginBefore(): Boolean {
+		return getBooleanValue(IS_AMITY_USER_LOGGED_IN,false)
+	}
+
+	fun setIsUserLogin(isLogin:Boolean){
+		setBooleanValue(IS_AMITY_USER_LOGGED_IN,isLogin)
+	}
+
 }

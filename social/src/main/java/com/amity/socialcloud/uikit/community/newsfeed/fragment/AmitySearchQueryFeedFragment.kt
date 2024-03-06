@@ -18,19 +18,19 @@ import com.amity.socialcloud.uikit.community.newsfeed.events.AmityFeedRefreshEve
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityCommunityClickListener
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityUserClickListener
 import com.amity.socialcloud.uikit.community.newsfeed.viewmodel.AmityGlobalFeedViewModel
+import com.amity.socialcloud.uikit.community.newsfeed.viewmodel.AmitySearchQueryFeedViewModel
 import com.amity.socialcloud.uikit.community.ui.view.AmityCommunityCreatorActivity
 import com.amity.socialcloud.uikit.feed.settings.AmityPostShareClickListener
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
 import io.reactivex.rxjava3.core.Flowable
 
-class AmityGlobalFeedFragment : AmityFeedFragment() {
+class AmitySearchQueryFeedFragment : AmityFeedFragment() {
 
-    lateinit var mViewModel:AmityGlobalFeedViewModel
+    lateinit var mViewModel:AmitySearchQueryFeedViewModel
 
-    override fun getViewModel(): AmityGlobalFeedViewModel {
+    override fun getViewModel(): AmitySearchQueryFeedViewModel {
         return mViewModel
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -47,10 +47,10 @@ class AmityGlobalFeedFragment : AmityFeedFragment() {
             false
         )
 
-
         binding.btnExplore.setOnClickListener {
             communityHomeViewModel.triggerEvent(AmityEventIdentifier.EXPLORE_COMMUNITY)
         }
+
         binding.tvCreateCommunity.setOnClickListener {
             val intent = Intent(requireContext(), AmityCommunityCreatorActivity::class.java)
             startActivity(intent)
@@ -65,9 +65,11 @@ class AmityGlobalFeedFragment : AmityFeedFragment() {
         private var postShareClickListener: AmityPostShareClickListener = AmitySocialUISettings.postShareClickListener
         private var feedRefreshEvents = Flowable.never<AmityFeedRefreshEvent>()
 
-        fun build(activity: AppCompatActivity): AmityGlobalFeedFragment {
-            val fragment = AmityGlobalFeedFragment()
-            fragment.mViewModel = ViewModelProvider(activity).get(AmityGlobalFeedViewModel::class.java)
+        fun build(activity: AppCompatActivity,query:String): AmitySearchQueryFeedFragment {
+            val fragment = AmitySearchQueryFeedFragment()
+            fragment.mViewModel = ViewModelProvider(activity)[AmitySearchQueryFeedViewModel::class.java]
+            fragment.mViewModel.query = query
+
             if (userClickListener == null) {
                 userClickListener = object : AmityUserClickListener {
                     override fun onClickUser(user: AmityUser) {

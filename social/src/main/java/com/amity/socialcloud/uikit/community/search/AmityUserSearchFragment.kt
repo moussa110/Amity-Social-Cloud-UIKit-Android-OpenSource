@@ -43,6 +43,7 @@ class AmityUserSearchFragment : RxFragment(R.layout.amity_fragment_users_global_
         savedInstanceState: Bundle?
     ): View {
         binding = AmityFragmentUsersGlobalSearchBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 

@@ -346,10 +346,22 @@
     <string name="amity_close_poll_title">Close poll?</string>
     <string name="amity_close_poll_message">Schedule you’ve set will be removed and poll will be closed immediately.</string>
     <string name="amity_delete_poll">Delete Poll</string>
+    <string name="amity_pin_poll">Pin Poll</string>
+    <string name="amity_unpin_poll">Unpin Poll</string>
+    <string name="amity_pin_post">Pin Post</string>
+    <string name="amity_unpin_post">Unpin Post</string>
     <string name="amity_close_poll">Close Poll</string>
     <string name="amity_reaction_separator">•</string>
     <string name="amity_share_to">Share to</string>
     <string name="amity_profile">Profile</string>
     <string name="amity_deleted_post_msg">This content isn\'t available at the moment When this happens, it\'s usually because the post has been deleted.</string>
+    <string name="people_are_posting_about_this">people are posting about this</string>
+    <string name="pinned_successfully">pinned successfully</string>
+    <string name="unpinned_successfully">unpinned successfully</string>
+    <string name="pinned_failed">pinned failed</string>
+    <string name="unpinned_failed">unpinned failed</string>
+    <string name="amity_hashtag">Hashtag</string>
+    <string name="pinned_post">Pinned post</string>
+
 
 </resources>
