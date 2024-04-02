@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/amityColorBase"
+        android:backgroundTint="@color/fb_gray_placeholder"
         android:paddingVertical="@dimen/amity_padding_xs"
         android:paddingStart="@dimen/amity_padding_xs"
         android:paddingEnd="@dimen/amity_padding_s"
@@ -28,14 +28,13 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.onEditClick()}"
             android:text="@string/amity_edit"
-            android:textColor="@color/amityColorWhite"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/divider"
-            backgroundColorShade="@{AmityColorShade.SHADE4}"
-            amityBackgroundColor="@{@color/amityColorBase}"
+            amityBackgroundColor="@{@color/grayOpacity}"
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/amity_padding_s"
@@ -51,7 +50,7 @@
             android:layout_marginStart="@dimen/amity_padding_s"
             android:onClick="@{() -> viewModel.onDeleteClick()}"
             android:text="@string/amity_delete"
-            android:textColor="@color/amityColorWhite"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/divider"
             app:layout_constraintTop_toTopOf="@id/tvEdit" />
 

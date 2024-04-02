@@ -17,26 +17,25 @@
     </data>
 
     <FrameLayout
-        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:fitsSystemWindows="true"
         tools:context="com.amity.socialcloud.uikit.chat.messages.fragment.AmityChatRoomWithDefaultComposeBarFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:animateLayoutChanges="true"
             android:id="@+id/layoutParent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
 
             <include
                 android:id="@+id/chatToolBar"
                 layout="@layout/amity_chat_bar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="@{viewModel.title}"
-                app:avatar="@{viewModel.avatarUrl}"/>
-
-
+                app:avatar="@{viewModel.avatarUrl}"
+                app:title="@{viewModel.title}" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChatList"
@@ -68,7 +67,9 @@
                 app:layout_constraintBottom_toBottomOf="@id/etMessage"
                 app:layout_constraintEnd_toStartOf="@id/etMessage"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/etMessage" />
+                app:layout_constraintTop_toTopOf="@id/etMessage"
+                app:tint="@color/fb_icon_light_gray"
+                tools:ignore="ContentDescription" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etMessage"
@@ -82,12 +83,13 @@
                 android:maxLines="4"
                 android:paddingHorizontal="@dimen/amity_padding_s"
                 android:text="@={viewModel.text}"
+                android:textColor="@color/fb_text_white"
                 android:textColorHint="@{@color/amityColorBase}"
                 app:layout_constraintBottom_toTopOf="@id/composeBar"
                 app:layout_constraintEnd_toStartOf="@id/rightBarrier"
                 app:layout_constraintStart_toEndOf="@id/ivVoiceMsg"
                 app:layout_constraintTop_toBottomOf="@id/rvChatList"
-                app:textColorHintShade="@{AmityColorShade.SHADE3}" />
+                />
 
             <View
                 android:id="@+id/recordBackground"
@@ -108,7 +110,7 @@
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:text="@string/amity_hold_to_record"
-                android:textColor="@color/amityColorBase"
+                android:textColor="@color/yellowColor"
                 android:visibility="@{viewModel.isVoiceMsgUi() ? View.VISIBLE : View.GONE}"
                 app:drawableStartCompat="@drawable/amity_ic_mic"
                 app:layout_constraintBottom_toBottomOf="@id/etMessage"
@@ -126,7 +128,6 @@
             <ImageView
                 android:id="@+id/btnAdd"
                 amityTintColor="@{@color/amityColorBase}"
-                amityTintShade="@{AmityColorShade.SHADE1}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/amity_padding_xs"
@@ -159,7 +160,7 @@
                 android:id="@+id/composeBar"
                 layout="@layout/amity_chat_compose_bar"
                 android:layout_width="0dp"
-                android:layout_height="280dp"
+                android:layout_height="200dp"
                 android:visibility="@{viewModel.showComposeBar ? View.VISIBLE : View.GONE}"
                 app:clickListener="@{viewModel.composeBarClickListener}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -177,42 +178,41 @@
 
             <RelativeLayout
                 android:id="@+id/loading_view"
-                android:visibility="gone"
-                android:background="@color/amityColorWhite"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/amityColorWhite"
+                android:visibility="gone">
 
                 <androidx.core.widget.ContentLoadingProgressBar
-                    android:layout_marginTop="@dimen/amity_padding_xl"
-                    android:indeterminateTint="@color/amityColorPrimary"
-                    android:layout_centerInParent="true"
                     android:id="@+id/base_feed_progress_bar"
                     style="?android:attr/progressBarStyleLarge"
                     android:layout_width="48dp"
-                    android:layout_height="48dp" />
+                    android:layout_height="48dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/amity_padding_xl"
+                    android:indeterminateTint="@color/amityColorPrimary" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/connection_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/chatToolBar"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chatToolBar">
 
                 <TextView
-                    android:background="@color/amityColorGrey"
-                    android:gravity="center_horizontal"
-                    android:text="@string/amity_no_internet"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
                     android:id="@+id/connection_texview"
-                    android:textSize="@dimen/amity_text_size_body"
-                    android:textColor="@color/amityColorWhite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:background="@color/fb_gray_placeholder"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/amity_no_internet"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/amity_text_size_body" />
             </RelativeLayout>
 
 

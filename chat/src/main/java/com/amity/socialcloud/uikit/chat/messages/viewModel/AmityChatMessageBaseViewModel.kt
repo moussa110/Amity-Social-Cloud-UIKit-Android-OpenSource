@@ -19,7 +19,7 @@ open class AmityChatMessageBaseViewModel : AmityBaseViewModel() {
     val isDeleted = ObservableBoolean(false)
     val editedAt = ObservableField("")
     val isEdited = ObservableBoolean(false)
-    val dateFillColor = ObservableField(R.color.amityColorBase)
+    val dateFillColor = ObservableField(R.color.fb_gray_placeholder)
     val isFailed = ObservableBoolean(false)
 
     fun deleteMessage(): Completable? {

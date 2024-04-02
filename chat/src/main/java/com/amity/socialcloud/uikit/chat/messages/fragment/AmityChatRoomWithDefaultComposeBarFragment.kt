@@ -154,11 +154,11 @@ class AmityChatRoomWithDefaultComposeBarFragment : AmityPickerFragment(),
         binding.apply {
             etMessage.setShape(
                 null, null, null, null,
-                R.color.amityColorBase, R.color.amityColorBase, AmityColorShade.SHADE4
+                R.color.grayDark, R.color.grayDark, null
             )
             recordBackground.setShape(
                 null, null, null, null,
-                R.color.amityColorBase, R.color.amityColorBase, AmityColorShade.SHADE4
+                R.color.amityColorBase, R.color.amityColorBase, null
             )
             etMessage.setOnClickListener {
                 messageListViewModel.showComposeBar.set(false)
@@ -364,7 +364,7 @@ class AmityChatRoomWithDefaultComposeBarFragment : AmityPickerFragment(),
                 )
             )
             itemAnimator = null
-            val percentage = 30F / 100
+           /* val percentage = 30F / 100
             val background = ColorUtils.setAlphaComponent(
                 AmityColorPaletteUtil.getColor(
                     ContextCompat.getColor(
@@ -373,7 +373,7 @@ class AmityChatRoomWithDefaultComposeBarFragment : AmityPickerFragment(),
                     ), AmityColorShade.SHADE4
                 ), (percentage * 255).toInt()
             )
-            setBackgroundColor(background)
+            setBackgroundColor(background)*/
             observeScrollingState(layoutManager)
             observeMessages()
             recycledViewPool.setMaxRecycledViews(MessageType.MESSAGE_ID_IMAGE_SENDER, 0)

@@ -13,26 +13,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/fb_darker_gray_bg">
 
         <View
-            backgroundColorShade="@{AmityColorShade.SHADE4}"
-            amityBackgroundColor="@{@color/amityColorBase}"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
+            style="@style/AmityDivider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivCamera"
             style="@style/AmityCircularAvatarStyle"
-            backgroundColorShade="@{AmityColorShade.SHADE4}"
-            amityBackgroundColor="@{@color/amityColorBase}"
+            amityBackgroundColor="@{@color/yellowColor}"
             android:layout_width="@dimen/amity_fifty"
             android:layout_height="@dimen/amity_fifty"
             android:onClick="@{() -> clickListener.onCameraClicked()}"
             android:src="@drawable/ic_photo_camera_white_24dp"
-            android:tint="@color/amityColorBase"
+            android:tint="@color/fb_icon_light_gray"
             app:layout_constraintBottom_toTopOf="@id/ivLocation"
             app:layout_constraintEnd_toStartOf="@id/ivAlbum"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +38,6 @@
         <TextView
             android:id="@+id/tvCamera"
             style="@style/AmityTextStyleCaption"
-            textColorShade="@{AmityColorShade.SHADE1}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/amity_padding_xxs"
@@ -55,12 +51,12 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivAlbum"
             style="@style/AmityCircularAvatarStyle"
-            backgroundColorShade="@{AmityColorShade.SHADE4}"
-            amityBackgroundColor="@{@color/amityColorBase}"
+            amityBackgroundColor="@{@color/yellowColor}"
             android:layout_width="@dimen/amity_fifty"
             android:layout_height="@dimen/amity_fifty"
             android:onClick="@{() -> clickListener.onAlbumClicked()}"
             android:src="@drawable/amity_ic_album"
+            android:tint="@color/fb_icon_light_gray"
             app:layout_constraintEnd_toStartOf="@id/ivFile"
             app:layout_constraintStart_toEndOf="@id/ivCamera"
             app:layout_constraintTop_toTopOf="@id/ivCamera" />
@@ -68,7 +64,6 @@
         <TextView
             android:id="@+id/tvAlbum"
             style="@style/AmityTextStyleCaption"
-            textColorShade="@{AmityColorShade.SHADE1}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/amity_padding_xxs"
@@ -82,8 +77,8 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivFile"
             style="@style/AmityCircularAvatarStyle"
-            backgroundColorShade="@{AmityColorShade.SHADE4}"
             amityBackgroundColor="@{@color/amityColorBase}"
+            backgroundColorShade="@{AmityColorShade.SHADE4}"
             android:layout_width="@dimen/amity_fifty"
             android:layout_height="@dimen/amity_fifty"
             android:onClick="@{() -> clickListener.onFileClicked()}"
@@ -112,8 +107,8 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivLocation"
             style="@style/AmityCircularAvatarStyle"
-            backgroundColorShade="@{AmityColorShade.SHADE4}"
             amityBackgroundColor="@{@color/amityColorBase}"
+            backgroundColorShade="@{AmityColorShade.SHADE4}"
             android:layout_width="@dimen/amity_fifty"
             android:layout_height="@dimen/amity_fifty"
             android:onClick="@{() -> clickListener.onLocationCLicked()}"

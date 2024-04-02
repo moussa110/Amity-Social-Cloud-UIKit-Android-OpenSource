@@ -31,5 +31,6 @@ dependencies {
     api("com.github.AmityCo.Amity-Social-Cloud-SDK-Android:amity-video-publisher:$amityMessagingSdkVersion")
     api("com.github.AmityCo.Amity-Social-Cloud-SDK-Android:amity-video-player:$amityMessagingSdkVersion")
     implementation 'com.google.firebase:firebase-dynamic-links-ktx:21.2.0'
+    implementation project(':chat')
 
 }

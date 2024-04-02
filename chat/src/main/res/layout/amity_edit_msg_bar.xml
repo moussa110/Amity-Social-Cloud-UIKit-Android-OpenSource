@@ -31,7 +31,8 @@
                 android:src="@drawable/amity_ic_cross"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/fb_icon_light_gray" />
 
             <TextView
                 style="@style/AmityTextStyleTitleBold"
@@ -39,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/amity_padding_m1"
                 android:text="@string/amity_edit_msg"
+                android:textColor="@color/fb_text_light_gray"
                 app:layout_constraintBottom_toBottomOf="@id/icCross"
                 app:layout_constraintStart_toEndOf="@id/icCross"
                 app:layout_constraintTop_toTopOf="@id/icCross" />

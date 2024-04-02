@@ -20,6 +20,7 @@ import androidx.core.view.isVisible
 import com.amity.socialcloud.sdk.api.core.AmityCoreClient
 import com.amity.socialcloud.sdk.core.session.AccessTokenRenewal
 import com.amity.socialcloud.sdk.model.core.session.SessionHandler
+import com.amity.socialcloud.uikit.chat.home.AmityChatHomePageActivity
 import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
 import com.amity.socialcloud.uikit.common.utils.SharedPrefsUtils
 import com.amity.socialcloud.uikit.community.R
@@ -112,6 +113,10 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 		binding.apply {
 			back.setOnClickListener {
 				onBackPressedDispatcher.onBackPressed()
+			}
+
+			chatIv.setOnClickListener {
+				startActivity(Intent(this@AmityCommunityHomePageActivity, AmityChatHomePageActivity::class.java))
 			}
 		}
 	}

@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/amityColorBase"
+        android:backgroundTint="@color/fb_gray_placeholder"
         android:paddingVertical="@dimen/amity_padding_xs"
         android:paddingStart="@dimen/amity_padding_s"
         android:paddingEnd="@dimen/amity_padding_s"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.onReportClick()}"
             android:text="@string/amity_report"
-            android:textColor="@color/amityColorWhite"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -22,6 +22,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:background="@color/fb_darker_gray_bg"
             android:layout_height="match_parent">
 
             <ImageView
@@ -37,8 +38,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivAvatar"
                 style="@style/AmityCircularAvatarStyle"
-                backgroundColorShade="@{AmityColorShade.SHADE3}"
-                amityBackgroundColor="@{@color/amityColorPrimary}"
+                amityBackgroundColor="@{@color/fb_icon_light_gray}"
                 imageUrl="@{avatar}"
                 android:layout_width="@dimen/amity_thirty_two"
                 android:layout_height="@dimen/amity_thirty_two"

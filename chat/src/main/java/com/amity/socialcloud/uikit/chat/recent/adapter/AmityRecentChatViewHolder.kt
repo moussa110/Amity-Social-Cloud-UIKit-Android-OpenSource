@@ -72,12 +72,12 @@ class AmityRecentChatViewHolder(
             }
         }
 
-        avatar.setBackgroundColor(
+    /*    avatar.setBackgroundColor(
             AmityColorPaletteUtil.getColor(
                 ContextCompat.getColor(itemView.context, R.color.amityColorPrimary),
                 AmityColorShade.SHADE3
             )
-        )
+        )*/
 
         Glide.with(itemView.context)
             .load(data.getAvatar()?.getUrl(AmityImage.Size.MEDIUM))
@@ -98,9 +98,9 @@ class AmityRecentChatViewHolder(
     }
 
     private fun setupUnreadCount(data: AmityChannel) {
-        if (data.getDefaultSubChannelUnreadCount() > 0) {
+        if (data.getUnreadCount() > 0) {
             unreadCount.visibility = View.VISIBLE
-            unreadCount.text = data.getDefaultSubChannelUnreadCount().toString()
+            unreadCount.text = data.getUnreadCount().toString()
         } else {
             unreadCount.visibility = View.GONE
         }

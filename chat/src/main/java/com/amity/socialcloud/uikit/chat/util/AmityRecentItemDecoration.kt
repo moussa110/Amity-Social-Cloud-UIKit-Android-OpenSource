@@ -3,9 +3,13 @@ package com.amity.socialcloud.uikit.chat.util
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.amity.socialcloud.uikit.chat.R
@@ -61,6 +65,7 @@ class AmityRecentItemDecoration(private val context: Context, private val margin
                 left + context.resources.getDimensionPixelSize(R.dimen.amity_sixty_eight),
                 top, right - context.resources.getDimensionPixelSize(R.dimen.amity_padding_m1), bottom
             )
+            mDivider?.colorFilter = PorterDuffColorFilter(ContextCompat.getColor(context,R.color.fb_text_gray), PorterDuff.Mode.SRC_IN)
             mDivider?.draw(c)
         }
     }

@@ -4,6 +4,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import com.amity.socialcloud.sdk.api.chat.AmityChatClient
 import com.amity.socialcloud.sdk.model.chat.message.AmityMessage
+import com.amity.socialcloud.uikit.chat.R
 import com.amity.socialcloud.uikit.common.base.AmityBaseViewModel
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable

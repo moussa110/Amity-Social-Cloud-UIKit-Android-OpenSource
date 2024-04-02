@@ -6,7 +6,7 @@
     <color name="amityColorHighlight">@color/fb_links_blue</color>
     <color name="amityColorBase">@color/fb_text_light_gray</color>
     <color name="amityColorBaseInverse">@color/upstraColorBaseInverse</color>
-    <color name="amityMessageBubble">@color/fb_darker_gray_on_base</color>
+    <color name="amityMessageBubble">@color/yellowColor</color>
     <color name="amityMessageBubbleInverse">@color/fb_darker_gray_on_base</color>
 
     <color name="amityColorWhite">#FFFFFF</color>

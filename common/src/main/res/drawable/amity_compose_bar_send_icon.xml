@@ -5,6 +5,6 @@
     android:viewportWidth="16"
     android:viewportHeight="16">
     <path
-        android:fillColor="#ffffff"
+        android:fillColor="@color/fb_icon_light_gray"
         android:pathData="M0,8L1.41,9.41L7,3.83V16H9V3.83L14.58,9.42L16,8L8,0L0,8Z" />
 </vector>

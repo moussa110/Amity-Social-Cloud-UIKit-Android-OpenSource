@@ -23,7 +23,6 @@
 
         <TextView
             style="@style/AmityTextStyleCaption"
-            colorShade="@{AmityColorShade.SHADE4}"
             fillColor="@{dateFillColor}"
             roundedCorner="@{true}"
             android:layout_width="wrap_content"
@@ -32,7 +31,7 @@
             android:paddingVertical="@dimen/amity_two"
             android:text="@{date}"
             android:textAllCaps="true"
-            android:textColor="@color/amityColorBase"
+            android:textColor="@color/fb_darker_gray_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -33,15 +33,18 @@
                     android:id="@+id/ivNoConversation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/amity_ic_no_conversation" />
+                    android:src="@drawable/amity_ic_no_conversation"
+                    app:tint="@color/fb_icon_light_gray"
+                    tools:tint="@color/fb_icon_light_gray"
+                    />
 
                 <TextView
                     style="@style/AmityTextStyleBody"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/amity_no_conversations"
-                    android:textColor="@color/amityColorBase"
-                    app:textColorShade="@{AmityColorShade.SHADE3}" />
+                    android:textColor="@color/fb_text_light_gray"
+                    />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,8 +30,7 @@ class AmityRecentChatFragment private constructor() : Fragment(), AmityRecentCha
         savedInstanceState: Bundle?
     ): View {
         mViewModel = ViewModelProvider(requireActivity()).get(AmityRecentChatViewModel::class.java)
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.amity_fragment_recent_chat, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.amity_fragment_recent_chat, container, false)
         return binding.root
     }
 

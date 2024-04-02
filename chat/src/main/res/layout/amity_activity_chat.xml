@@ -5,8 +5,16 @@
     android:layout_height="match_parent"
     tools:context="com.amity.socialcloud.uikit.chat.messages.AmityMessageListActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/auth_bg"
+        tools:ignore="ContentDescription" />
+
     <FrameLayout
         android:id="@+id/messageListContainer"
+        android:background="@color/fb_darker_gray_bg_transparent_15"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -5,6 +5,7 @@ import android.view.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.amity.socialcloud.uikit.chat.R
@@ -15,6 +16,7 @@ import com.amity.socialcloud.uikit.chat.messages.AmityMessageListActivity
 import com.amity.socialcloud.uikit.chat.recent.fragment.AmityRecentChatFragment
 import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
 import com.amity.socialcloud.uikit.common.common.showSnackBar
+import com.amity.socialcloud.uikit.common.components.AmityToolBarClickListener
 import com.amity.socialcloud.uikit.common.contract.AmityPickMemberContract
 import com.ekoapp.rxlifecycle.extension.untilLifecycleEnd
 
@@ -65,11 +67,25 @@ class AmityChatHomePageFragment private constructor() : Fragment() {
     }
 
     private fun initToolbar() {
-        binding.chatHomeToolBar.setLeftString(getString(R.string.amity_chat))
-        (activity as AppCompatActivity).supportActionBar?.displayOptions =
+        binding.chatHomeToolBar.apply {
+            setLeftString(getString(R.string.amity_chat))
+            setRightDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.amity_ic_create_chat),ContextCompat.getColor(requireActivity(),R.color.fb_icon_light_gray))
+            setClickListener(object : AmityToolBarClickListener{
+                override fun leftIconClick() {
+
+                }
+
+                override fun rightIconClick() {
+                    navigateToCreateGroupChat()
+                }
+
+            })
+        }
+
+/*        (activity as AppCompatActivity).supportActionBar?.displayOptions =
             ActionBar.DISPLAY_SHOW_CUSTOM
         (activity as AppCompatActivity).setSupportActionBar(binding.chatHomeToolBar as Toolbar)
-        setHasOptionsMenu(true)
+        setHasOptionsMenu(true)*/
     }
 
     private fun initTabLayout() {
@@ -97,16 +113,6 @@ class AmityChatHomePageFragment private constructor() : Fragment() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.amity_chat_home, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.create) {
-            navigateToCreateGroupChat()
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     private fun navigateToCreateGroupChat() {
         selectMembers.launch(arrayListOf())
