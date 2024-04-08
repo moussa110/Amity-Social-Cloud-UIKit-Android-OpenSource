@@ -50,7 +50,7 @@
                 android:text="@{vmImageMessage.msgTime}"
                 android:textColor="@color/amityColorBase"
                 app:layout_constraintEnd_toEndOf="@id/ivMsgOutgoing"
-                app:layout_constraintTop_toBottomOf="@id/ivMsgOutgoing" />
+                app:layout_constraintTop_toBottomOf="@id/topThreeReactionsView" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivMsgOutgoing"
@@ -101,6 +101,29 @@
                 app:layout_constraintEnd_toStartOf="@id/ivMsgOutgoing"
                 app:layout_constraintTop_toTopOf="@id/ivMsgOutgoing"
                 app:viewModel="@{vmImageMessage}" />
+
+            <include
+                android:id="@+id/addReactionView"
+                layout="@layout/view_add_reaction"
+                android:layout_width="@dimen/amity_twenty_eight"
+                android:layout_height="@dimen/amity_twenty_eight"
+                android:layout_marginTop="-16dp"
+                android:layout_marginEnd="-12dp"
+                app:isDeleted="@{vmImageMessage.isDeleted()}"
+                app:layout_constraintEnd_toStartOf="@id/ivMsgOutgoing"
+                app:layout_constraintTop_toBottomOf="@id/ivMsgOutgoing" />
+
+            <include
+                android:id="@+id/topThreeReactionsView"
+                layout="@layout/view_reactions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/amity_padding_s"
+                android:layout_marginEnd="@dimen/amity_padding_xs"
+                app:fillColor="@{vmImageMessage.reactionFillColor}"
+                app:isDeleted="@{vmImageMessage.isDeleted()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/addReactionView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include

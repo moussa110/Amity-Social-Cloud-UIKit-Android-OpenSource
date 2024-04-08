@@ -12,6 +12,7 @@ import com.amity.socialcloud.uikit.chat.messages.popUp.AmityPopUp
 import com.amity.socialcloud.uikit.chat.messages.viewModel.AmityTextMessageViewModel
 import com.amity.socialcloud.uikit.common.components.AmityLongPressListener
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
+import com.amity.socialcloud.uikit.common.reactions.ReactionsViews
 
 class AmityTextMsgReceiverViewHolder(
     itemView: View,
@@ -28,6 +29,19 @@ class AmityTextMsgReceiverViewHolder(
         addViewModelListener()
     }
 
+    private fun getReactViews(): ReactionsViews? {
+        binding?.apply {
+            return ReactionsViews(
+                topThreeReactionsView.parentView,topThreeReactionsView.firstReactionIv,
+                topThreeReactionsView.secondReactionIv,
+                topThreeReactionsView.thirdReactionIv,
+                topThreeReactionsView.tvNumberOfReactions,
+                addReactionView.addReactIv
+            )
+        }
+        return null
+    }
+
     private fun addViewModelListener() {
         itemViewModel.onAmityEventReceived += { event ->
             when (event.type) {
@@ -41,6 +55,8 @@ class AmityTextMsgReceiverViewHolder(
     override fun setMessageData(item: AmityMessage) {
         val data = item.getData() as? AmityMessage.Data.TEXT
         itemViewModel.text.set(data?.getText())
+        itemViewModel.reactionHelper?.setReactionView(getReactViews())
+        onReactionImageClicked()
     }
 
     override fun showPopUp() {

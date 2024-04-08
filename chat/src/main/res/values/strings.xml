@@ -28,6 +28,8 @@
     <string name="amity_no_internet">No internet connection</string>
     <string name="amity_channel_creation_error">Failed to create a channel</string>
     <string name="amity_channel_creation_loading">Creating channel, please wait…</string>
-
-
+    <string name="amity_mention_error_title">Unable to mention user</string>
+    <string name="amity_mention_error_msg">You have reached maximum 30 mentioned users in a post.</string>
+    <string name="amity_message_characters_limit_error_title">Unable to type text into message</string>
+    <string name="amity_characters_limit_error_msg">You have reached 50,000 characters limit.</string>
 </resources>

@@ -12,12 +12,12 @@ import com.amity.socialcloud.uikit.community.newsfeed.events.ReactionCountClickE
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostFooterItem
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
 import io.reactivex.rxjava3.subjects.PublishSubject
-import com.amity.socialcloud.uikit.community.newsfeed.popup.showReactionPopup
-import com.amity.socialcloud.uikit.common.utils.ReactionViewController
-import com.amity.socialcloud.uikit.common.utils.Reactions
-import com.amity.socialcloud.uikit.common.utils.getDrawable20
+import com.amity.socialcloud.uikit.common.reactions.showReactionPopup
+import com.amity.socialcloud.uikit.common.reactions.ReactionViewController
+import com.amity.socialcloud.uikit.common.reactions.Reactions
+import com.amity.socialcloud.uikit.common.reactions.getDrawable20
 
-import com.amity.socialcloud.uikit.common.utils.getReactionByName
+import com.amity.socialcloud.uikit.common.reactions.getReactionByName
 
 class AmityPostFooterPostEngagementViewHolder(
 	private val binding: AmityItemPostFooterPostEngagementBinding,

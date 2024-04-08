@@ -6,8 +6,8 @@ import com.amity.socialcloud.sdk.model.core.reaction.AmityReaction
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityItemReactionBinding
-import com.amity.socialcloud.uikit.common.utils.getDrawable20
-import com.amity.socialcloud.uikit.common.utils.getReactionByName
+import com.amity.socialcloud.uikit.common.reactions.getDrawable20
+import com.amity.socialcloud.uikit.common.reactions.getReactionByName
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.subjects.PublishSubject
 

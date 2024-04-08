@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="fillColor"
+            type="Integer" />
+        <variable
+            name="isDeleted"
+            type="Boolean" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/parentView"
+        fillColor="@{fillColor}"
+        roundedCorner="@{true}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="@{isDeleted ? View.GONE : View.VISIBLE}"
+        android:padding="@dimen/amity_two"
+        tools:background="@color/fb_darker_gray_post_bg">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/firstReactionIv"
+            style="@style/AmityCircularAvatarStyle"
+            android:layout_width="@dimen/amity_eighteen"
+            android:layout_height="@dimen/amity_eighteen"
+            android:elevation="2dp"
+            android:importantForAccessibility="no"
+            android:outlineProvider="none"
+            android:visibility="visible"
+            android:padding="1dp"
+            app:srcCompat="@drawable/love_20"
+            app:strokeColor="@color/fb_darker_gray_post_bg"
+            app:strokeWidth="1dp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/secondReactionIv"
+            style="@style/AmityCircularAvatarStyle"
+            android:layout_width="@dimen/amity_eighteen"
+            android:layout_height="@dimen/amity_eighteen"
+            android:layout_marginStart="-4dp"
+            android:elevation="1dp"
+            android:visibility="visible"
+            android:importantForAccessibility="no"
+            android:outlineProvider="none"
+            android:padding="1dp"
+            app:srcCompat="@drawable/wow_20"
+            app:strokeWidth="1dp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/thirdReactionIv"
+            style="@style/AmityCircularAvatarStyle"
+            android:layout_width="@dimen/amity_eighteen"
+            android:layout_height="@dimen/amity_eighteen"
+            android:layout_marginStart="-4dp"
+            android:importantForAccessibility="no"
+            android:padding="1dp"
+            android:visibility="visible"
+            app:srcCompat="@drawable/angry_20"
+            app:strokeWidth="1dp" />
+
+        <TextView
+            android:id="@+id/tvNumberOfReactions"
+            style="@style/AmityTextStyleCaption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/amity_padding_xxs"
+            android:gravity="center"
+            android:visibility="visible"
+            android:text="3"
+            android:textColor="@color/fb_text_gray"
+             />
+    </LinearLayout>
+</layout>

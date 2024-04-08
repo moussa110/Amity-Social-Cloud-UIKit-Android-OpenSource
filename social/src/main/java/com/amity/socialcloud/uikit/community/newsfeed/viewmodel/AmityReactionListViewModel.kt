@@ -2,6 +2,7 @@ package com.amity.socialcloud.uikit.community.newsfeed.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.amity.socialcloud.sdk.api.chat.AmityChatClient
 import com.amity.socialcloud.sdk.api.social.AmitySocialClient
 import com.amity.socialcloud.sdk.model.core.reaction.AmityReactionMap
 import com.amity.socialcloud.sdk.model.core.reaction.AmityReactionReferenceType
@@ -55,7 +56,13 @@ class AmityReactionListViewModel(private val savedState: SavedStateHandle) : Vie
 				}.blockingFirst(0)
 			}
 
-			else -> 0
+			AmityReactionReferenceType.MESSAGE -> {
+				AmityChatClient.newMessageRepository().getMessage(referenceId).map {
+					allReactionsCount = it.getReactionCount()
+					reactionsMap = it.getReactionMap()
+					return@map 0
+				}.blockingFirst(0)
+			}
 		}
 	}
 }

@@ -21,7 +21,7 @@ abstract class AmitySelectableMessageViewHolder(
     private val itemViewModel: AmitySelectableMessageViewModel,
     private val context: Context
 ) : AmityChatMessageBaseViewHolder(itemView, itemViewModel) {
-
+    override fun getContext(): Context = context
     init {
         addViewModelListener()
     }

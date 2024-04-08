@@ -1,13 +1,12 @@
-package com.amity.socialcloud.uikit.community.newsfeed.popup
+package com.amity.socialcloud.uikit.common.reactions
 
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import com.amity.socialcloud.uikit.common.databinding.AmityPopupReactionsBinding
 import com.amity.socialcloud.uikit.common.utils.animateScaleClick
-import com.amity.socialcloud.uikit.community.databinding.AmityPopupReactionsBinding
-import com.amity.socialcloud.uikit.common.utils.Reactions
 
 
 fun showReactionPopup(view: View,isFromComment:Boolean=false,listener:(Reactions)->Unit) {

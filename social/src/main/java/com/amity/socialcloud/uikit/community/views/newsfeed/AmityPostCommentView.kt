@@ -27,11 +27,11 @@ import com.amity.socialcloud.uikit.community.newsfeed.events.CommentEngagementCl
 import com.amity.socialcloud.uikit.community.newsfeed.events.CommentOptionClickEvent
 import com.amity.socialcloud.uikit.community.newsfeed.events.ReactionCountClickEvent
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityMentionClickableSpan
-import com.amity.socialcloud.uikit.community.newsfeed.popup.showReactionPopup
-import com.amity.socialcloud.uikit.common.utils.ReactionViewController
-import com.amity.socialcloud.uikit.common.utils.Reactions
-import com.amity.socialcloud.uikit.common.utils.getDrawable20
-import com.amity.socialcloud.uikit.common.utils.getReactionByName
+import com.amity.socialcloud.uikit.common.reactions.showReactionPopup
+import com.amity.socialcloud.uikit.common.reactions.ReactionViewController
+import com.amity.socialcloud.uikit.common.reactions.Reactions
+import com.amity.socialcloud.uikit.common.reactions.getDrawable20
+import com.amity.socialcloud.uikit.common.reactions.getReactionByName
 import io.reactivex.rxjava3.subjects.PublishSubject
 import timber.log.Timber
 

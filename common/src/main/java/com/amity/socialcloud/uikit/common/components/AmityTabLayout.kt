@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.amity.socialcloud.uikit.common.R
 import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
-import com.amity.socialcloud.uikit.common.utils.getDrawableForTab20
-import com.amity.socialcloud.uikit.common.utils.getReactionByName
+import com.amity.socialcloud.uikit.common.reactions.getDrawableForTab20
+import com.amity.socialcloud.uikit.common.reactions.getReactionByName
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

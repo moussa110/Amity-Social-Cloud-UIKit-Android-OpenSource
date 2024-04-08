@@ -32,6 +32,7 @@
     <string name="amity_report_msg">Report sent.</string>
     <string name="amity_max_image_selected">Reached max image selection limit</string>
     <string name="amity_unable_to_delete">Unable to delete the file</string>
+    <string name="amity_unable_to_edit_reaction">Unable to edit reactions</string>
     <string name="amity_try_again">Please try again</string>
     <string name="amity_image_preview_title">%1$d/%2$d</string>
     <string name="amity_release_to_send">Release to send</string>

@@ -201,7 +201,7 @@ class AmityMessageItemUtil {
             inflater.inflate(
                 R.layout.amity_item_unknown_message, parent,
                 false
-            ), AmityUnknownMsgViewModel()
+            ), AmityUnknownMsgViewModel(),parent.context
         )
     }
 
@@ -213,12 +213,10 @@ class AmityMessageItemUtil {
         return if (viewHolderListener?.getViewHolder(inflater, parent, itemType) != null) {
             viewHolderListener.getViewHolder(inflater, parent, itemType)!!
         } else {
-            AmityUnknownMessageViewHolder(
-                inflater.inflate(
-                    R.layout.amity_item_unknown_message, parent,
-                    false
-                ), AmityUnknownMsgViewModel()
-            )
+            AmityUnknownMessageViewHolder(inflater.inflate(
+                R.layout.amity_item_unknown_message, parent,
+                false
+            ), AmityUnknownMsgViewModel(), parent.context)
         }
     }
 
@@ -230,12 +228,10 @@ class AmityMessageItemUtil {
         return if (viewHolderListener?.getViewHolder(inflater, parent, itemType) != null) {
             viewHolderListener.getViewHolder(inflater, parent, itemType)!!
         } else {
-            AmityUnknownMessageViewHolder(
-                inflater.inflate(
-                    R.layout.amity_item_unknown_message, parent,
-                    false
-                ), AmityUnknownMsgViewModel()
-            )
+            AmityUnknownMessageViewHolder(inflater.inflate(
+                R.layout.amity_item_unknown_message, parent,
+                false
+            ), AmityUnknownMsgViewModel(), parent.context)
         }
     }
 

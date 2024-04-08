@@ -6,6 +6,7 @@ import com.amity.socialcloud.sdk.api.core.AmityCoreClient
 import com.amity.socialcloud.sdk.api.core.file.AmityFileRepository
 import com.amity.socialcloud.sdk.model.chat.message.AmityMessage
 import com.amity.socialcloud.sdk.model.core.file.AmityImage
+import com.amity.socialcloud.uikit.chat.R
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
@@ -15,7 +16,7 @@ class AmityImageMsgViewModel : AmitySelectableMessageViewModel() {
     val imageUrl = ObservableField("")
     val uploading = ObservableBoolean(false)
     val uploadProgress = ObservableField(0)
-
+    val reactionFillColor = ObservableField<Int>(R.color.grayDark)
     init {
         uploadProgress.addOnPropertyChanged {
             if (uploadProgress.get() == 100) {

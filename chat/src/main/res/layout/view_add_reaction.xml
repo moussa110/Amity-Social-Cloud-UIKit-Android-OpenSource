@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="isDeleted"
+            type="Boolean" />
+    </data>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/addReactIv"
+        android:layout_width="@dimen/amity_twenty_eight"
+        android:layout_height="@dimen/amity_twenty_eight"
+        android:background="@color/grayDark"
+        android:scaleType="fitCenter"
+        android:visibility="@{isDeleted ? View.GONE : View.VISIBLE}"
+        app:contentPadding="@dimen/amity_padding_xxs"
+        app:shapeAppearanceOverlay="@style/AmityCircleImage"
+        app:srcCompat="@drawable/baseline_add_reaction_24" />
+</layout>

@@ -8,4 +8,5 @@ class AmityTextMessageViewModel : AmitySelectableMessageViewModel() {
     val text = ObservableField<String>()
     val senderFillColor = ObservableField<Int>(R.color.amityColorPrimary)
     val receiverFillColor = ObservableField<Int>(R.color.amityMessageBubbleInverse)
+    val reactionFillColor = ObservableField<Int>(R.color.grayDark)
 }

@@ -17,7 +17,7 @@ import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.BottomSheetMenuItem
 import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.community.R
-import com.amity.socialcloud.uikit.common.utils.Reactions
+import com.amity.socialcloud.uikit.common.reactions.Reactions
 import com.amity.socialcloud.uikit.feed.settings.AmityPostSharingTarget
 import com.amity.socialcloud.uikit.social.AmitySocialUISettings
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -37,53 +38,70 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{vmTextMessage.isDeleted() ? View.GONE : View.VISIBLE}"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dateHeader">
 
-            <TextView
-                android:id="@+id/tvTimeOutgoing"
-                style="@style/AmityTextStyleCaption"
-                textColorShade="@{AmityColorShade.SHADE2}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/amity_padding_xxs"
-                android:text="@{vmTextMessage.isEdited() ? vmTextMessage.editedAt : vmTextMessage.msgTime}"
-                android:textColor="@color/amityColorBase"
-                app:layout_constraintEnd_toEndOf="@id/tvMessageOutgoing"
-                app:layout_constraintTop_toBottomOf="@id/tvMessageOutgoing" />
-
-            <TextView
-                style="@style/AmityTextStyleCaption"
-                textColorShade="@{AmityColorShade.SHADE2}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/amity_padding_xxs"
-                android:text="@string/amity_msg_edited"
-                android:textColor="@color/amityColorBase"
-                android:visibility="@{vmTextMessage.isEdited() ? View.VISIBLE : View.GONE}"
-                app:layout_constraintEnd_toStartOf="@id/tvTimeOutgoing"
-                app:layout_constraintTop_toTopOf="@id/tvTimeOutgoing" />
-
-            <com.amity.socialcloud.uikit.common.components.AmityReadMoreTextView
-                android:id="@+id/tvMessageOutgoing"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/msgView"
                 fillColor="@{vmTextMessage.senderFillColor}"
-                isSender="@{true}"
-                longPress="@{lonPressListener}"
-                message="@{vmTextMessage.text}"
                 roundedCorner="@{true}"
                 topRightRadius="@{@dimen/amity_zero}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/amity_one_hundred_fourteen"
                 android:layout_marginEnd="@dimen/amity_padding_m1"
-                app:layout_constrainedWidth="true"
+                android:padding="@dimen/amity_padding_xxs"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="240dp"
+                app:layout_constraintWidth_min="100dp">
+
+                <com.amity.socialcloud.uikit.common.components.AmityReadMoreTextView
+                    android:id="@+id/tvMessageOutgoing"
+                    isSender="@{true}"
+                    longPress="@{lonPressListener}"
+                    message="@{vmTextMessage.text}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/isEditedTv"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/isEditedTv"
+                    style="@style/AmityTextStyleCaption"
+                    textColorShade="@{AmityColorShade.SHADE2}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/amity_padding_xxs"
+                    android:text="@string/amity_msg_edited"
+                    android:textColor="@color/amityColorBase"
+                    android:visibility="@{vmTextMessage.isEdited() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tvTimeOutgoing" />
+
+                <TextView
+                    android:id="@+id/tvTimeOutgoing"
+                    style="@style/AmityTextStyleCaption"
+                    textColorShade="@{AmityColorShade.SHADE2}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{vmTextMessage.isEdited() ? vmTextMessage.editedAt : vmTextMessage.msgTime}"
+                    android:textColor="@color/amityColorBase"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="10:45 pm" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <include
                 layout="@layout/amity_view_msg_error"
@@ -91,8 +109,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/amity_padding_xxs"
                 android:visibility="@{vmTextMessage.isFailed() ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@id/tvMessageOutgoing"
-                app:layout_constraintEnd_toStartOf="@id/tvMessageOutgoing"
+                app:layout_constraintBottom_toBottomOf="@id/msgView"
+                app:layout_constraintEnd_toStartOf="@id/msgView"
                 app:viewModel="@{vmTextMessage}" />
 
             <TextView
@@ -101,12 +119,36 @@
                 android:alpha="0.50"
                 android:backgroundTint="@color/amityColorBase"
                 android:visibility="@{vmTextMessage.inSelectionMode ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@id/tvMessageOutgoing"
-                app:layout_constraintEnd_toEndOf="@id/tvMessageOutgoing"
-                app:layout_constraintStart_toStartOf="@id/tvMessageOutgoing"
-                app:layout_constraintTop_toTopOf="@id/tvMessageOutgoing"
+                app:layout_constraintBottom_toBottomOf="@id/msgView"
+                app:layout_constraintEnd_toEndOf="@id/msgView"
+                app:layout_constraintStart_toStartOf="@id/msgView"
+                app:layout_constraintTop_toTopOf="@id/msgView"
                 app:roundedCorner="@{true}"
                 app:topRightRadius="@{@dimen/amity_zero}" />
+
+            <include
+                android:id="@+id/addReactionView"
+                layout="@layout/view_add_reaction"
+                android:layout_width="@dimen/amity_twenty_eight"
+                android:layout_height="@dimen/amity_twenty_eight"
+                android:layout_marginTop="-16dp"
+                android:layout_marginEnd="-12dp"
+                app:isDeleted="@{vmTextMessage.isDeleted()}"
+                app:layout_constraintEnd_toStartOf="@id/msgView"
+                app:layout_constraintTop_toBottomOf="@id/msgView" />
+
+            <include
+                android:id="@+id/topThreeReactionsView"
+                layout="@layout/view_reactions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:isDeleted="@{vmTextMessage.isDeleted()}"
+                android:layout_marginTop="@dimen/amity_padding_s"
+                android:layout_marginEnd="@dimen/amity_padding_xs"
+                app:fillColor="@{vmTextMessage.reactionFillColor}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/addReactionView" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,4 +1,4 @@
-package com.amity.socialcloud.uikit.common.utils
+package com.amity.socialcloud.uikit.common.reactions
 
 import android.content.Context
 import android.graphics.drawable.Drawable

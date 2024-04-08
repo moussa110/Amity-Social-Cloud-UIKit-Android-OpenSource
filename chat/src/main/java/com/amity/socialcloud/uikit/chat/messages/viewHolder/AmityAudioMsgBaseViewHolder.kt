@@ -22,6 +22,8 @@ abstract class AmityAudioMsgBaseViewHolder(
         addViewModelListener()
     }
 
+    override fun getContext(): Context = context
+
     abstract fun getAudioViewHolder(): AmityAudioMsgBaseViewHolder
 
     private fun addViewModelListener() {

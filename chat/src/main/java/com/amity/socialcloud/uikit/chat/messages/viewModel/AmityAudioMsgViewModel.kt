@@ -25,6 +25,7 @@ class AmityAudioMsgViewModel : AmitySelectableMessageViewModel() {
     val uploading = ObservableBoolean(false)
     val uploadProgress = ObservableField(0)
     val buffering = ObservableBoolean(false)
+    val reactionFillColor = ObservableField<Int>(R.color.grayDark)
 
     init {
         uploadProgress.addOnPropertyChanged {

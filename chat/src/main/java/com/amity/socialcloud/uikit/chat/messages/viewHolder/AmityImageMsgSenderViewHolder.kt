@@ -18,6 +18,7 @@ import com.amity.socialcloud.uikit.common.common.views.AmityColorShade
 import com.amity.socialcloud.uikit.common.imagepreview.AmityImagePreviewActivity
 import com.amity.socialcloud.uikit.common.imagepreview.AmityPreviewImage
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
+import com.amity.socialcloud.uikit.common.reactions.ReactionsViews
 import com.google.android.material.shape.CornerFamily
 
 class AmityImageMsgSenderViewHolder(
@@ -25,7 +26,7 @@ class AmityImageMsgSenderViewHolder(
     private val itemViewModel: AmityImageMsgViewModel,
     private val context: Context
 ) : AmitySelectableMessageViewHolder(itemView, itemViewModel, context) {
-
+    override fun getContext(): Context = context
     private val binding: AmityItemImageMsgSenderBinding? = DataBindingUtil.bind(itemView)
     private var popUp: AmityPopUp? = null
 
@@ -76,6 +77,22 @@ class AmityImageMsgSenderViewHolder(
             ContextCompat.getColor(context, R.color.amityColorBase),
             AmityColorShade.SHADE3
         )
+
+        itemViewModel.reactionHelper?.setReactionView(getReactViews())
+        onReactionImageClicked()
+    }
+
+    private fun getReactViews(): ReactionsViews? {
+        binding?.apply {
+            return ReactionsViews(
+                topThreeReactionsView.parentView,topThreeReactionsView.firstReactionIv,
+                topThreeReactionsView.secondReactionIv,
+                topThreeReactionsView.thirdReactionIv,
+                topThreeReactionsView.tvNumberOfReactions,
+                addReactionView.addReactIv
+            )
+        }
+        return null
     }
 
     private fun navigateToImagePreview(imageUrl: String) {

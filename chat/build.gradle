@@ -4,4 +4,5 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(path: ':common')
+    api ("com.linkedin.android.spyglass:spyglass:3.0.1")
 }

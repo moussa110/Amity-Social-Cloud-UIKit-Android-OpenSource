@@ -27,6 +27,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
+private const val REACTION_NAME = "REACTION_NAME"
+
 class AmitySingleReactionFragment : AmityBaseFragment() {
 
     private lateinit var binding: AmityFragmentSingleReactionBinding
@@ -38,9 +40,9 @@ class AmitySingleReactionFragment : AmityBaseFragment() {
     private val emptyStatePublisher = PublishSubject.create<Boolean>()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+	    inflater: LayoutInflater,
+	    container: ViewGroup?,
+	    savedInstanceState: Bundle?
     ): View {
         binding = AmityFragmentSingleReactionBinding.inflate(inflater, container, false)
         return binding.root
@@ -64,7 +66,7 @@ class AmitySingleReactionFragment : AmityBaseFragment() {
                     handleLoadedState(adapter.itemCount, loadStates)
                 }
                 is LoadState.Error -> {
-                    handleErrorState(AmityError.from(refreshState.error))
+                    handleErrorState(AmityError.Companion.from(refreshState.error))
                 }
                 is LoadState.Loading -> {}
                 else -> {}
@@ -204,9 +206,9 @@ class AmitySingleReactionFragment : AmityBaseFragment() {
     companion object {
 
         fun newInstance(
-            referenceType: AmityReactionReferenceType,
-            referenceId: String,
-            reactionName: String?
+	        referenceType: AmityReactionReferenceType,
+	        referenceId: String,
+	        reactionName: String?
         ): Builder {
             return Builder()
                 .referenceType(referenceType)
@@ -215,5 +217,3 @@ class AmitySingleReactionFragment : AmityBaseFragment() {
         }
     }
 }
-
-private const val REACTION_NAME = "REACTION_NAME"

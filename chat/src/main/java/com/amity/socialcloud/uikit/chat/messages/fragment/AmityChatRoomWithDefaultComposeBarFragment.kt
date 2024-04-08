@@ -33,6 +33,8 @@ import com.amity.socialcloud.sdk.model.core.file.AmityImage
 import com.amity.socialcloud.uikit.chat.R
 import com.amity.socialcloud.uikit.chat.databinding.AmityFragmentChatWithDefaultComposeBarBinding
 import com.amity.socialcloud.uikit.chat.messages.adapter.AmityMessagePagingAdapter
+import com.amity.socialcloud.uikit.chat.messages.adapter.AmityUserMentionAdapter
+import com.amity.socialcloud.uikit.chat.messages.adapter.AmityUserMentionPagingDataAdapter
 import com.amity.socialcloud.uikit.chat.messages.viewModel.AmityChatRoomEssentialViewModel
 import com.amity.socialcloud.uikit.chat.messages.viewModel.AmityMessageListViewModel
 import com.amity.socialcloud.uikit.chat.util.MessageType
@@ -75,6 +77,8 @@ class AmityChatRoomWithDefaultComposeBarFragment : AmityPickerFragment(),
     private var currentCount = 0
     private var isImagePermissionGranted = false
     private var isReachBottom = true
+    private val userMentionAdapter by lazy { AmityUserMentionAdapter() }
+    private val userMentionPagingDataAdapter by lazy { AmityUserMentionPagingDataAdapter() }
 
 
     private val requiredPermissions = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
@@ -148,6 +152,36 @@ class AmityChatRoomWithDefaultComposeBarFragment : AmityPickerFragment(),
         initMessageLoader()
 //        observeRefreshStatus()
 //        observeConnectionStatus()
+    }
+
+    private fun setupUserMention() {
+        binding.etMessage.apply {
+            setSuggestionsVisibilityManager(this@AmityCommentBaseFragment)
+            addTextChangedListener(this@AmityCommentBaseFragment)
+            setQueryTokenReceiver(this@AmityCommentBaseFragment)
+        }
+        binding.recyclerViewUserMention.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewUserMention.adapter = userMentionAdapter
+
+        userMentionAdapter.setListener(object :
+            AmityUserMentionAdapter.AmityUserMentionAdapterListener {
+            override fun onClickUserMention(userMention: AmityUserMention) {
+                insertUserMention(userMention)
+            }
+        })
+
+        userMentionPagingDataAdapter.setListener(object :
+            AmityUserMentionViewHolder.AmityUserMentionListener {
+            override fun onClickUserMention(userMention: AmityUserMention) {
+                insertUserMention(userMention)
+            }
+        })
+    }
+
+    private fun insertUserMention(userMention: AmityUserMention) {
+        displaySuggestions(false)
+        searchDisposable.clear()
+        binding.etPostComment.insertMention(userMention)
     }
 
     private fun setupComposebar() {

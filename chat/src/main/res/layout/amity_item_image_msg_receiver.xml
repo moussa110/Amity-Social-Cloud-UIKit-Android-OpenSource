@@ -101,7 +101,29 @@
                 android:text="@{vmImageMessage.msgTime}"
                 android:textColor="@color/amityColorBase"
                 app:layout_constraintStart_toStartOf="@id/ivImageIncoming"
+                app:layout_constraintTop_toBottomOf="@id/topThreeReactionsView" />
+
+            <include
+                android:id="@+id/addReactionView"
+                layout="@layout/view_add_reaction"
+                android:layout_width="@dimen/amity_twenty_eight"
+                android:layout_height="@dimen/amity_twenty_eight"
+                android:layout_marginStart="-8dp"
+                android:layout_marginTop="-12dp"
+                app:isDeleted="@{vmImageMessage.isDeleted()}"
+                app:layout_constraintStart_toEndOf="@id/ivImageIncoming"
                 app:layout_constraintTop_toBottomOf="@id/ivImageIncoming" />
+
+            <include
+                android:id="@+id/topThreeReactionsView"
+                layout="@layout/view_reactions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/amity_padding_xs"
+                android:layout_marginStart="-8dp"
+                app:fillColor="@{vmImageMessage.reactionFillColor}"
+                app:layout_constraintStart_toStartOf="@id/ivImageIncoming"
+                app:layout_constraintTop_toTopOf="@id/addReactionView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

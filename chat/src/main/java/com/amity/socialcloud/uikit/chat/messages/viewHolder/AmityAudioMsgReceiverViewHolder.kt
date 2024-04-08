@@ -11,6 +11,7 @@ import com.amity.socialcloud.uikit.chat.databinding.AmityPopupMsgReportBinding
 import com.amity.socialcloud.uikit.chat.messages.popUp.AmityPopUp
 import com.amity.socialcloud.uikit.chat.messages.viewModel.AmityAudioMsgViewModel
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
+import com.amity.socialcloud.uikit.common.reactions.ReactionsViews
 
 class AmityAudioMsgReceiverViewHolder(
     itemView: View,
@@ -41,6 +42,21 @@ class AmityAudioMsgReceiverViewHolder(
 
     override fun setMessageData(item: AmityMessage) {
         itemViewModel.getUploadProgress(item)
+        itemViewModel.reactionHelper?.setReactionView(getReactViews())
+        onReactionImageClicked()
+    }
+
+    private fun getReactViews(): ReactionsViews? {
+        binding?.apply {
+            return ReactionsViews(
+                topThreeReactionsView.parentView,topThreeReactionsView.firstReactionIv,
+                topThreeReactionsView.secondReactionIv,
+                topThreeReactionsView.thirdReactionIv,
+                topThreeReactionsView.tvNumberOfReactions,
+                addReactionView.addReactIv
+            )
+        }
+        return null
     }
 
     override fun showPopUp() {

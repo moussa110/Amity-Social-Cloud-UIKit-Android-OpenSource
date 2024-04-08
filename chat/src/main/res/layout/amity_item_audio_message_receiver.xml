@@ -43,8 +43,8 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivAvatar"
                 style="@style/AmityCircularAvatarStyle"
-                backgroundColorShade="@{AmityColorShade.SHADE3}"
                 amityBackgroundColor="@{@color/amityColorPrimary}"
+                backgroundColorShade="@{AmityColorShade.SHADE3}"
                 imageUrl="@{vmAudioMsg.amityMessage.creator.avatar.url}"
                 android:layout_width="@dimen/amity_forty"
                 android:layout_height="@dimen/amity_forty"
@@ -71,7 +71,7 @@
                 fillColor="@{vmAudioMsg.receiverFillColor}"
                 roundedCorner="@{true}"
                 topLeftRadius="@{@dimen/amity_zero}"
-                android:layout_width="120dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/amity_padding_xxs"
                 android:onLongClick="@{() -> vmAudioMsg.onLongPress(position)}"
@@ -144,6 +144,36 @@
                 app:layout_constraintTop_toTopOf="@id/layoutAudio"
                 app:viewModel="@{vmAudioMsg}" />
 
+            <include
+                android:id="@+id/addReactionView"
+                layout="@layout/view_add_reaction"
+                android:layout_width="@dimen/amity_twenty_eight"
+                android:layout_height="@dimen/amity_twenty_eight"
+                android:layout_marginStart="-8dp"
+                android:layout_marginTop="-12dp"
+                app:isDeleted="@{vmAudioMsg.isDeleted()}"
+                app:layout_constraintStart_toEndOf="@id/layoutAudio"
+                app:layout_constraintTop_toBottomOf="@id/layoutAudio" />
+
+            <include
+                android:id="@+id/topThreeReactionsView"
+                layout="@layout/view_reactions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-8dp"
+                android:layout_marginTop="@dimen/amity_padding_xs"
+                app:fillColor="@{vmAudioMsg.reactionFillColor}"
+                app:isDeleted="@{vmAudioMsg.isDeleted()}"
+                app:layout_constraintStart_toStartOf="@id/layoutAudio"
+                app:layout_constraintTop_toTopOf="@id/addReactionView" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/topThreeReactionsView"
+                app:constraint_referenced_ids="topThreeReactionsView,layoutAudio"/>
+
             <TextView
                 android:id="@+id/tvTime"
                 style="@style/AmityTextStyleCaption"
@@ -156,7 +186,7 @@
                 android:textColor="@color/amityColorBase"
                 android:visibility="@{vmAudioMsg.isDeleted() ? View.GONE : View.VISIBLE}"
                 app:layout_constraintStart_toStartOf="@id/layoutAudio"
-                app:layout_constraintTop_toBottomOf="@id/layoutAudio" />
+                app:layout_constraintTop_toBottomOf="@id/barrier" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

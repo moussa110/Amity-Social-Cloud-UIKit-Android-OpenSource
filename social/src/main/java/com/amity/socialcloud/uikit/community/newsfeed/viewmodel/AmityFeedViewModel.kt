@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import com.amity.socialcloud.sdk.api.core.AmityCoreClient
 import com.amity.socialcloud.sdk.api.social.AmitySocialClient
-import com.amity.socialcloud.sdk.api.social.community.AmityCommunityRepository
-import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadataCreator
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
@@ -17,7 +15,7 @@ import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostContent
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostFooterItem
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostHeaderItem
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityBasePostItem
-import com.amity.socialcloud.uikit.common.utils.getReactionByName
+import com.amity.socialcloud.uikit.common.reactions.getReactionByName
 import com.amity.socialcloud.uikit.community.utils.NewsFeedMetaDataKeys
 import com.amity.socialcloud.uikit.community.utils.mergeJsonObjects
 import com.amity.socialcloud.uikit.feed.settings.AmityDefaultPostViewHolders
