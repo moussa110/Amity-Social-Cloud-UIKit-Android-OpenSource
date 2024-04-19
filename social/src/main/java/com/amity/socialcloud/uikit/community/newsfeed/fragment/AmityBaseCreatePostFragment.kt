@@ -13,12 +13,17 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.toPublisher
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,7 +47,12 @@ import com.amity.socialcloud.uikit.common.utils.setActionBarRightText
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentPostCreateBinding
 import com.amity.socialcloud.uikit.community.domain.model.AmityFileAttachment
-import com.amity.socialcloud.uikit.community.newsfeed.adapter.*
+import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityCreatePostFileAdapter
+import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityCreatePostMediaAdapter
+import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityPostAttachmentOptionsAdapter
+import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityUserMentionAdapter
+import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityUserMentionPagingDataAdapter
+import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityUserMentionViewHolder
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityCreatePostFileActionListener
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityCreatePostImageActionListener
 import com.amity.socialcloud.uikit.community.newsfeed.model.AmityPostAttachmentOptionItem
@@ -70,7 +80,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import java.io.File
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 
@@ -220,10 +230,15 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 	}
 
 	private fun observeImageData() {
-		Flowable.fromPublisher(LiveDataReactiveStreams.toPublisher(viewLifecycleOwner,
-			viewModel.getImages())).throttleLatest(1, TimeUnit.SECONDS, true)
-			.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-			.untilLifecycleEnd(this).subscribe {
+        Flowable.fromPublisher(
+            viewModel.getImages()
+                .toPublisher(viewLifecycleOwner)
+        )
+            .throttleLatest(1, TimeUnit.SECONDS, true)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .untilLifecycleEnd(this)
+            .subscribe {
 				setupImageAdapter()
 				val imageCount = mediaAdapter?.itemCount ?: 0
 				mediaAdapter!!.submitList(it.toMutableList())
@@ -234,8 +249,9 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 
 	private fun observeFileAttachments() {
 		setupFileAttachmentAdapter()
-		Flowable.fromPublisher(LiveDataReactiveStreams.toPublisher(viewLifecycleOwner,
-			viewModel.getFiles())).throttleLatest(1, TimeUnit.SECONDS, true)
+		Flowable.fromPublisher(
+			viewModel.getFiles().toPublisher(viewLifecycleOwner)
+        ).throttleLatest(1, TimeUnit.SECONDS, true)
 			.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 			.untilLifecycleEnd(this).subscribe {
 				fileAdapter!!.submitList(it)
@@ -501,7 +517,7 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 	}
 
 	private fun openFilePicker() {
-		val filesIntent = Intent(Intent.ACTION_GET_CONTENT)
+        val filesIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
 		filesIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
 		filesIntent.addCategory(Intent.CATEGORY_OPENABLE)
 		filesIntent.type = "*/*"
@@ -511,13 +527,21 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 	private fun grantStoragePermission(requestCode: Int, onPermissionGrant: () -> Unit) {
 		val requiredPermissions = emptyList<String>().toMutableList()
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-			requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-		}
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requiredPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
 			when (requestCode) {
 				REQUEST_STORAGE_PERMISSION_IMAGE_UPLOAD -> requiredPermissions.add(Manifest.permission.READ_MEDIA_IMAGES)
 				REQUEST_STORAGE_PERMISSION_VIDEO_UPLOAD -> requiredPermissions.add(Manifest.permission.READ_MEDIA_VIDEO)
 			}
+        } else {
+            when (requestCode) {
+                REQUEST_STORAGE_PERMISSION_IMAGE_UPLOAD -> {
+                    requiredPermissions.add(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED)
+                }
+                REQUEST_STORAGE_PERMISSION_VIDEO_UPLOAD -> {
+                    requiredPermissions.add(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED)
+                }
+            }
 		}
 		val hasRequiredPermission = requiredPermissions.fold(true) { acc, permission ->
 			acc && hasPermission(permission)
@@ -532,7 +556,7 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 	private fun grantCameraPermission(requestCode: Int, onPermissionGrant: () -> Unit) {
 		val requiredPermissions = mutableListOf(Manifest.permission.CAMERA)
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-			requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            requiredPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
 		}
 		val hasRequiredPermission = requiredPermissions.fold(true) { acc, permission ->
 			acc && hasPermission(permission)
@@ -967,7 +991,6 @@ abstract class AmityBaseCreatePostFragment : AmityBaseFragment(),
 				}.doOnError { }.subscribe()
 			compositeDisposable.add(disposable)
 		}
-
 	}
 
 	private fun showDuplicateFilesMessage() {

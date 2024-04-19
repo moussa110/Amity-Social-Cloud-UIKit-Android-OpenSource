@@ -229,6 +229,18 @@ class AmityUserProfilePageFragment : AmityBaseFragment(), AppBarLayout.OnOffsetC
 				}.untilLifecycleEnd(this@AmityUserProfilePageFragment).subscribe()
 			}
 
+            btnUnblockRequest.setOnClickListener {
+                binding.userProfileHeader.updateState(AmityFollowStatus.NONE)
+                viewModel.unblock().doOnError {
+                    showErrorDialog(
+                        getString(R.string.amity_unblock_error, currentUser.getDisplayName()),
+                        getString(R.string.amity_something_went_wrong_pls_try),
+                        AmityFollowStatus.BLOCKED
+                    )
+                }.untilLifecycleEnd(this@AmityUserProfilePageFragment)
+                    .subscribe()
+            }
+
 			layoutPendingRequests.setOnClickListener {
 				val intent =
 					AmityFollowRequestsActivity.newIntent(requireContext(), viewModel.userId)
@@ -236,7 +248,7 @@ class AmityUserProfilePageFragment : AmityBaseFragment(), AppBarLayout.OnOffsetC
 			}
 
 			tvFollowersCount.setOnClickListener {
-				if (connectionState == AmityFollowStatus.ACCEPTED) {
+				if (followStatus == AmityFollowStatus.ACCEPTED) {
 					val intent = AmityUserFollowersActivity.newIntent(requireContext(),
 						currentUser.getDisplayName(),
 						viewModel.userId)
@@ -245,7 +257,7 @@ class AmityUserProfilePageFragment : AmityBaseFragment(), AppBarLayout.OnOffsetC
 			}
 
 			tvFollowingCount.setOnClickListener {
-				if (connectionState == AmityFollowStatus.ACCEPTED) {
+				if (followStatus == AmityFollowStatus.ACCEPTED) {
 					val intent = AmityUserFollowersActivity.newIntent(requireContext(),
 						currentUser.getDisplayName(),
 						viewModel.userId)

@@ -68,7 +68,8 @@ class AmityCommunitySettingViewModel(private val savedState: SavedStateHandle) :
             hasCommunityPermission(
                 communitySource,
                 getCommunityPermissionSource(communityId!!, AmityPermission.REVIEW_COMMUNITY_POST)
-            )) { hasEditPermission, hasDeletePermission, hasReviewPermission ->
+            )
+        ) { hasEditPermission, hasDeletePermission, hasReviewPermission ->
             val settingsItems = mutableListOf<AmitySettingsItem>()
             val separator = AmitySettingsItem.Separator
             val basicInfo = AmitySettingsItem.Header(title = R.string.amity_basic_info)
@@ -105,6 +106,12 @@ class AmityCommunitySettingViewModel(private val savedState: SavedStateHandle) :
                 val postReview = menuCreator.createPostReviewMenu(communityId!!)
                 settingsItems.add(AmitySettingsItem.Margin(R.dimen.amity_padding_xs))
                 settingsItems.add(postReview)
+            }
+
+            if (hasReviewPermission) {
+                val storySetting = menuCreator.createStorySettingMenu(communityId!!)
+                settingsItems.add(AmitySettingsItem.Margin(R.dimen.amity_padding_xs))
+                settingsItems.add(storySetting)
             }
 
             if (hasEditPermission || hasDeletePermission) {

@@ -33,9 +33,12 @@ class AmityEditUserProfileViewModel : AmityBaseViewModel() {
 
 
     fun updateUser(): Single<AmityUser> {
-
         val updateUserBuilder = AmityCoreClient.editUser()
-            .displayName(displayName.value!!)
+            .apply {
+                if (displayName.value != user?.getDisplayName()) {
+                    displayName(displayName.value!!)
+                }
+            }
             .description(about.value!!)
 
         if (profileImage != null) {

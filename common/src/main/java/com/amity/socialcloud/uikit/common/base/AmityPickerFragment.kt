@@ -71,9 +71,11 @@ abstract class AmityPickerFragment : AmityBaseFragment() {
 
     fun pickImage() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            pickImagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            pickImagePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             pickImagePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            pickImagePermission.launch(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED )
         }
     }
 
@@ -86,7 +88,6 @@ abstract class AmityPickerFragment : AmityBaseFragment() {
         val permissions = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             arrayOf(
                 Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
         } else {
             arrayOf(

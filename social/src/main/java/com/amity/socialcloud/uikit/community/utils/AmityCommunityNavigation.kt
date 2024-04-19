@@ -11,7 +11,11 @@ import com.amity.socialcloud.uikit.common.imagepreview.AmityPreviewImage
 import com.amity.socialcloud.uikit.community.contentsearch.ui.activity.AmityHashTagPostsActivity
 import com.amity.socialcloud.uikit.community.detailpage.AmityCommunityPageActivity
 import com.amity.socialcloud.uikit.community.explore.activity.EXTRA_PARAM_COMMUNITY
-import com.amity.socialcloud.uikit.community.newsfeed.activity.*
+import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostCreatorActivity
+import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostDetailsActivity
+import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostEditorActivity
+import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityTargetSelectionPageActivity
+import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityVideoPostPlayerActivity
 import com.amity.socialcloud.uikit.community.newsfeed.util.AmityTimelineType
 import com.amity.socialcloud.uikit.community.profile.activity.AmityEditUserProfileActivity
 import com.amity.socialcloud.uikit.community.profile.activity.AmityUserProfileActivity
@@ -29,6 +33,7 @@ const val EXTRA_PARAM_TARGET_TYPE = "target_type"
 const val EXTRA_PARAM_TARGET_ID = "target_id"
 const val EXTRA_PARAM_INCLUDE_DELETED = "include_deleted"
 const val EXTRA_PARAM_NOTIFICATION_SETTING_TYPE = "noti_setting_type"
+const val EXTRA_PARAM_STORY_CREATION_TYPE = "story_creation_type"
 
 
 class AmityCommunityNavigation {
@@ -53,7 +58,7 @@ class AmityCommunityNavigation {
         }
 
         fun navigateToCreatePostRoleSelection(context: Context) {
-            val intent = Intent(context, AmityPostTargetPickerActivity::class.java)
+            val intent = Intent(context, AmityTargetSelectionPageActivity::class.java)
             context.startActivity(intent)
         }
 

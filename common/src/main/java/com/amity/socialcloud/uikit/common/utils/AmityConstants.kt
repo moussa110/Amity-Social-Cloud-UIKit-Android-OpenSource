@@ -41,4 +41,6 @@ object AmityConstants {
     const val MEMBER_ROLE = "member"
     const val POST_REACTION = "like"
     const val NO_PERMISSION_ERROR_CODE = 400301
+
+    const val STORY_DURATION = 7 * 1000L    // milli seconds
 }
