@@ -49,7 +49,7 @@
                 android:layout_width="@dimen/amity_forty"
                 android:layout_height="@dimen/amity_forty"
                 android:layout_marginStart="@dimen/amity_padding_m1"
-                android:visibility="@{vmAudioMsg.isSenderVisible() ? View.VISIBLE : View.GONE}"
+                android:visibility="@{vmAudioMsg.isSenderVisible() ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +62,7 @@
                 android:layout_marginStart="@dimen/amity_padding_s"
                 android:text="@{vmAudioMsg.sender}"
                 android:textColor="@color/amityColorBase"
-                android:visibility="@{vmAudioMsg.isSenderVisible() ? View.VISIBLE : View.GONE}"
+                android:visibility="@{vmAudioMsg.isSenderVisible() ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintStart_toEndOf="@id/ivAvatar"
                 app:layout_constraintTop_toTopOf="@id/ivAvatar" />
 
@@ -151,7 +151,7 @@
                 android:layout_height="@dimen/amity_twenty_eight"
                 android:layout_marginStart="-8dp"
                 android:layout_marginTop="-12dp"
-                app:isDeleted="@{vmAudioMsg.isDeleted()}"
+                app:isToHideReact="@{vmAudioMsg.isToHideReact()}"
                 app:layout_constraintStart_toEndOf="@id/layoutAudio"
                 app:layout_constraintTop_toBottomOf="@id/layoutAudio" />
 

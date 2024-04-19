@@ -3,14 +3,14 @@ package com.amity.socialcloud.uikit.chat.messages.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import com.amity.socialcloud.sdk.model.social.member.AmityCommunityMember
-import com.amity.socialcloud.uikit.community.databinding.AmityItemUserMentionBinding
-import com.amity.socialcloud.uikit.community.newsfeed.diffutil.CommunityMemberDiffUtil
-import com.amity.socialcloud.uikit.community.newsfeed.model.AmityUserMention
+import androidx.recyclerview.widget.DiffUtil
+import com.amity.socialcloud.sdk.model.chat.member.AmityChannelMember
+import com.amity.socialcloud.uikit.chat.databinding.AmityItemUserMentionBinding
+import com.amity.socialcloud.uikit.chat.messages.model.AmityUserMention
 
 class AmityUserMentionPagingDataAdapter :
-    PagingDataAdapter<AmityCommunityMember, AmityUserMentionPagingDataViewHolder>(
-        CommunityMemberDiffUtil()
+    PagingDataAdapter<AmityChannelMember, AmityUserMentionPagingDataViewHolder>(
+        ChannelMemberDiffUtil()
     ),
     AmityUserMentionViewHolder.AmityUserMentionListener {
 
@@ -36,5 +36,19 @@ class AmityUserMentionPagingDataAdapter :
 
     fun setListener(listener: AmityUserMentionViewHolder.AmityUserMentionListener) {
         this.listener = listener
+    }
+}
+
+class ChannelMemberDiffUtil : DiffUtil.ItemCallback<AmityChannelMember>() {
+
+    override fun areItemsTheSame(oldItem: AmityChannelMember, newItem: AmityChannelMember): Boolean {
+        return oldItem.getUserId() == newItem.getUserId()
+    }
+
+    override fun areContentsTheSame(oldItem: AmityChannelMember, newItem: AmityChannelMember): Boolean {
+        return oldItem.getUser()?.getDisplayName() == newItem.getUser()?.getDisplayName()
+                && oldItem.getUser()?.getAvatar()?.getUrl() == newItem.getUser()?.getAvatar()?.getUrl()
+                && oldItem.getUser()?.getAvatarCustomUrl() == newItem.getUser()?.getAvatarCustomUrl()
+                && oldItem.getUser()?.isGlobalBan() == newItem.getUser()?.isGlobalBan()
     }
 }

@@ -9,6 +9,7 @@ import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadata
 import com.amity.socialcloud.uikit.chat.R
 import com.amity.socialcloud.uikit.chat.messages.model.AmityUserMention
 import com.amity.socialcloud.uikit.common.utils.AmityAlertDialogUtil
+import com.linkedin.android.spyglass.mentions.MentionSpan
 import com.linkedin.android.spyglass.ui.MentionsEditText
 
 private const val MENTIONS_LIMIT: Int = 30
@@ -84,16 +85,19 @@ class AmityMessageComposeView : MentionsEditText {
 	}
 
 	fun getUserMentions(): List<AmityMentionMetadata.USER> {
-		val mentionSpan = mutableListOf<com.linkedin.android.spyglass.mentions.MentionSpan>()
+		val mentionSpan = mutableListOf<MentionSpan>()
 		val userMentions = mutableListOf<AmityMentionMetadata.USER>()
 		for (index in 0 until mentionsText.length) {
 			val mentionSpanItem = mentionsText.getMentionSpanStartingAt(index)
 			if (mentionSpanItem != null && !mentionSpan.contains(mentionSpanItem)) {
 				mentionSpan.add(mentionSpanItem)
 				(mentionSpanItem.mention as? AmityUserMention?)?.let { user ->
-					userMentions.add(AmityMentionMetadata.USER(user.getUserId(),
-						index,
-						user.getDisplayName().length))
+					userMentions.add(
+						AmityMentionMetadata.USER(
+							user.getUserId(),
+							index, user.getDisplayName().length
+						)
+					)
 				}
 			}
 		}

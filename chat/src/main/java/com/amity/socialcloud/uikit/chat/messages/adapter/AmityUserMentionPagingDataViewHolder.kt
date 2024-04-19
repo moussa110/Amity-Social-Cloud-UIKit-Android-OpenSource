@@ -3,9 +3,9 @@ package com.amity.socialcloud.uikit.chat.messages.adapter
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
-import com.amity.socialcloud.uikit.community.R
-import com.amity.socialcloud.uikit.community.databinding.AmityItemUserMentionBinding
-import com.amity.socialcloud.uikit.community.newsfeed.model.AmityUserMention
+import com.amity.socialcloud.uikit.chat.R
+import com.amity.socialcloud.uikit.chat.databinding.AmityItemUserMentionBinding
+import com.amity.socialcloud.uikit.chat.messages.model.AmityUserMention
 
 class AmityUserMentionPagingDataViewHolder constructor(
     private val binding: AmityItemUserMentionBinding,

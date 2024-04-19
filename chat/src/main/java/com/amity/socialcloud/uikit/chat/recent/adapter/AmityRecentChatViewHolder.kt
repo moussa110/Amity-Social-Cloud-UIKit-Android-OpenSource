@@ -2,7 +2,6 @@ package com.amity.socialcloud.uikit.chat.recent.adapter
 
 import android.view.View
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.sdk.model.chat.channel.AmityChannel
@@ -11,8 +10,6 @@ import com.amity.socialcloud.uikit.chat.R
 import com.amity.socialcloud.uikit.chat.databinding.AmityItemRecentMessageBinding
 import com.amity.socialcloud.uikit.chat.home.callback.AmityRecentChatItemClickListener
 import com.amity.socialcloud.uikit.common.base.AmityBaseRecyclerViewPagingDataAdapter
-import com.amity.socialcloud.uikit.common.common.views.AmityColorPaletteUtil
-import com.amity.socialcloud.uikit.common.common.views.AmityColorShade
 import com.amity.socialcloud.uikit.common.utils.AmityDateUtils
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
@@ -100,7 +97,8 @@ class AmityRecentChatViewHolder(
     private fun setupUnreadCount(data: AmityChannel) {
         if (data.getUnreadCount() > 0) {
             unreadCount.visibility = View.VISIBLE
-            unreadCount.text = data.getUnreadCount().toString()
+            unreadCount.text = if (data.hasMentioned()) "@" else
+                data.getUnreadCount().toString()
         } else {
             unreadCount.visibility = View.GONE
         }

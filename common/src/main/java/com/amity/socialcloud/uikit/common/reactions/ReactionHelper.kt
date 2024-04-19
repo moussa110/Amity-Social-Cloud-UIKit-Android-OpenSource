@@ -89,7 +89,7 @@ data class ReactionHelper(var reactionsCount: Int,
 		iv2.isVisible = false
 		iv3.isVisible = false
 
-		if (reactionsCount < 2) return
+		if (reactionsCount < 1) return
 
 		topThreeReactions?.forEachIndexed { index, str ->
 			getReactionByName(str)?.let { reaction ->

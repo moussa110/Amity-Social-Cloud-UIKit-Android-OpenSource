@@ -1,16 +1,18 @@
 package com.amity.socialcloud.uikit.chat.messages.adapter
 
 import android.view.View
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
+import com.amity.socialcloud.uikit.chat.R
+import com.amity.socialcloud.uikit.chat.messages.model.AmityUserMention
 import com.amity.socialcloud.uikit.common.base.AmityBaseRecyclerViewPagingDataAdapter
-import com.amity.socialcloud.uikit.community.R
-import com.amity.socialcloud.uikit.community.newsfeed.diffutil.UserDiffUtil
-import com.amity.socialcloud.uikit.community.newsfeed.model.AmityUserMention
 
 class AmityUserMentionAdapter :
     AmityBaseRecyclerViewPagingDataAdapter<AmityUser>(UserDiffUtil()),
     AmityUserMentionViewHolder.AmityUserMentionListener {
+
+
 
     private var listener: AmityUserMentionAdapterListener? = null
 
@@ -30,5 +32,19 @@ class AmityUserMentionAdapter :
 
     interface AmityUserMentionAdapterListener {
         fun onClickUserMention(userMention: AmityUserMention)
+    }
+}
+
+class UserDiffUtil : DiffUtil.ItemCallback<AmityUser>() {
+
+    override fun areItemsTheSame(oldItem: AmityUser, newItem: AmityUser): Boolean {
+        return oldItem.getUserId() == newItem.getUserId()
+    }
+
+    override fun areContentsTheSame(oldItem: AmityUser, newItem: AmityUser): Boolean {
+        return oldItem.getDisplayName() == newItem.getDisplayName()
+                && oldItem.getAvatar()?.getUrl() == newItem.getAvatar()?.getUrl()
+                && oldItem.getAvatarCustomUrl() == newItem.getAvatarCustomUrl()
+                && oldItem.isGlobalBan() == newItem.isGlobalBan()
     }
 }

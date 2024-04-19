@@ -8,11 +8,10 @@ import com.amity.socialcloud.sdk.api.core.AmityCoreClient
 import com.amity.socialcloud.sdk.model.chat.message.AmityMessage
 import com.amity.socialcloud.uikit.chat.R
 import com.amity.socialcloud.uikit.chat.messages.viewModel.AmityChatMessageBaseViewModel
+import com.amity.socialcloud.uikit.common.reactions.Reactions
+import com.amity.socialcloud.uikit.common.reactions.showReactionPopup
 import com.amity.socialcloud.uikit.common.utils.AmityAlertDialogUtil
 import com.amity.socialcloud.uikit.common.utils.AmityDateUtils
-import com.amity.socialcloud.uikit.common.reactions.Reactions
-import com.amity.socialcloud.uikit.common.reactions.ReactionsViews
-import com.amity.socialcloud.uikit.common.reactions.showReactionPopup
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -31,6 +30,7 @@ abstract class AmityChatMessageBaseViewHolder(itemView: View,
 		if (itemBaseViewModel.isDeleted.get() != item?.isDeleted()) {
 			itemBaseViewModel.isDeleted.set(item?.isDeleted() ?: false)
 		}
+		itemBaseViewModel.isRepliedMessage.set(item?.getParentId() != null)
 		itemBaseViewModel.isFailed.set(item?.getState() == AmityMessage.State.FAILED)
 		if (item != null) {
 			itemBaseViewModel.sender.set(getSenderName(item))
@@ -38,7 +38,7 @@ abstract class AmityChatMessageBaseViewHolder(itemView: View,
 			itemBaseViewModel.isEdited.set(item.isEdited())
 			setMessage(item)
 		}
-
+		itemBaseViewModel.isToHideReact.set(itemBaseViewModel.isDeleted.get() || itemBaseViewModel.isFailed.get())
 	}
 
 	open fun onReactionImageClicked() {

@@ -1,6 +1,8 @@
 package com.amity.socialcloud.uikit.common.components
 
 import android.content.Context
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -58,6 +60,15 @@ class AmityReadMoreTextView : ConstraintLayout {
         mBinding.tvMessage.text = text
         setReadMoreVisibility()
     }
+
+    fun setText(text: SpannableString?) {
+        message = text.toString()
+        mBinding.tvMessage.text = text
+        mBinding.tvMessage.movementMethod = LinkMovementMethod.getInstance()
+        setReadMoreVisibility()
+    }
+
+    fun getTextView() = mBinding.tvReadMore
 
     fun isSender(value: Boolean) {
         mBinding.isSender = value

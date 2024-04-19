@@ -40,6 +40,8 @@ abstract class AmityCommentBaseFragment: AmityBaseFragment(),
     lateinit var viewModel: AmityCommentViewModel
     lateinit var binding: AmityFragmentBaseCommentBinding
 
+
+
     private val userMentionAdapter by lazy { AmityUserMentionAdapter() }
     private val userMentionPagingDataAdapter by lazy { AmityUserMentionPagingDataAdapter() }
 

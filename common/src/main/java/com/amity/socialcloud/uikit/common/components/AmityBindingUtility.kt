@@ -134,6 +134,12 @@ fun setText(view: AmityReadMoreTextView, message: String?, isSender: Boolean) {
     view.setText(message)
 }
 
+@BindingAdapter(value = ["message", "isSender"], requireAll = true)
+fun setText(view: AmityReadMoreTextView, message: SpannableString?, isSender: Boolean) {
+    view.isSender(isSender)
+    view.setText(message)
+}
+
 @BindingAdapter(value = ["longPress", "maxLines"], requireAll = false)
 fun setListener(view: AmityReadMoreTextView, listener: AmityLongPressListener?, maxLines: Int?) {
     if (listener != null) {

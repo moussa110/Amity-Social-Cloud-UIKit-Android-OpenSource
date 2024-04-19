@@ -6,7 +6,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="isDeleted"
+            name="isToHideReact"
             type="Boolean" />
     </data>
 
@@ -16,7 +16,7 @@
         android:layout_height="@dimen/amity_twenty_eight"
         android:background="@color/grayDark"
         android:scaleType="fitCenter"
-        android:visibility="@{isDeleted ? View.GONE : View.VISIBLE}"
+        android:visibility="@{isToHideReact ? View.GONE : View.VISIBLE}"
         app:contentPadding="@dimen/amity_padding_xxs"
         app:shapeAppearanceOverlay="@style/AmityCircleImage"
         app:srcCompat="@drawable/baseline_add_reaction_24" />

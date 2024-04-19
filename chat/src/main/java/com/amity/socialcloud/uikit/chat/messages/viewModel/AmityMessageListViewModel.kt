@@ -4,12 +4,17 @@ import android.net.Uri
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.sdk.api.chat.AmityChatClient
 import com.amity.socialcloud.sdk.api.chat.channel.AmityChannelRepository
+import com.amity.socialcloud.sdk.api.chat.member.query.AmityChannelMembership
 import com.amity.socialcloud.sdk.api.chat.message.AmityMessageRepository
 import com.amity.socialcloud.sdk.api.chat.message.query.AmityMessageQuery
+import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadata
+import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadataCreator
 import com.amity.socialcloud.sdk.model.chat.channel.AmityChannel
 import com.amity.socialcloud.sdk.model.chat.member.AmityChannelMember
 import com.amity.socialcloud.sdk.model.chat.message.AmityMessage
@@ -23,142 +28,147 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AmityMessageListViewModel : AmityChatMessageBaseViewModel() {
 
-    val text = ObservableField<String>()
-    val title = ObservableField<String>()
-    val avatarUrl = ObservableField<String>()
-    var channelID: String = ""
-        set(value) {
-            field = value
+	val text = ObservableField<String>()
+	val messageText = MutableLiveData<String>().apply { value = "" }
+	val title = ObservableField<String>()
+	val avatarUrl = ObservableField<String>()
+	var channelID: String = ""
+		set(value) {
+			field = value
 
-            messageQuery = AmityChatClient.newMessageRepository()
-                .getMessages(value)
-                .parentId(null)
-                .build()
-        }
-    var isRVScrolling = false
-    val isScrollable = ObservableBoolean(false)
-    val stickyDate = ObservableField<String>("")
-    val showComposeBar = ObservableBoolean(false)
-    val keyboardHeight = ObservableInt(0)
-    val isVoiceMsgUi = ObservableBoolean(false)
-    val isRecording = ObservableBoolean(false)
-    var hasScrolled = false
+			messageQuery =
+				AmityChatClient.newMessageRepository().getMessages(value).parentId(null).build()
+		}
+	var isRVScrolling = false
+	val isScrollable = ObservableBoolean(false)
+	val stickyDate = ObservableField<String>("")
+	val showComposeBar = ObservableBoolean(false)
+	val keyboardHeight = ObservableInt(0)
+	val isVoiceMsgUi = ObservableBoolean(false)
+	val isRecording = ObservableBoolean(false)
+	var hasScrolled = false
+	var parentMessageId: String? = null
 
-    lateinit var messageQuery: AmityMessageQuery
+	lateinit var messageQuery: AmityMessageQuery
 
-    fun toggleRecordingView() {
-        isVoiceMsgUi.set(!isVoiceMsgUi.get())
-        if (isVoiceMsgUi.get()) {
-            triggerEvent(AmityEventIdentifier.SHOW_AUDIO_RECORD_UI)
-        }
-    }
+	fun toggleRecordingView() {
+		isVoiceMsgUi.set(!isVoiceMsgUi.get())
+		if (isVoiceMsgUi.get()) {
+			triggerEvent(AmityEventIdentifier.SHOW_AUDIO_RECORD_UI)
+		}
+	}
 
-    fun getChannelType(): Flowable<AmityChannel> {
-        val channelRepository: AmityChannelRepository = AmityChatClient.newChannelRepository()
-        return channelRepository.getChannel(channelID)
-    }
+	fun getChannelType(): Flowable<AmityChannel> {
+		val channelRepository: AmityChannelRepository = AmityChatClient.newChannelRepository()
+		return channelRepository.getChannel(channelID)
+	}
 
-    fun getDisplayName(): Flowable<PagingData<AmityChannelMember>> {
-        val channelRepository: AmityChannelRepository = AmityChatClient.newChannelRepository()
-        return channelRepository.membership(channelID).getMembers().build().query()
-    }
+	fun getDisplayName(): Flowable<PagingData<AmityChannelMember>> {
+		val channelRepository: AmityChannelRepository = AmityChatClient.newChannelRepository()
+		return channelRepository.membership(channelID).getMembers().build().query()
+	}
 
-    fun joinChannel(): Completable {
-        val channelRepository: AmityChannelRepository = AmityChatClient.newChannelRepository()
-        return channelRepository.joinChannel(channelID).ignoreElement()
-    }
+	fun joinChannel(): Completable {
+		val channelRepository: AmityChannelRepository = AmityChatClient.newChannelRepository()
+		return channelRepository.joinChannel(channelID).ignoreElement()
+	}
 
-    fun startReading() {
-        AmityChatClient.newSubChannelRepository().startReading(channelID)
-    }
+	fun startReading() {
+		AmityChatClient.newSubChannelRepository().startReading(channelID)
+	}
 
-    fun stopReading() {
-        AmityChatClient.newSubChannelRepository().stopReading(channelID)
-    }
+	fun stopReading() {
+		AmityChatClient.newSubChannelRepository().stopReading(channelID)
+	}
 
-    fun getAllMessages(): Flowable<PagingData<AmityMessage>> {
-        return messageQuery.query()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
+	fun getAllMessages(): Flowable<PagingData<AmityMessage>> {
+		return messageQuery.query().subscribeOn(Schedulers.io())
+			.observeOn(AndroidSchedulers.mainThread())
+	}
 
-    fun getLatestMessage(): Flowable<AmityMessage> {
-        return AmityChatClient.newChannelRepository()
-            .getChannel(channelID)
-            .firstElement()
-            .flatMapPublisher {
-                it.latestMessage()
-                    .isDeleted(false)
-                    .build()
-                    .query()
-            }
-    }
+	fun getLatestMessage(): Flowable<AmityMessage> {
+		return AmityChatClient.newChannelRepository().getChannel(channelID).firstElement()
+			.flatMapPublisher {
+				it.latestMessage().isDeleted(false).build().query()
+			}
+	}
 
-    fun sendMessage() {
-        if (!isVoiceMsgUi.get()) {
-            val messageRepository: AmityMessageRepository = AmityChatClient.newMessageRepository()
-            addDisposable(
-                messageRepository.createMessage(channelID).with()
-                    .text(text.get()!!.trim())
-                    .build().send().observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(object : DisposableCompletableObserver() {
-                        override fun onComplete() {
-                            triggerEvent(AmityEventIdentifier.MSG_SEND_SUCCESS)
-                        }
+	fun sendMessage(mentions: List<AmityMentionMetadata.USER>) {
+		if (!isVoiceMsgUi.get()) {
+			val creator = AmityChatClient.newMessageRepository()
+				.createTextMessage(subChannelId = channelID, text = text.get()!!)
 
-                        override fun onError(e: Throwable) {
-                            triggerEvent(AmityEventIdentifier.MSG_SEND_ERROR)
-                        }
-                    })
-            )
-            text.set("")
-        }
-    }
+			if (parentMessageId != null) creator.parentId(parentId = parentMessageId)
+			if (mentions.isNotEmpty()) creator.metadata(AmityMentionMetadataCreator(mentions).create())
+				.mentionUsers(mentions.map { it.getUserId() })
 
-    fun sendImageMessage(imageUri: Uri): Completable {
-        val messageRepository: AmityMessageRepository = AmityChatClient.newMessageRepository()
-        return messageRepository.createMessage(channelID).with()
-            .image(imageUri).build().send()
-    }
+			addDisposable(creator.build().send().subscribeWith(object : DisposableCompletableObserver() {
+				override fun onComplete() {
+					triggerEvent(AmityEventIdentifier.MSG_SEND_SUCCESS)
+				}
 
-    fun sendAudioMessage(audioFileUri: Uri): Completable {
-        val messageRepository: AmityMessageRepository = AmityChatClient.newMessageRepository()
-        return messageRepository.createMessage(channelID).with()
-            .audio(audioFileUri).build().send()
-    }
+				override fun onError(e: Throwable) {
+					triggerEvent(AmityEventIdentifier.MSG_SEND_ERROR)
+				}
+			})
+			)
+			text.set("")
+			parentMessageId = null
+		}
+	}
 
-    fun toggleComposeBar() {
-        triggerEvent(AmityEventIdentifier.TOGGLE_CHAT_COMPOSE_BAR)
-    }
+	@ExperimentalPagingApi
+	fun searchChannelUsersMention(keyword: String,
+	                              onResult: (users: PagingData<AmityChannelMember>) -> Unit): Completable {
+		return AmityChatClient.newChannelRepository().membership(channelID).searchMembers(keyword)
+			.membershipFilter(listOf(AmityChannelMembership.MEMBER)).build().query()
+			.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext {
+				onResult.invoke(it)
+			}.ignoreElements()
+	}
 
-    val composeBarClickListener = object : AmityChatComposeBarClickListener {
-        override fun onCameraClicked() {
-            triggerEvent(AmityEventIdentifier.CAMERA_CLICKED)
-        }
 
-        override fun onAlbumClicked() {
-            triggerEvent(AmityEventIdentifier.PICK_IMAGE)
-        }
+	fun sendImageMessage(imageUri: Uri): Completable {
+		val messageRepository: AmityMessageRepository = AmityChatClient.newMessageRepository()
+		return messageRepository.createMessage(channelID).with().image(imageUri).build().send()
+	}
 
-        override fun onFileClicked() {
-        }
+	fun sendAudioMessage(audioFileUri: Uri): Completable {
+		val messageRepository: AmityMessageRepository = AmityChatClient.newMessageRepository()
+		return messageRepository.createMessage(channelID).with().audio(audioFileUri).build().send()
+	}
 
-        override fun onLocationCLicked() {
-        }
-    }
+	fun toggleComposeBar() {
+		triggerEvent(AmityEventIdentifier.TOGGLE_CHAT_COMPOSE_BAR)
+	}
 
-    fun onRVScrollStateChanged(rv: RecyclerView, newState: Int) {
-        isScrollable.set(rv.computeVerticalScrollRange() > rv.height)
-        isRVScrolling = if (isScrollable.get()) {
-            newState == RecyclerView.SCROLL_STATE_DRAGGING ||
-                    newState == RecyclerView.SCROLL_STATE_SETTLING
-        } else {
-            false
-        }
-        if (isRVScrolling) {
-            hasScrolled = true
-        }
-    }
+	val composeBarClickListener = object : AmityChatComposeBarClickListener {
+		override fun onCameraClicked() {
+			triggerEvent(AmityEventIdentifier.CAMERA_CLICKED)
+		}
+
+		override fun onAlbumClicked() {
+			triggerEvent(AmityEventIdentifier.PICK_IMAGE)
+		}
+
+		override fun onFileClicked() {
+		}
+
+		override fun onLocationCLicked() {
+		}
+	}
+
+	fun onRVScrollStateChanged(rv: RecyclerView, newState: Int) {
+		isScrollable.set(rv.computeVerticalScrollRange() > rv.height)
+		isRVScrolling = if (isScrollable.get()) {
+			newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING
+		} else {
+			false
+		}
+		if (isRVScrolling) {
+			hasScrolled = true
+		}
+	}
 }
 
 private const val RECONNECTION_DELAY_SECONDS = 3

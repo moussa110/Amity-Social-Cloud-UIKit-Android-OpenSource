@@ -5,6 +5,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
+import com.amity.socialcloud.uikit.chat.R
+import com.amity.socialcloud.uikit.chat.databinding.AmityItemUserMentionBinding
 import com.amity.socialcloud.uikit.chat.messages.model.AmityUserMention
 import com.amity.socialcloud.uikit.common.base.AmityBaseRecyclerViewPagingDataAdapter
 

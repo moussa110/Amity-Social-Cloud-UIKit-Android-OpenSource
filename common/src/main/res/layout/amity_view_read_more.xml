@@ -28,6 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="12"
+            android:autoLink="web"
+            android:textColorLink="@color/fb_links_blue"
             android:textColor="@{isSender ? @color/amityMessageBubbleInverse : @color/amityColorBase}" />
 
         <TextView

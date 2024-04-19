@@ -99,6 +99,7 @@ class AmityMessagePagingAdapter(
                         && oldItem.getEditedAt() == newItem.getEditedAt()
                         && oldItem.getState() == newItem.getState()
                         && oldItem.getFlagCount() == newItem.getFlagCount()
+                        && oldItem.getParentId() == newItem.getParentId()
             }
         }
     }

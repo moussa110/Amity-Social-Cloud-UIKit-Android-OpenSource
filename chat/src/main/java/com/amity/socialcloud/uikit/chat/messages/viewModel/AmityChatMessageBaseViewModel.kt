@@ -27,6 +27,8 @@ open class AmityChatMessageBaseViewModel : AmityBaseViewModel() {
 	val isEdited = ObservableBoolean(false)
 	val dateFillColor = ObservableField(R.color.fb_gray_placeholder)
 	val isFailed = ObservableBoolean(false)
+	val isToHideReact = ObservableBoolean(true)
+	val isRepliedMessage = ObservableBoolean(false)
 
 	private fun initReactionHelper(amityMessage: AmityMessage?){
 		amityMessage?.let {

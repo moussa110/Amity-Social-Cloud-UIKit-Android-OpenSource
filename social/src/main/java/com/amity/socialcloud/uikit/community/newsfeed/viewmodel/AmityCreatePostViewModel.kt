@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
+import com.amity.socialcloud.sdk.api.chat.AmityChatClient
 import com.amity.socialcloud.sdk.api.core.AmityCoreClient
 import com.amity.socialcloud.sdk.api.core.user.AmityUserRepository
 import com.amity.socialcloud.sdk.api.core.user.search.AmityUserSortOption
@@ -132,6 +133,8 @@ class AmityCreatePostViewModel : AmityBaseViewModel() {
 				onResult.invoke(it)
 			}.ignoreElements()
 	}
+
+
 
 	@ExperimentalPagingApi
 	fun searchCommunityUsersMention(communityId: String,

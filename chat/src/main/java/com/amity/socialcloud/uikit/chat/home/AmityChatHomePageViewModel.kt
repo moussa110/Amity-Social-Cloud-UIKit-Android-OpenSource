@@ -1,6 +1,7 @@
 package com.amity.socialcloud.uikit.chat.home
 
 import com.amity.socialcloud.sdk.api.chat.AmityChatClient
+import com.amity.socialcloud.sdk.api.core.AmityCoreClient
 import com.amity.socialcloud.uikit.chat.home.callback.AmityRecentChatFragmentDelegate
 import com.amity.socialcloud.uikit.chat.home.callback.AmityRecentChatItemClickListener
 import com.amity.socialcloud.uikit.common.base.AmityBaseViewModel
@@ -25,7 +26,9 @@ class AmityChatHomePageViewModel : AmityBaseViewModel() {
             .userIds(userIds = selectedMembers.map { it.id })
             .build()
             .create()
-            .doOnSuccess { onChatCreateSuccess.invoke(it.getChannelId()) }
+            .doOnSuccess {
+                onChatCreateSuccess.invoke(it.getChannelId())
+            }
             .doOnError { onChatCreateFailed.invoke() }
             .ignoreElement()
     }
@@ -45,4 +48,6 @@ class AmityChatHomePageViewModel : AmityBaseViewModel() {
         }
         return channelName
     }
+
+
 }

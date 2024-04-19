@@ -93,8 +93,7 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 		Handler(Looper.getMainLooper()).postDelayed({
 			try {
 				binding.fragmentContainer.background = null
-			} catch (_: Exception) {
-			}
+			} catch (_: Exception) { }
 		}, 1000)
 		loadFragment()
 		binding.progressBar.isVisible = false
@@ -167,7 +166,6 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 				binding.back.visibility = View.VISIBLE
 			}
 		}
-
 	}
 
 	private fun initToolbar() {

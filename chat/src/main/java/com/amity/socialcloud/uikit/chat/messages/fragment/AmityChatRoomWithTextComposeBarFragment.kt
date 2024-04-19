@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +24,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.filter
 import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +35,10 @@ import com.amity.socialcloud.sdk.model.core.file.AmityImage
 import com.amity.socialcloud.uikit.chat.R
 import com.amity.socialcloud.uikit.chat.databinding.AmityFragmentChatWithTextComposeBarBinding
 import com.amity.socialcloud.uikit.chat.messages.adapter.AmityMessagePagingAdapter
+import com.amity.socialcloud.uikit.chat.messages.adapter.AmityUserMentionAdapter
+import com.amity.socialcloud.uikit.chat.messages.adapter.AmityUserMentionPagingDataAdapter
+import com.amity.socialcloud.uikit.chat.messages.adapter.AmityUserMentionViewHolder
+import com.amity.socialcloud.uikit.chat.messages.model.AmityUserMention
 import com.amity.socialcloud.uikit.chat.messages.viewModel.AmityChatRoomEssentialViewModel
 import com.amity.socialcloud.uikit.chat.messages.viewModel.AmityMessageListViewModel
 import com.amity.socialcloud.uikit.common.base.AmityPickerFragment
@@ -46,10 +53,14 @@ import com.amity.socialcloud.uikit.common.utils.AmityAndroidUtil
 import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.common.utils.AmityRecyclerViewItemDecoration
 import com.google.android.material.snackbar.Snackbar
+import com.linkedin.android.spyglass.suggestions.interfaces.SuggestionsVisibilityManager
+import com.linkedin.android.spyglass.tokenization.QueryToken
+import com.linkedin.android.spyglass.tokenization.interfaces.QueryTokenReceiver
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
@@ -60,7 +71,8 @@ import java.io.File
 
 
 class AmityChatRoomWithTextComposeBarFragment() : AmityPickerFragment(),
-    AmityAudioRecorderListener, AmityMessageListListener {
+    AmityAudioRecorderListener, AmityMessageListListener, TextWatcher, SuggestionsVisibilityManager,
+    QueryTokenReceiver {
 
     private lateinit var essentialViewModel: AmityChatRoomEssentialViewModel
     private val messageListViewModel: AmityMessageListViewModel by viewModels()
@@ -73,6 +85,11 @@ class AmityChatRoomWithTextComposeBarFragment() : AmityPickerFragment(),
     private var currentCount = 0
     private var isImagePermissionGranted = false
     private var isReachBottom = true
+    private val userMentionAdapter by lazy { AmityUserMentionAdapter() }
+    private val userMentionPagingDataAdapter by lazy { AmityUserMentionPagingDataAdapter() }
+    private val searchDisposable: CompositeDisposable by lazy {
+        CompositeDisposable()
+    }
 
     private val pickMultipleImagesPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -115,12 +132,49 @@ class AmityChatRoomWithTextComposeBarFragment() : AmityPickerFragment(),
         setupComposebar()
         observeViewModelEvents()
         initMessageLoader()
+        setupUserMention()
+
 //        observeRefreshStatus()
 //        observeConnectionStatus()
     }
 
+    private fun setupUserMention() {
+        binding.etMessage.apply {
+            setSuggestionsVisibilityManager(this@AmityChatRoomWithTextComposeBarFragment)
+            addTextChangedListener(this@AmityChatRoomWithTextComposeBarFragment)
+            setQueryTokenReceiver(this@AmityChatRoomWithTextComposeBarFragment)
+        }
+        binding.recyclerViewUserMention.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewUserMention.adapter = userMentionAdapter
+
+        userMentionAdapter.setListener(object :
+            AmityUserMentionAdapter.AmityUserMentionAdapterListener {
+            override fun onClickUserMention(userMention: AmityUserMention) {
+                insertUserMention(userMention)
+            }
+        })
+
+        userMentionPagingDataAdapter.setListener(object :
+            AmityUserMentionViewHolder.AmityUserMentionListener {
+            override fun onClickUserMention(userMention: AmityUserMention) {
+                insertUserMention(userMention)
+            }
+        })
+    }
+
+    private fun insertUserMention(userMention: AmityUserMention) {
+        displaySuggestions(false)
+        searchDisposable.clear()
+        binding.etMessage.insertMention(userMention)
+    }
+
     private fun setupComposebar() {
         binding.apply {
+
+            ivSend.setOnClickListener {
+                messageListViewModel.sendMessage(etMessage.getUserMentions())
+            }
+
             etMessage.setShape(
                 null, null, null, null,
                 R.color.amityColorBase, R.color.amityColorBase, AmityColorShade.SHADE4
@@ -590,6 +644,45 @@ class AmityChatRoomWithTextComposeBarFragment() : AmityPickerFragment(),
         internal fun newInstance(channelId: String): Builder {
             return Builder(channelId)
         }
+    }
+
+    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+
+    override fun afterTextChanged(s: Editable?) {
+        messageListViewModel.messageText.value = binding.etMessage.getTextCompose()
+    }
+
+    override fun displaySuggestions(display: Boolean) {
+        if (display) {
+            binding.recyclerViewUserMention.visibility = View.VISIBLE
+        } else {
+            binding.recyclerViewUserMention.visibility = View.GONE
+        }
+    }
+
+    override fun isDisplayingSuggestions(): Boolean {
+        return binding.recyclerViewUserMention.visibility == View.VISIBLE
+    }
+
+    @ExperimentalPagingApi
+    override fun onQueryReceived(queryToken: QueryToken): MutableList<String> {
+        if (queryToken.tokenString.startsWith(AmityUserMention.CHAR_MENTION)) {
+            searchDisposable.clear()
+            binding.recyclerViewUserMention.swapAdapter(userMentionPagingDataAdapter, true)
+            val disposable =
+                messageListViewModel.searchChannelUsersMention(queryToken.keywords, onResult = {
+                    userMentionPagingDataAdapter.submitData(lifecycle, it)
+                    displaySuggestions(true)
+                }).subscribe()
+
+            searchDisposable.add(disposable)
+        } else {
+            displaySuggestions(false)
+        }
+        return mutableListOf()
     }
 }
 

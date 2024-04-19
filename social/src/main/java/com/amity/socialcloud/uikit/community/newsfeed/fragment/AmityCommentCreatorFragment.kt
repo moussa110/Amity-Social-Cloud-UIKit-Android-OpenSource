@@ -18,6 +18,8 @@ class AmityCommentCreatorFragment : AmityCommentBaseFragment() {
         }
     }
 
+
+
     override fun getCommentMenuText(): String {
         return getString(R.string.amity_post_caps)
     }
