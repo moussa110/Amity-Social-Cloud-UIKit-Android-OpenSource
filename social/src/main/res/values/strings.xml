@@ -365,5 +365,6 @@
     <string name="amity_allow_comment_description">Turn on to receive comments on stories in this community.</string>
     <string name="amity_unable_turn_off_story_allow_comment_title">Unable to turn off allow comment</string>
     <string name="amity_unable_turn_on_story_allow_comment_title">Unable to turn on allow comment</string>
+    <string name="amity_reply">reply</string>
 
 </resources>

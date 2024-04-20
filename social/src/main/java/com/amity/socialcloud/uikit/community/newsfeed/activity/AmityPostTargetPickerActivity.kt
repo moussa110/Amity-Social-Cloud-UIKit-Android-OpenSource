@@ -36,19 +36,6 @@ class AmityPostTargetPickerActivity : AmityBaseToolbarFragmentContainerActivity(
 		this.finish()
 	}
 
-	class AmityEditPostActivityContract : ActivityResultContract<AmityPost, String?>() {
-		override fun createIntent(context: Context, input: AmityPost?): Intent {
-			return Intent(context, AmityPostEditorActivity::class.java).apply {
-				putExtra(com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_POST_ID, input?.getPostId())
-			}
-		}
-
-		override fun parseResult(resultCode: Int, intent: Intent?): String? {
-			val data = intent?.getStringExtra(com.amity.socialcloud.uikit.community.utils.EXTRA_PARAM_POST_ID)
-			return if (resultCode == Activity.RESULT_OK && data != null) data
-			else null
-		}
-	}
 
 	class AmityPostTargetPickerActivityContract : ActivityResultContract<CreationType, String?>() {
 

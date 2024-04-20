@@ -6,6 +6,7 @@ import com.amity.socialcloud.sdk.api.chat.AmityChatClient
 import com.amity.socialcloud.sdk.api.social.AmitySocialClient
 import com.amity.socialcloud.sdk.model.core.reaction.AmityReactionMap
 import com.amity.socialcloud.sdk.model.core.reaction.AmityReactionReferenceType
+import com.amity.socialcloud.sdk.model.core.reaction.AmityReactionReferenceType.*
 
 private const val SAVED_REFERENCE_TYPE = "SAVED_REFERENCE_TYPE"
 private const val SAVED_REFERENCE_ID = "SAVED_REFERENCE_ID"
@@ -17,7 +18,7 @@ class AmityReactionListViewModel(private val savedState: SavedStateHandle) : Vie
 		savedState.get<String>(SAVED_REFERENCE_ID)?.let { referenceId = it }
 	}
 
-	var referenceType: AmityReactionReferenceType = AmityReactionReferenceType.POST
+	var referenceType: AmityReactionReferenceType = POST
 		set(value) {
 			savedState.set(SAVED_REFERENCE_TYPE, value)
 			field = value
@@ -39,7 +40,7 @@ class AmityReactionListViewModel(private val savedState: SavedStateHandle) : Vie
 
 	fun getPostDetails(): Int {
 		return when (referenceType) {
-			AmityReactionReferenceType.POST -> {
+			POST -> {
 				AmitySocialClient.newPostRepository().getPost(referenceId).map {
 					allReactionsCount = it.getReactionCount()
 					reactionsMap = it.getReactionMap()
@@ -48,7 +49,7 @@ class AmityReactionListViewModel(private val savedState: SavedStateHandle) : Vie
 
 			}
 
-			AmityReactionReferenceType.COMMENT -> {
+			COMMENT -> {
 				AmitySocialClient.newCommentRepository().getComment(referenceId).map {
 					allReactionsCount = it.getReactionCount()
 					reactionsMap = it.getReactionMap()
@@ -56,10 +57,18 @@ class AmityReactionListViewModel(private val savedState: SavedStateHandle) : Vie
 				}.blockingFirst(0)
 			}
 
-			AmityReactionReferenceType.MESSAGE -> {
+			MESSAGE -> {
 				AmityChatClient.newMessageRepository().getMessage(referenceId).map {
 					allReactionsCount = it.getReactionCount()
 					reactionsMap = it.getReactionMap()
+					return@map 0
+				}.blockingFirst(0)
+			}
+
+			STORY -> {
+				AmitySocialClient.newStoryRepository().getStory(referenceId).map {
+					allReactionsCount = it.getReactionCount()
+					//reactionsMap = it.get
 					return@map 0
 				}.blockingFirst(0)
 			}

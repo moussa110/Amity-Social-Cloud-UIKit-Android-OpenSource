@@ -22,7 +22,6 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSearch"
             style="@style/AmitySearchEditTextStyle"
-            android:layout_marginTop="@dimen/amity_padding_xs"
             android:singleLine="true"
             android:layout_marginTop="@dimen/amity_padding_xs"
             android:text="@={viewModel.searchString}"

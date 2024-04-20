@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.platform.LocalContext
 import com.amity.socialcloud.uikit.common.config.AmityUIKitConfigController
 import com.amity.socialcloud.uikit.common.ui.scope.AmityComposeComponentScope
 import com.amity.socialcloud.uikit.common.ui.scope.AmityComposePageScope
@@ -32,7 +33,7 @@ fun AmityComposeTheme(
     LaunchedEffect(isSystemInDarkTheme) {
         AmityUIKitConfigController.setSystemInDarkTheme(isSystemInDarkTheme)
     }
-
+    AmityUIKitConfigController.setup(LocalContext.current)
     val theme = componentScope?.getComponentTheme()
         ?: (pageScope?.getPageTheme()
             ?: AmityUIKitConfigController.getGlobalTheme())

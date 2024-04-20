@@ -22,15 +22,17 @@ object AmityUIKitConfigController {
 
     fun setSystemInDarkTheme(isDarkTheme: Boolean) {
         isSystemInDarkTheme = isDarkTheme
+
     }
 
     fun getGlobalTheme(): AmityUIKitConfig.UIKitTheme {
         val global = config.globalTheme
-        return when (uiKitTheme) {
+        return global.darkTheme
+      /*  return when (uiKitTheme) {
             AmityUIKitTheme.DARK -> global.darkTheme
             AmityUIKitTheme.LIGHT -> global.lightTheme
             AmityUIKitTheme.DEFAULT -> if (isSystemInDarkTheme) global.darkTheme else global.lightTheme
-        }
+        }*/
     }
 
     fun getCustomizationConfig(configId: String): JsonObject {

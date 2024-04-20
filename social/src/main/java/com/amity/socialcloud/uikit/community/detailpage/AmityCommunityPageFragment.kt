@@ -3,7 +3,6 @@ package com.amity.socialcloud.uikit.community.detailpage
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.ExperimentalPagingApi
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
-import com.amity.socialcloud.uikit.common.BR
-import com.amity.socialcloud.uikit.common.base.AmityBaseToolbarFragmentContainerActivity
 import com.amity.socialcloud.sdk.model.social.story.AmityStory
+import com.amity.socialcloud.uikit.common.base.AmityBaseToolbarFragmentContainerActivity
 import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
 import com.amity.socialcloud.uikit.common.common.setSafeOnClickListener
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.AmityBottomSheetDialog
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.BottomSheetMenuItem
 import com.amity.socialcloud.uikit.common.components.AmityToolBar
 import com.amity.socialcloud.uikit.common.utils.getAmityActionBar
-import com.amity.socialcloud.uikit.common.utils.setActionBarLeftText
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.compose.AmitySocialBehaviorHelper
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentCommunityPageBinding
@@ -41,7 +38,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.trello.rxlifecycle4.components.support.RxFragment
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.subjects.PublishSubject
-import timber.log.Timber
 import kotlin.math.abs
 
 class AmityCommunityPageFragment : RxFragment(), AppBarLayout.OnOffsetChangedListener {

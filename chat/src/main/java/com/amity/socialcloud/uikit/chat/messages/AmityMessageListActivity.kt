@@ -3,8 +3,11 @@ package com.amity.socialcloud.uikit.chat.messages
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.media3.common.util.UnstableApi
 import com.amity.socialcloud.uikit.chat.R
+import com.amity.socialcloud.uikit.chat.compose.live.AmityLiveChatFragment
 import com.amity.socialcloud.uikit.chat.messages.composebar.AmityChatRoomComposeBar
 import com.amity.socialcloud.uikit.chat.messages.fragment.AmityChatRoomFragment
 import com.amity.socialcloud.uikit.common.utils.AmityThemeUtil
@@ -33,17 +36,19 @@ class AmityMessageListActivity : AppCompatActivity() {
         initializeFragment()
     }
 
+    @OptIn(UnstableApi::class)
     private fun initializeFragment() {
-        val isTextOnly = intent.getBooleanExtra(INTENT_IS_TEXT_ONLY, false)
+        val composeFragment = AmityLiveChatFragment.newInstance(channelId).build()
+        /*val isTextOnly = intent.getBooleanExtra(INTENT_IS_TEXT_ONLY, false)
         val composebar = if (isTextOnly) AmityChatRoomComposeBar.TEXT else AmityChatRoomComposeBar.DEFAULT
+
         val messageListFragment = AmityChatRoomFragment.newInstance(channelId)
             .enableChatToolbar(true)
             .enableConnectionBar(true)
             .composeBar(composebar)
-            .build(this)
+            .build(this)*/
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.messageListContainer, messageListFragment)
-        transaction.addToBackStack(null)
+        transaction.replace(R.id.messageListContainer, composeFragment)
         transaction.commit()
     }
 }

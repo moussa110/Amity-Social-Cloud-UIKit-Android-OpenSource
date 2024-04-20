@@ -35,7 +35,7 @@ class AmityTargetSelectionPageActivity : AmityBaseToolbarFragmentContainerActivi
             }
 
             else -> {
-                AmityPostTargetPickerFragment.newInstance().build(type.key)
+                AmityPostTargetPickerFragment.newInstance().buildForCreatePost(type.key)
             }
         }
     }

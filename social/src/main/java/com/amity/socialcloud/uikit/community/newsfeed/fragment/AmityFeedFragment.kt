@@ -34,8 +34,10 @@ import com.amity.socialcloud.uikit.community.databinding.AmityFragmentFeedBindin
 import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomeViewModel
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityEditCommentActivity
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityLivestreamVideoPlayerActivity
+import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostCreatorActivity
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostDetailsActivity
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPostEditorActivity
+import com.amity.socialcloud.uikit.community.newsfeed.activity.AmitySharePostTargetPickerActivity
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityPostListAdapter
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.PostLoadStateAdapter
 import com.amity.socialcloud.uikit.community.newsfeed.events.AmityFeedLoadStateEvent
