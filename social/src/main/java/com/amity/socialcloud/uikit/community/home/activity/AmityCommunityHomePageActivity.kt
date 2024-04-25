@@ -113,10 +113,6 @@ class AmityCommunityHomePageActivity : AppCompatActivity() {
 			back.setOnClickListener {
 				onBackPressedDispatcher.onBackPressed()
 			}
-
-			chatIv.setOnClickListener {
-				startActivity(Intent(this@AmityCommunityHomePageActivity, AmityChatHomePageActivity::class.java))
-			}
 		}
 	}
 

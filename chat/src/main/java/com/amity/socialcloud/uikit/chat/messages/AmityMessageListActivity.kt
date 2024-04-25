@@ -18,6 +18,7 @@ class AmityMessageListActivity : AppCompatActivity() {
     companion object {
         private const val INTENT_CHANNEL_ID = "channelID"
         private const val INTENT_IS_TEXT_ONLY = "isTextOnly"
+        private const val INTENT_IS_FROM_KK = "isFromKK"
 
 
         fun newIntent(context: Context, channelId: String, isTextOnly: Boolean = false): Intent {
@@ -26,6 +27,16 @@ class AmityMessageListActivity : AppCompatActivity() {
                 putExtra(INTENT_IS_TEXT_ONLY, isTextOnly)
             }
         }
+
+        fun newIntentKK(context: Context, channelId: String): Intent {
+            return Intent(context, AmityMessageListActivity::class.java).apply {
+                putExtra(INTENT_CHANNEL_ID, channelId)
+                putExtra(INTENT_IS_TEXT_ONLY, false)
+                putExtra(INTENT_IS_FROM_KK, true)
+            }
+        }
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,17 +49,18 @@ class AmityMessageListActivity : AppCompatActivity() {
 
     @OptIn(UnstableApi::class)
     private fun initializeFragment() {
-        val composeFragment = AmityLiveChatFragment.newInstance(channelId).build()
-        /*val isTextOnly = intent.getBooleanExtra(INTENT_IS_TEXT_ONLY, false)
+        //val composeFragment = AmityLiveChatFragment.newInstance(channelId).build()
+        val isTextOnly = intent.getBooleanExtra(INTENT_IS_TEXT_ONLY, false)
         val composebar = if (isTextOnly) AmityChatRoomComposeBar.TEXT else AmityChatRoomComposeBar.DEFAULT
 
         val messageListFragment = AmityChatRoomFragment.newInstance(channelId)
             .enableChatToolbar(true)
             .enableConnectionBar(true)
             .composeBar(composebar)
-            .build(this)*/
+            .isFromKK(intent.getBooleanExtra(INTENT_IS_FROM_KK,false))
+            .build(this)
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.messageListContainer, composeFragment)
+        transaction.replace(R.id.messageListContainer, messageListFragment)
         transaction.commit()
     }
 }

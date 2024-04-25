@@ -6,6 +6,7 @@ import com.amity.socialcloud.uikit.chat.messages.adapter.AmityMessagePagingAdapt
 import com.amity.socialcloud.uikit.chat.messages.composebar.AmityChatRoomComposeBar
 
 private const val SAVED_CHANNEL_ID = "SAVED_CHANNEL_ID"
+private const val IS_FROM_KK = "IS_FROM_KK"
 private const val SAVED_ENABLE_CHAT_TOOLBAR = "SAVED_ENABLE_CHAT_TOOLBAR"
 private const val SAVED_ENABLE_CONNECTION_BAR = "SAVED_ENABLE_CONNECTION_BAR"
 
@@ -26,6 +27,12 @@ class AmityChatRoomEssentialViewModel(private val savedState: SavedStateHandle) 
     var enableConnectionBar = true
         set(value) {
             savedState.set(SAVED_ENABLE_CONNECTION_BAR, value)
+            field = value
+        }
+
+    var isFromKK = true
+        set(value) {
+            savedState.set(IS_FROM_KK, value)
             field = value
         }
 

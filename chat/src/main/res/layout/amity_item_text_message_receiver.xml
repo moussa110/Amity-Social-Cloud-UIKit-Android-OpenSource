@@ -85,20 +85,6 @@
                 app:layout_constraintWidth_max="240dp"
                 app:layout_constraintWidth_min="100dp">
 
-                <TextView
-                    android:id="@+id/replyTv"
-                    style="@style/AmityTextStyleCaptionBold"
-                    fillColor="@{vmTextMessage.replyFillColor}"
-                    roundedCorner="@{true}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="Replied"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="@{vmTextMessage.isRepliedMessage() ? View.VISIBLE : View.GONE}"
-                    android:padding="@dimen/amity_padding_xxs"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <com.amity.socialcloud.uikit.common.components.AmityReadMoreTextView
                     android:id="@+id/tvMessageIncoming"
                     isSender="@{false}"
@@ -111,7 +97,7 @@
                     app:layout_constraintEnd_toStartOf="@id/tvEdited"
                     app:layout_constraintHorizontal_bias="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/replyTv" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvEdited"

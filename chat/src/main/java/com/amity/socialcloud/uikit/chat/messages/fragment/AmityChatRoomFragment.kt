@@ -37,6 +37,7 @@ class AmityChatRoomFragment : Fragment(R.layout.amity_fragment_chat_room) {
                     AmityChatRoomWithDefaultComposeBarFragment.newInstance(essentialViewModel.channelId)
                         .enableChatToolbar(essentialViewModel.enableChatToolbar)
                         .enableConnectionBar(essentialViewModel.enableConnectionBar)
+                        .isFromKK(essentialViewModel.isFromKK)
 
                 essentialViewModel.customViewHolder?.let {
                     builder.customViewHolder(it)
@@ -58,11 +59,11 @@ class AmityChatRoomFragment : Fragment(R.layout.amity_fragment_chat_room) {
     }
 
     class Builder internal constructor(private val channelId: String) {
-
         private var enableChatToolbar = true
         private var enableConnectionBar = true
         private var composeBar: AmityChatRoomComposeBar = AmityChatRoomComposeBar.DEFAULT
         private var customViewHolder: AmityMessagePagingAdapter.CustomViewHolderListener? = null
+        private var isFromKK:Boolean = false
 
         fun enableChatToolbar(enable: Boolean): Builder {
             this.enableChatToolbar = enable
@@ -84,6 +85,11 @@ class AmityChatRoomFragment : Fragment(R.layout.amity_fragment_chat_room) {
             return this
         }
 
+        fun isFromKK(isFromKK:Boolean):Builder{
+            this.isFromKK = isFromKK
+            return this
+        }
+
         fun build(activity: AppCompatActivity): AmityChatRoomFragment {
             val essentialViewModel = ViewModelProvider(activity).get(AmityChatRoomEssentialViewModel::class.java)
             essentialViewModel.channelId = channelId
@@ -91,6 +97,8 @@ class AmityChatRoomFragment : Fragment(R.layout.amity_fragment_chat_room) {
             essentialViewModel.enableConnectionBar = enableConnectionBar
             essentialViewModel.composeBar = composeBar
             essentialViewModel.customViewHolder = customViewHolder
+            essentialViewModel.isFromKK = isFromKK
+
             return AmityChatRoomFragment()
         }
     }

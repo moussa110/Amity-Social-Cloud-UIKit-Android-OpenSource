@@ -513,7 +513,7 @@ abstract class AmityFeedFragment : AmityBaseFragment() {
 
 	private fun showPostOptions(post: AmityPost) {
 		val bottomSheet = AmityBottomSheetDialog(requireContext())
-		bottomSheet.show(getViewModel().getPostOptionMenuItems(post = post,
+		bottomSheet.show(getViewModel().getPostOptionMenuItems(isFromHome = (this is AmityGlobalFeedFragment),post = post,
 			isPinned = post.getPostId() == getViewModel().pinnedPostId,
 			editPost = {
 				bottomSheet.dismiss()

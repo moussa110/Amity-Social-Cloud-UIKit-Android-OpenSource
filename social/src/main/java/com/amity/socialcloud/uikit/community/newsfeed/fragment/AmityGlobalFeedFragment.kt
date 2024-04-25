@@ -1,19 +1,15 @@
 package com.amity.socialcloud.uikit.community.newsfeed.fragment
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
 import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
-import com.amity.socialcloud.uikit.common.utils.SharedPrefsUtils
 import com.amity.socialcloud.uikit.community.databinding.AmityViewGlobalFeedEmptyBinding
-import com.amity.socialcloud.uikit.community.home.fragments.AmityCommunityHomeViewModel
 import com.amity.socialcloud.uikit.community.newsfeed.events.AmityFeedRefreshEvent
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityCommunityClickListener
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityUserClickListener
@@ -24,13 +20,11 @@ import com.amity.socialcloud.uikit.social.AmitySocialUISettings
 import io.reactivex.rxjava3.core.Flowable
 
 class AmityGlobalFeedFragment : AmityFeedFragment() {
-
     lateinit var mViewModel:AmityGlobalFeedViewModel
 
     override fun getViewModel(): AmityGlobalFeedViewModel {
         return mViewModel
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -46,7 +40,6 @@ class AmityGlobalFeedFragment : AmityFeedFragment() {
             requireView().parent as ViewGroup,
             false
         )
-
 
         binding.btnExplore.setOnClickListener {
             communityHomeViewModel.triggerEvent(AmityEventIdentifier.EXPLORE_COMMUNITY)

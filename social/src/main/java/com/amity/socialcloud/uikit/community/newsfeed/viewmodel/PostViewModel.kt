@@ -192,7 +192,9 @@ interface PostViewModel {
 	                           deletePoll: () -> Unit,
 	                           pinPost: (() -> Unit)? = null,
 	                           unpinPost: (() -> Unit)? = null,
-	                           isPinned: Boolean = false): List<BottomSheetMenuItem> {
+	                           isPinned: Boolean = false,
+							   isFromHome:Boolean =false
+	): List<BottomSheetMenuItem> {
 		val items = arrayListOf<BottomSheetMenuItem>()
 		val editPostMenuItem = BottomSheetMenuItem(null, null, R.string.amity_edit_post, editPost)
 		val deletePostMenuItem =
@@ -204,6 +206,7 @@ interface PostViewModel {
 			BottomSheetMenuItem(null, null, R.string.amity_close_poll, closePoll)
 		val deletePollMenuItem =
 			BottomSheetMenuItem(null, null, R.string.amity_delete_poll, deletePoll)
+
 		val pinPollMenuItem =
 			BottomSheetMenuItem(null, null, R.string.amity_pin_poll, pinPost ?: {})
 		val pinPostMenuItem =
@@ -227,13 +230,13 @@ interface PostViewModel {
 							AmityCoreClient.hasPermission(AmityPermission.EDIT_COMMUNITY)
 								.atCommunity(it).check().blockingLast()
 
-						if (target.getCommunity()!!.isJoined() && hasPinPermission && pinPost != null) {
+						if (target.getCommunity()!!.isJoined() && hasPinPermission && pinPost != null && !isFromHome) {
 							if (isPinned) items.add(unpinPollMenuItem)
 							else items.add(pinPollMenuItem)
 						}
 					}
 				} else {
-					if (pinPost != null){
+					if (pinPost != null && !isFromHome){
 						if (isPinned) items.add(unpinPollMenuItem)
 						else items.add(pinPollMenuItem)
 					}
@@ -250,13 +253,13 @@ interface PostViewModel {
 						val hasPinPermission =
 							AmityCoreClient.hasPermission(AmityPermission.EDIT_COMMUNITY)
 								.atCommunity(it).check().blockingFirst(false)
-						if (target.getCommunity()!!.isJoined() && hasPinPermission && pinPost != null) {
+						if (target.getCommunity()!!.isJoined() && hasPinPermission && pinPost != null && !isFromHome) {
 							if (isPinned) items.add(unpinPostMenuItem)
 							else items.add(pinPostMenuItem)
 						}
 					}
 				} else {
-					if (pinPost != null){
+					if (pinPost != null && !isFromHome){
 						if (isPinned) items.add(unpinPostMenuItem)
 						else items.add(pinPostMenuItem)
 					}
@@ -272,12 +275,12 @@ interface PostViewModel {
 								.atCommunity(it).check().blockingFirst(false)
 						if (target.getCommunity()!!.isJoined() && hasEditPermission) {
 							if (post.getChildren().getOrNull(0)?.getType() == AmityPost.DataType.POLL) {
-								if (pinPost != null){
+								if (pinPost != null && !isFromHome){
 									if (isPinned) items.add(unpinPollMenuItem)
 									else items.add(pinPollMenuItem)
 								}
 							} else {
-								if (pinPost != null){
+								if (pinPost != null && !isFromHome){
 									if (isPinned) items.add(unpinPostMenuItem)
 									else items.add(pinPostMenuItem)
 								}
