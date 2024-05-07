@@ -108,11 +108,11 @@ class AmityCommunitySettingViewModel(private val savedState: SavedStateHandle) :
                 settingsItems.add(postReview)
             }
 
-            if (hasReviewPermission) {
+           /* if (hasReviewPermission) {
                 val storySetting = menuCreator.createStorySettingMenu(communityId!!)
                 settingsItems.add(AmitySettingsItem.Margin(R.dimen.amity_padding_xs))
                 settingsItems.add(storySetting)
-            }
+            }*/
 
             if (hasEditPermission || hasDeletePermission) {
                 settingsItems.add(AmitySettingsItem.Margin(R.dimen.amity_padding_xs))

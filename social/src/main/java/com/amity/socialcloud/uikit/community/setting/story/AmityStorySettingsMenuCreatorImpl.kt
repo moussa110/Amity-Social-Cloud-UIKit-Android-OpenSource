@@ -9,8 +9,8 @@ class AmityStorySettingsMenuCreatorImpl(private val fragment: AmityStorySettings
 
     override fun createAllowCommentMenu(isChecked: Flowable<Boolean>): AmitySettingsItem.ToggleContent {
         return AmitySettingsItem.ToggleContent(
-            title = R.string.amity_allow_comment,
-            description = R.string.amity_allow_comment_description,
+            title = 0,//R.string.amity_allow_comment,
+            description = 0,//R.string.amity_allow_comment_description,
             isToggled = isChecked,
             isTitleBold = true,
             callback = fragment::toggleAllowCommentEvent

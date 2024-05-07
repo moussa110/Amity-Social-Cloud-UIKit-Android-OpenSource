@@ -232,39 +232,6 @@
                     app:layout_constraintHeight_max="280dp"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/replyView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/amity_padding_xxs"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:paddingVertical="@dimen/amity_padding_xs"
-                    android:paddingHorizontal="@dimen/amity_padding_s"
-                    app:layout_constraintTop_toBottomOf="@id/recycler_view_user_mention">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/replyingToTv"
-                        style="@style/AmityTextStyleTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="Replying to %s"
-                        android:textColor="@color/fb_text_light_gray" />
-
-                    <ImageView
-                        android:id="@+id/closeIv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/amity_padding_xxs"
-                        android:layout_gravity="center"
-                        android:src="@drawable/amity_ic_close"
-                        tools:ignore="ContentDescription" />
-                </LinearLayout>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

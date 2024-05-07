@@ -146,13 +146,6 @@
             android:text="description"
             android:textColor="@color/fb_text_white" />
 
-        <androidx.compose.ui.platform.ComposeView
-            android:id="@+id/cvStoryTarget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/amity_padding_m1"
-            android:layout_marginVertical="@dimen/amity_padding_xs" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

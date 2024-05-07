@@ -52,10 +52,10 @@ class AmityStorySettingsFragment : RxFragment() {
                 viewModel.turnOff(
                     onError = {
                         viewModel.revertToggleState()
-                        errorDialog(
+                        /*errorDialog(
                             title = R.string.amity_unable_turn_off_story_allow_comment_title,
                             description = R.string.amity_something_went_wrong_pls_try
-                        )
+                        )*/
                     }
                 )
                     .untilLifecycleEnd(this)
@@ -65,10 +65,10 @@ class AmityStorySettingsFragment : RxFragment() {
                 viewModel.turnOn(
                     onError = {
                         viewModel.revertToggleState()
-                        errorDialog(
+                        /*errorDialog(
                             title = R.string.amity_unable_turn_on_story_allow_comment_title,
                             description = R.string.amity_something_went_wrong_pls_try
-                        )
+                        )*/
                     })
                     .untilLifecycleEnd(this)
                     .subscribe()

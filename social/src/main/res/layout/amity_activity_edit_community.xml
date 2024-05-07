@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/auth_bg"
+    android:layoutDirection="ltr"
     tools:context=".edit.AmityCommunityProfileActivity">
 
     <com.amity.socialcloud.uikit.common.components.AmityToolBar

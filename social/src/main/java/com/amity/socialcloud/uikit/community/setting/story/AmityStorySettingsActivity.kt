@@ -42,9 +42,9 @@ class AmityStorySettingsActivity :
         )
         getViewDataBinding().toolbar.setClickListener(this)
 
-        val titleToolbar = getString(R.string.amity_story_setting)
+        /*val titleToolbar = getString(R.string.amity_story_setting)
         getViewDataBinding().toolbar.setLeftString(titleToolbar)
-
+*/
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         setSupportActionBar(getViewDataBinding().toolbar)
     }

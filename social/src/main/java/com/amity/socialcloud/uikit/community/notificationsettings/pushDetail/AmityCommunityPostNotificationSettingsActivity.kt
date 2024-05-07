@@ -59,7 +59,7 @@ class AmityCommunityPostNotificationSettingsActivity : AppCompatActivity(),
         val leftString = when (postType) {
             SettingType.POSTS.name -> getString(R.string.amity_Posts)
             SettingType.COMMENTS.name -> getString(R.string.amity_comments)
-            SettingType.STORIES.name -> getString(R.string.amity_stories)
+            //SettingType.STORIES.name -> getString(R.string.amity_stories)
             else -> ""
         }
         binding.pushDetailToolBar.setLeftString(leftString)

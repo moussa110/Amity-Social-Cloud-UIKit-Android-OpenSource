@@ -2,12 +2,7 @@ package com.amity.socialcloud.uikit.community.detailpage
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -21,8 +16,6 @@ import com.amity.socialcloud.uikit.common.common.formatCount
 import com.amity.socialcloud.uikit.common.common.readableNumber
 import com.amity.socialcloud.uikit.common.components.AmityToolBarClickListener
 import com.amity.socialcloud.uikit.community.R
-import com.amity.socialcloud.uikit.community.compose.story.target.AmityStoryTabComponent
-import com.amity.socialcloud.uikit.community.compose.story.target.AmityStoryTabComponentType
 import com.amity.socialcloud.uikit.community.data.PostReviewBannerData
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentCommunityProfileBinding
 import com.amity.socialcloud.uikit.community.edit.AmityCommunityProfileActivity
@@ -36,7 +29,7 @@ import com.trello.rxlifecycle4.components.support.RxFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
-import java.util.UUID
+import java.util.*
 
 class AmityCommunityProfileFragment : RxFragment() {
 
@@ -151,7 +144,7 @@ class AmityCommunityProfileFragment : RxFragment() {
 			renderCommunityData(community)
 			renderActionButton(community, it.canEditCommunity)
 			renderPostReviewBanner(it.postReviewBanner)
-		renderStory(community)}).untilLifecycleEnd(this).subscribe()
+		}).untilLifecycleEnd(this).subscribe()
 	}
 
 	private fun renderOptionsMenu(community: AmityCommunity) {
@@ -163,7 +156,7 @@ class AmityCommunityProfileFragment : RxFragment() {
 	private fun renderCommunityData(community: AmityCommunity) {
 
 		Glide.with(this).load(community.getAvatar()?.getUrl(AmityImage.Size.LARGE) ?: "")
-			.centerCrop()
+			.centerCrop().placeholder(R.drawable.amity_ic_default_community_avatar)
 			.into(binding.ivAvatar)
 
 		binding.tvName.text = community.getDisplayName().trim()
@@ -217,16 +210,6 @@ class AmityCommunityProfileFragment : RxFragment() {
 			binding.buttonEditProfile.visibility = View.GONE
 		}
 	}
-
-    private fun renderStory(community: AmityCommunity) {
-        binding.cvStoryTarget.setContent {
-            AmityStoryTabComponent(
-                type = AmityStoryTabComponentType.CommunityFeed(
-                    communityId = community.getCommunityId()
-                )
-            )
-        }
-    }
 
 	private fun joinCommunity() {
 		viewModel.joinCommunity().subscribeOn(Schedulers.io())

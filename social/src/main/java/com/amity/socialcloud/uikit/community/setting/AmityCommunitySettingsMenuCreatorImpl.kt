@@ -2,8 +2,7 @@ package com.amity.socialcloud.uikit.community.setting
 
 import com.amity.socialcloud.uikit.community.R
 
-class AmityCommunitySettingsMenuCreatorImpl(private val fragment: AmityCommunitySettingsFragment) :
-    AmityCommunitySettingsMenuCreator {
+class AmityCommunitySettingsMenuCreatorImpl(private val fragment: AmityCommunitySettingsFragment) : AmityCommunitySettingsMenuCreator {
 
     override fun createEditProfileMenu(communityId: String): AmitySettingsItem.NavigationContent {
         return AmitySettingsItem.NavigationContent(
@@ -41,18 +40,7 @@ class AmityCommunitySettingsMenuCreatorImpl(private val fragment: AmityCommunity
         )
     }
 
-    override fun createStorySettingMenu(communityId: String): AmitySettingsItem.NavigationContent {
-        return AmitySettingsItem.NavigationContent(
-            icon = R.drawable.amity_ic_story_setting,
-            title = R.string.amity_story_comments,
-            callback = { fragment.navigateToStorySetting() }
-        )
-    }
-
-    override fun createLeaveCommunityMenu(
-        communityId: String,
-        hasDeletePermission: Boolean
-    ): AmitySettingsItem.TextContent {
+    override fun createLeaveCommunityMenu(communityId: String, hasDeletePermission: Boolean): AmitySettingsItem.TextContent {
         return if (hasDeletePermission) {
             AmitySettingsItem.TextContent(
                 title = R.string.amity_leave_community,

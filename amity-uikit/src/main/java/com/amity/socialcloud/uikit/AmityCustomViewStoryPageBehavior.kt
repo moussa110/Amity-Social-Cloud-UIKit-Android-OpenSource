@@ -1,3 +1,4 @@
+/*
 package com.amity.socialcloud.uikit
 
 import android.content.Context
@@ -14,4 +15,4 @@ class AmityCustomViewStoryPageBehavior : AmityViewStoryPageBehavior() {
         )
         context.startActivity(intent)
     }
-}
+}*/

@@ -13,7 +13,6 @@ import com.amity.socialcloud.sdk.model.social.story.AmityStory
 import com.amity.socialcloud.uikit.common.base.AmityBaseFragment
 import com.amity.socialcloud.uikit.common.utils.AmityRecyclerViewItemDecoration
 import com.amity.socialcloud.uikit.community.R
-import com.amity.socialcloud.uikit.community.compose.AmitySocialBehaviorHelper
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentStoryTargetSelectionBinding
 import com.amity.socialcloud.uikit.community.newsfeed.adapter.AmityCreatePostCommunitySelectionAdapter
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityCreatePostCommunitySelectionListener
@@ -29,10 +28,10 @@ class AmityStoryTargetPickerFragment : AmityBaseFragment(),
     private lateinit var communityAdapter: AmityCreatePostCommunitySelectionAdapter
     private lateinit var binding: AmityFragmentStoryTargetSelectionBinding
 
-    private val behavior by lazy {
+ /*   private val behavior by lazy {
         AmitySocialBehaviorHelper.storyTabComponentBehavior
     }
-
+*/
     private val createStory =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
@@ -91,12 +90,12 @@ class AmityStoryTargetPickerFragment : AmityBaseFragment(),
     override fun onClickCommunity(community: AmityCommunity, position: Int) {
         when (viewModel.storyCreationType) {
             STORY_CREATION_TYPE_COMMUNITY -> {
-                behavior.goToCreateStoryPage(
+              /*  behavior.goToCreateStoryPage(
                     context = requireContext(),
                     launcher = createStory,
                     targetId = community.getCommunityId(),
                     targetType = AmityStory.TargetType.COMMUNITY,
-                )
+                )*/
             }
         }
     }

@@ -1,3 +1,4 @@
+/*
 package com.amity.socialcloud.uikit
 
 import com.amity.socialcloud.uikit.community.compose.AmitySocialBehaviorHelper
@@ -27,4 +28,4 @@ class AmityUIKit4Behavior {
             field = value
             AmitySocialBehaviorHelper.viewStoryPageBehavior = value
         }
-}
+}*/

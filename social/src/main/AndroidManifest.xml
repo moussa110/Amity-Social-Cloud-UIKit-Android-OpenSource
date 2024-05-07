@@ -112,7 +112,7 @@
         <activity
             android:name=".home.activity.AmityCommunityHomePageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Amity.Base.Theme.AmityApp" ></activity>
+            android:theme="@style/Amity.Base.Theme.AmityApp" />
         <activity
             android:name=".newsfeed.activity.AmityTargetSelectionPageActivity"
             android:screenOrientation="portrait"

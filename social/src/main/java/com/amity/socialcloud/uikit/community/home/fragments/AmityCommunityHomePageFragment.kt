@@ -15,7 +15,6 @@ import com.amity.socialcloud.uikit.common.model.AmityEventIdentifier
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentCommunityHomePageBinding
 import com.amity.socialcloud.uikit.community.explore.fragments.AmityCommunityExplorerFragment
-import com.amity.socialcloud.uikit.community.mycommunity.fragment.AmityMyCommunityFragment
 import com.amity.socialcloud.uikit.community.newsfeed.fragment.AmityNewsFeedFragment
 import com.amity.socialcloud.uikit.community.profile.fragment.AmityUserProfilePageFragment
 import com.amity.socialcloud.uikit.community.search.AmityUserSearchFragment
@@ -74,19 +73,15 @@ class AmityCommunityHomePageFragment : Fragment() {
 			AmityFragmentStateAdapter(childFragmentManager, requireActivity().lifecycle)
 		fragmentStateAdapter.setFragmentList(arrayListOf(AmityFragmentStateAdapter.AmityPagerModel(
 			getString(R.string.amity_title_news_feed),
-                    getNewsFeedFragment()
-                ),
-                AmityFragmentStateAdapter.AmityPagerModel(
-                    getString(R.string.amity_title_explore),
-                    getExploreFragment()
-                ),
-                AmityFragmentStateAdapter.AmityPagerModel(
-                    getString(R.string.amity_title_my_communities),
-                    getMyCommunityFragment()
-                )
-            )
-        )
-        binding.tabLayout.setAdapter(fragmentStateAdapter)
+			getNewsFeedFragment()),
+			AmityFragmentStateAdapter.AmityPagerModel(getString(R.string.amity_title_explore),
+				getExploreFragment()),
+			AmityFragmentStateAdapter.AmityPagerModel(getString(R.string.amity_profile),
+				getMyProfileFragment())))
+		binding.tabLayout.apply {
+			setAdapter(fragmentStateAdapter)
+
+		}
 	}
 
 	private fun getExploreFragment(): Fragment {
@@ -101,10 +96,6 @@ class AmityCommunityHomePageFragment : Fragment() {
 	private fun getNewsFeedFragment(): Fragment {
 		return AmityNewsFeedFragment.newInstance().build()
 	}
-
-    private fun getMyCommunityFragment(): Fragment {
-        return AmityMyCommunityFragment.newInstance().build()
-    }
 
 	private fun addViewModelListeners() {
 		viewModel.showExploreLiveData.observe(viewLifecycleOwner) {
